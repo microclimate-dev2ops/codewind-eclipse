@@ -20,13 +20,17 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubMonitor;
 
 import com.ibm.microclimate.core.MicroclimateCorePlugin;
 import com.ibm.microclimate.core.internal.PlatformUtil.OperatingSystem;
+import com.ibm.microclimate.core.internal.ProcessHelper.ProcessResult;
 
 public class InstallUtil {
 	
@@ -42,12 +46,40 @@ public class InstallUtil {
 	private static final String START_CMD = "start";
 	private static final String STOP_ALL_CMD = "stop-all";
 	
-	public static Process startCodewind() throws IOException {
-		return runInstaller(START_CMD);
+	public static ProcessResult startCodewind(IProgressMonitor monitor) throws IOException, TimeoutException {
+		SubMonitor mon = SubMonitor.convert(monitor, "Starting Codewind", 100);
+		Process process = null;
+		try {
+			process = runInstaller(START_CMD);
+			ProcessResult result = ProcessHelper.waitForProcess(process, 500, 60, mon.split(90));
+			for (int i = 0; i < 10; i++) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// Ignore
+				}
+				mon.worked(1);
+			}
+			return result;
+		} finally {
+			if (process != null && process.isAlive()) {
+				process.destroy();
+			}
+		}
 	}
 	
-	public static Process stopCodewind() throws IOException {
-		return runInstaller(STOP_ALL_CMD);
+	public static ProcessResult stopCodewind(IProgressMonitor monitor) throws IOException, TimeoutException {
+		SubMonitor mon = SubMonitor.convert(monitor, "Stopping Codewind", 100);
+		Process process = null;
+		try {
+		    process = runInstaller(STOP_ALL_CMD);
+		    ProcessResult result = ProcessHelper.waitForProcess(process, 500, 60, mon);
+		    return result;
+		} finally {
+			if (process != null && process.isAlive()) {
+				process.destroy();
+			}
+		}
 	}
 	
 	public static Process runInstaller(String cmd) throws IOException {

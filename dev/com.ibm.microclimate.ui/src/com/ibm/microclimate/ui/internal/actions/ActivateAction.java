@@ -68,10 +68,8 @@ public class ActivateAction extends SelectionProviderAction {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					// Try to stop Codewind
-					Process startProcess = null;
 					try {
-						startProcess = InstallUtil.startCodewind();
-						ProcessResult result = ProcessHelper.waitForProcess(startProcess, 500, 60, monitor, "Starting Codewind");
+						ProcessResult result = InstallUtil.startCodewind(monitor);
 						if (result.getExitValue() != 0) {
 							return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "There was a problem trying to start Codewind: " + result.getError());
 						}
@@ -79,10 +77,6 @@ public class ActivateAction extends SelectionProviderAction {
 						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "An error occurred trying to start Codewind.", e);
 					} catch (TimeoutException e) {
 						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "Codewind did not start in the expected time.", e);
-					} finally {
-						if (startProcess != null && startProcess.isAlive()) {
-							startProcess.destroy();
-						}
 					}
 					ViewHelper.refreshMicroclimateExplorerView(null);
 					return Status.OK_STATUS;

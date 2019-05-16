@@ -56,7 +56,7 @@ public class ProcessHelper {
      * @return the exit value
      * @throws IOException if the process fails to exit normally and cannot be terminated
      */
-    public static ProcessResult waitForProcess(final Process p, int pollingDelay, int timeout, IProgressMonitor monitor, String taskName) throws IOException, TimeoutException {
+    public static ProcessResult waitForProcess(final Process p, int pollingDelay, int timeout, IProgressMonitor monitor) throws IOException, TimeoutException {
         final int BUFFER_STEP = 1024;
         byte[] buf = new byte[BUFFER_STEP];
         InputStream in = null;
@@ -64,9 +64,8 @@ public class ProcessHelper {
         StringBuilder inBuilder = new StringBuilder();
         StringBuilder errBuilder = new StringBuilder();
         int iter = timeout * 1000 / pollingDelay;
-        SubMonitor mon = SubMonitor.convert(monitor);
         int work = 20;
-        mon.beginTask(taskName, work);
+        SubMonitor mon = SubMonitor.convert(monitor, work);
         try {
             in = p.getInputStream();
             err = p.getErrorStream();

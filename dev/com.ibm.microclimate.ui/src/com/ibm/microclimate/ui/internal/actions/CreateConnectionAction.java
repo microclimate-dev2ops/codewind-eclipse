@@ -133,11 +133,8 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 				
 				if (connection == null || !connection.isConnected()) {
 					// Try to start Codewind
-					Process startProcess = null;
 					try {
-						SubMonitor subMon = mon.split(75);
-						startProcess = InstallUtil.startCodewind();
-						ProcessResult result = ProcessHelper.waitForProcess(startProcess, 500, 60, subMon, "Starting Codewind");
+						ProcessResult result = InstallUtil.startCodewind(mon.split(75));
 						if (result.getExitValue() != 0) {
 							return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "There was a problem trying to start Codewind: " + result.getError());
 						}
@@ -145,10 +142,6 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "An error occurred trying to start Codewind.", e);
 					} catch (TimeoutException e) {
 						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "Codewind did not start in the expected time.", e);
-					} finally {
-						if (startProcess != null && startProcess.isAlive()) {
-							startProcess.destroy();
-						}
 					}
 				}
 				if (mon.isCanceled()) {

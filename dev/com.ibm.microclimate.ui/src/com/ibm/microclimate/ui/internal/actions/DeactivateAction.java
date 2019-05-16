@@ -72,10 +72,8 @@ public class DeactivateAction extends SelectionProviderAction {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					// Try to stop Codewind
-					Process stopProcess = null;
 					try {
-						stopProcess = InstallUtil.stopCodewind();
-						ProcessResult result = ProcessHelper.waitForProcess(stopProcess, 500, 60, monitor, "Stopping Codewind");
+						ProcessResult result = InstallUtil.stopCodewind(monitor);
 						if (result.getExitValue() != 0) {
 							return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "There was a problem trying to stop Codewind: " + result.getError());
 						}
@@ -83,10 +81,6 @@ public class DeactivateAction extends SelectionProviderAction {
 						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "An error occurred trying to stop Codewind.", e);
 					} catch (TimeoutException e) {
 						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "Codewind did not stop in the expected time.", e);
-					} finally {
-						if (stopProcess != null && stopProcess.isAlive()) {
-							stopProcess.destroy();
-						}
 					}
 					return Status.OK_STATUS;
 				}
