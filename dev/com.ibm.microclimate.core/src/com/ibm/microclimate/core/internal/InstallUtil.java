@@ -33,9 +33,9 @@ public class InstallUtil {
 	private static final Map<OperatingSystem, String> installMap = new HashMap<OperatingSystem, String>();
 
 	static {
-		installMap.put(OperatingSystem.LINUX, "resources/linux/installer");
-		installMap.put(OperatingSystem.MAC, "resources/osx/installer");
-		installMap.put(OperatingSystem.WINDOWS, "resources/windows/installer.exe");
+		installMap.put(OperatingSystem.LINUX, "resources/lnx-installer");
+		installMap.put(OperatingSystem.MAC, "resources/mac-installer");
+		installMap.put(OperatingSystem.WINDOWS, "resources/win-installer.exe");
 	}
 	
 	private static final String INSTALLER_DIR = "installerWorkDir";
