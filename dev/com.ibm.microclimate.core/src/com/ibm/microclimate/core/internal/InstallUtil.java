@@ -54,7 +54,7 @@ public class InstallUtil {
 			ProcessResult result = ProcessHelper.waitForProcess(process, 500, 60, mon.split(90));
 			for (int i = 0; i < 10; i++) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(250);
 				} catch (InterruptedException e) {
 					// Ignore
 				}
