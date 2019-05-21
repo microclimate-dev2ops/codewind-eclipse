@@ -62,7 +62,7 @@ public class ImportProjectAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		if (app == null) {
 			// should not be possible
-			MCLogger.logError("ImportProjectAction ran but no application was selected");
+			MCLogger.logError("ImportProjectAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 

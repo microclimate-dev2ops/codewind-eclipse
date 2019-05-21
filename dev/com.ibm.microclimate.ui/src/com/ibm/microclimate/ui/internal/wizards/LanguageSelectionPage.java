@@ -25,6 +25,7 @@ import com.ibm.microclimate.core.internal.MCLogger;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
 import com.ibm.microclimate.core.internal.constants.ProjectType;
 import com.ibm.microclimate.ui.MicroclimateUIPlugin;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 
 public class LanguageSelectionPage extends WizardPage {
 
@@ -34,9 +35,9 @@ public class LanguageSelectionPage extends WizardPage {
 	private String type = null;
 
 	protected LanguageSelectionPage(MicroclimateConnection connection, IProject project) {
-		super("Select Language");
-		setTitle("Language and Type Selection");
-		setDescription("Select a language, and if applicable, a project type");
+		super(Messages.SelectLanguagePageName);
+		setTitle(Messages.SelectLanguagePageTitle);
+		setDescription(Messages.SelectLanguagePageDescription);
 		this.connection = connection;
 		this.project = project;
 	}
@@ -54,7 +55,7 @@ public class LanguageSelectionPage extends WizardPage {
         ProjectType projectType = getProjectType();
         
         Text languageLabel = new Text(composite, SWT.READ_ONLY);
-        languageLabel.setText("Choose the project language:");
+        languageLabel.setText(Messages.SelectLanguagePageLanguageLabel);
         languageLabel.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
         languageLabel.setBackground(composite.getBackground());
         languageLabel.setForeground(composite.getForeground());
@@ -64,7 +65,7 @@ public class LanguageSelectionPage extends WizardPage {
     	languageTable.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
     	
         Text typeLabel = new Text(composite, SWT.READ_ONLY);
-        typeLabel.setText("Choose the project type:");
+        typeLabel.setText(Messages.SelectLanguagePageProjectTypeLabel);
         typeLabel.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
         typeLabel.setBackground(composite.getBackground());
         typeLabel.setForeground(composite.getForeground());
@@ -238,7 +239,7 @@ public class LanguageSelectionPage extends WizardPage {
 		try {
 			return connection.requestProjectValidate(project.getLocation().toFile().getAbsolutePath());
 		} catch (Exception e) {
-			MCLogger.logError("Could not get the project type because validate failed for project: " + project.getName());
+			MCLogger.logError("Could not get the project type because validate failed for project: " + project.getName()); //$NON-NLS-1$
 		}
 		return null;
 	}

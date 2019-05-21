@@ -11,7 +11,6 @@
 
 package com.ibm.microclimate.ui.internal.actions;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -60,7 +59,7 @@ public class OpenAppMonitorAction extends SelectionProviderAction {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("OpenAppMonitorAction ran but no Microclimate application was selected");
+        	MCLogger.logError("OpenAppMonitorAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -73,7 +72,7 @@ public class OpenAppMonitorAction extends SelectionProviderAction {
         URL url = app.getMetricsUrl();
 		if (url == null) {
 			// this should not happen
-			MCLogger.logError("OpenAppMonitorAction ran but could not construct the url");
+			MCLogger.logError("OpenAppMonitorAction ran but could not construct the url"); //$NON-NLS-1$
 			return;
 		}
 

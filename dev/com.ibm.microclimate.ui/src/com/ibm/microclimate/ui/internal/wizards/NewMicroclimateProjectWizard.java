@@ -83,7 +83,7 @@ public class NewMicroclimateProjectWizard extends Wizard implements INewWizard {
 		String name = newProjectPage.getProjectName();
 		MicroclimateConnection newConnection = newProjectPage.getConnection();
 		if (info == null || name == null || newConnection == null) {
-			MCLogger.logError("The connection, project type or name was null for the new project wizard");
+			MCLogger.logError("The connection, project type or name was null for the new project wizard"); //$NON-NLS-1$
 			return false;
 		}
 		
@@ -117,14 +117,14 @@ public class NewMicroclimateProjectWizard extends Wizard implements INewWizard {
 					if (app != null) {
 						ImportProjectAction.importProject(app);
 					} else {
-						MCLogger.logError("Could not get the application for import: " + name);
+						MCLogger.logError("Could not get the application for import: " + name); //$NON-NLS-1$
 					}
 					ViewHelper.openMicroclimateExplorerView();
 					ViewHelper.refreshMicroclimateExplorerView(newConnection);
 					ViewHelper.expandConnection(newConnection);
 					return Status.OK_STATUS;
 				} catch (Exception e) {
-					MCLogger.logError("An error occured trying to create a project with type: " + info.getExtension() + ", and name: " + name, e);
+					MCLogger.logError("An error occured trying to create a project with type: " + info.getExtension() + ", and name: " + name, e); //$NON-NLS-1$ //$NON-NLS-2$
 					return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.NewProjectPage_ProjectCreateErrorMsg, name), e);
 				}
 			}

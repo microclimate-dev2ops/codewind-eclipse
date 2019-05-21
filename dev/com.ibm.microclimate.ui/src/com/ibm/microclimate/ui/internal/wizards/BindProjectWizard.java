@@ -18,12 +18,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.ibm.microclimate.core.internal.MCLogger;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
 import com.ibm.microclimate.ui.MicroclimateUIPlugin;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 
 public class BindProjectWizard extends Wizard implements INewWizard {
 
@@ -61,7 +63,7 @@ public class BindProjectWizard extends Wizard implements INewWizard {
 
 	@Override
 	public void addPages() {
-		setWindowTitle("Add Project to Codewind");
+		setWindowTitle(Messages.BindProjectWizardTitle);
 		if (project == null) {
 			projectPage = new ProjectSelectionPage(this, connection);
 			addPage(projectPage);
@@ -94,15 +96,15 @@ public class BindProjectWizard extends Wizard implements INewWizard {
 			project = projectPage.getProject();
 		}
 
-		Job job = new Job("Adding project to Codewind: " + project.getName()) {
+		Job job = new Job(NLS.bind(Messages.BindProjectWizardJobLabel, project.getName())) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
 					connection.requestProjectBind(project.getName(), project.getLocation().toFile().getAbsolutePath(), languagePage.getLanguage(), languagePage.getType());
 					return Status.OK_STATUS;
 				} catch (Exception e) {
-					MCLogger.logError("An error occured trying to add the project to Codewind: " + project.getName(), e);
-					return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "An error occurred trying to add the " + project.getName() + " project to Codewind.", e);
+					MCLogger.logError("An error occured trying to add the project to Codewind: " + project.getName(), e); //$NON-NLS-1$
+					return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.BindProjectWizardError, project.getName()), e);
 				}
 			}
 		};

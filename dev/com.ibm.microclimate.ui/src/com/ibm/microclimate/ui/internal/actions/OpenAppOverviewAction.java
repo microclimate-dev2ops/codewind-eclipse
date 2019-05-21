@@ -11,27 +11,18 @@
 
 package com.ibm.microclimate.ui.internal.actions;
 
-import java.net.URL;
-
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.browser.IWebBrowser;
-import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 import com.ibm.microclimate.core.internal.MCLogger;
 import com.ibm.microclimate.core.internal.MicroclimateApplication;
-import com.ibm.microclimate.core.internal.constants.MCConstants;
 import com.ibm.microclimate.ui.MicroclimateUIPlugin;
 import com.ibm.microclimate.ui.internal.editors.MCApplicationEditorInput;
-import com.ibm.microclimate.ui.internal.messages.Messages;
 
 /**
  * Action to open the application overview in a browser.
@@ -63,7 +54,7 @@ public class OpenAppOverviewAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("OpenAppOverviewAction ran but no Microclimate application was selected");
+        	MCLogger.logError("OpenAppOverviewAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
         
@@ -74,7 +65,7 @@ public class OpenAppOverviewAction implements IObjectActionDelegate {
 			MCApplicationEditorInput input = new MCApplicationEditorInput(app);
 			page.openEditor(input, MCApplicationEditorInput.EDITOR_ID);
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred opening the editor for application: " + app.name, e);
+			MCLogger.logError("An error occurred opening the editor for application: " + app.name, e); //$NON-NLS-1$
 		}
     }
 

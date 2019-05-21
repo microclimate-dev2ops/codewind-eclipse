@@ -61,7 +61,7 @@ public class AttachDebuggerAction extends SelectionProviderAction {
     public void run() {
     	if (app == null) {
 			// should not be possible
-			MCLogger.logError("AttachDebuggerAction ran but no application was selected");
+			MCLogger.logError("AttachDebuggerAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 

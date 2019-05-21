@@ -74,7 +74,7 @@ public class RestartDebugModeAction implements IObjectActionDelegate, IViewActio
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("RestartDebugModeAction ran but no Microclimate application was selected");
+        	MCLogger.logError("RestartDebugModeAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
         

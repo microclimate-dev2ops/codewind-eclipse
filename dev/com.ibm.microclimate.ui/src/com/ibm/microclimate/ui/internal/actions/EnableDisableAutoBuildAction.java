@@ -61,7 +61,7 @@ public class EnableDisableAutoBuildAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("EnableDisableAutoBuildAction ran but no Microclimate application was selected");
+        	MCLogger.logError("EnableDisableAutoBuildAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
 

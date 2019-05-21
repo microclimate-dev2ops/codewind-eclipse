@@ -13,13 +13,13 @@ package com.ibm.microclimate.ui.internal.actions;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.actions.SelectionProviderAction;
 
 import com.ibm.microclimate.core.internal.MCEclipseApplication;
 import com.ibm.microclimate.core.internal.MCLogger;
 import com.ibm.microclimate.core.internal.MCUtil;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 
 /**
  * Action for unbinding a Codewind project.
@@ -29,7 +29,7 @@ public class UnbindProjectAction extends SelectionProviderAction {
 	MCEclipseApplication app;
 	
 	public UnbindProjectAction(ISelectionProvider selectionProvider) {
-		super(selectionProvider, "Remove");
+		super(selectionProvider, Messages.UnbindActionLabel);
 		selectionChanged(getStructuredSelection());
 	}
 
@@ -50,7 +50,7 @@ public class UnbindProjectAction extends SelectionProviderAction {
 	public void run() {
 		if (app == null) {
 			// should not be possible
-			MCLogger.logError("UnbindProjectAction ran but no application was selected");
+			MCLogger.logError("UnbindProjectAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 		
@@ -58,7 +58,7 @@ public class UnbindProjectAction extends SelectionProviderAction {
 			app.mcConnection.requestProjectUnbind(app.projectID);
 		} catch (Exception e) {
 			MCLogger.logError("Error requesting application remove: " + app.name, e); //$NON-NLS-1$
-			MCUtil.openDialog(true, "An error occurred trying to remove the " + app.name + " application from Codewind.", e.getMessage());
+			MCUtil.openDialog(true, NLS.bind(Messages.UnbindActionError, app.name), e.getMessage());
 			return;
 		}
 	}

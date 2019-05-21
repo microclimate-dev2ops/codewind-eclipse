@@ -57,7 +57,7 @@ public class StartBuildAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		if (app == null) {
 			// should not be possible
-			MCLogger.logError("StartBuildAction ran but no application was selected");
+			MCLogger.logError("StartBuildAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 

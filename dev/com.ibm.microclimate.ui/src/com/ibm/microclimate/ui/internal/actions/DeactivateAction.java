@@ -20,15 +20,16 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.actions.SelectionProviderAction;
 
 import com.ibm.microclimate.core.internal.InstallUtil;
 import com.ibm.microclimate.core.internal.MCLogger;
-import com.ibm.microclimate.core.internal.ProcessHelper;
 import com.ibm.microclimate.core.internal.ProcessHelper.ProcessResult;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnectionManager;
 import com.ibm.microclimate.ui.MicroclimateUIPlugin;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 import com.ibm.microclimate.ui.internal.views.ViewHelper;
 
 /**
@@ -39,7 +40,7 @@ public class DeactivateAction extends SelectionProviderAction {
 	protected MicroclimateConnection connection;
 	
 	public DeactivateAction(ISelectionProvider selectionProvider) {
-		super(selectionProvider, "Deactivate");
+		super(selectionProvider, Messages.DeactivateActionLabel);
 		selectionChanged(getStructuredSelection());
 	}
 
@@ -60,7 +61,7 @@ public class DeactivateAction extends SelectionProviderAction {
 	public void run() {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("DeactivateAction ran but no Microclimate connection was selected");
+			MCLogger.logError("DeactivateAction ran but no Microclimate connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -68,26 +69,26 @@ public class DeactivateAction extends SelectionProviderAction {
 			MicroclimateConnectionManager.removeConnection(connection.baseUrl.toString());
 			connection.close();
 			ViewHelper.refreshMicroclimateExplorerView(null);
-			Job job = new Job("Deactivating Codewind") {
+			Job job = new Job(Messages.DeactivateActionJobLabel) {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					// Try to stop Codewind
 					try {
 						ProcessResult result = InstallUtil.stopCodewind(monitor);
 						if (result.getExitValue() != 0) {
-							return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "There was a problem trying to stop Codewind: " + result.getError());
+							return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.DeactivateActionErrorWithMsg, result.getError()));
 						}
 					} catch (IOException e) {
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "An error occurred trying to stop Codewind.", e);
+						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.DeactivateActionError, e);
 					} catch (TimeoutException e) {
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, "Codewind did not stop in the expected time.", e);
+						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.DeactivateActionTimeout, e);
 					}
 					return Status.OK_STATUS;
 				}
 			};
 			job.schedule();
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred deactivating connection: " + connection.baseUrl, e);
+			MCLogger.logError("An error occurred deactivating connection: " + connection.baseUrl, e); //$NON-NLS-1$
 		}
 	}
 }

@@ -58,7 +58,7 @@ public class EnableDisableProjectAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("EnableDisableProjectAction ran but no Microclimate application was selected");
+        	MCLogger.logError("EnableDisableProjectAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
 

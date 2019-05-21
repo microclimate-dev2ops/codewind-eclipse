@@ -39,6 +39,17 @@ public class Messages extends NLS {
 	public static String NewConnectionPage_WizardDescription;
 	public static String NewConnectionPage_WizardTitle;
 	public static String NewConnectionWizard_ShellTitle;
+	
+	public static String ConnectionErrorTitle;
+	public static String ConnectionAlreadyExistsError;
+	public static String ConnectingJobLabel;
+	public static String DetectingConnectionTask;
+	public static String ConnectingTask;
+	public static String StartCodewindErrorWithMsg;
+	public static String StartCodewindError;
+	public static String StartCodewindTimeout;
+	public static String StartCodewindNotActive;
+	public static String StartCodewindConnectionError;
 
 	public static String OpenAppAction_CantOpenNotRunningAppMsg;
 	public static String OpenAppAction_CantOpenNotRunningAppTitle;
@@ -52,6 +63,38 @@ public class Messages extends NLS {
 	public static String MicroclimateDisconnected;
 	public static String MicroclimateProjectDisabled;
 	public static String MicroclimateConnectionNoProjects;
+	
+	public static String ActivateActionLabel;
+	public static String ActivateActionJobLabel;
+	public static String DeactivateActionLabel;
+	public static String DeactivateActionJobLabel;
+	public static String DeactivateActionErrorWithMsg;
+	public static String DeactivateActionError;
+	public static String DeactivateActionTimeout;
+	public static String BindActionLabel;
+	public static String UnbindActionLabel;
+	public static String UnbindActionError;
+	
+	public static String BindProjectErrorTitle;
+	public static String BindProjectConnectionError;
+	public static String BindProjectAlreadyExistsError;
+	public static String BindProjectBadLocationError;
+	
+	public static String BindProjectWizardTitle;
+	public static String BindProjectWizardJobLabel;
+	public static String BindProjectWizardError;
+	
+	public static String SelectLanguagePageName;
+	public static String SelectLanguagePageTitle;
+	public static String SelectLanguagePageDescription;
+	public static String SelectLanguagePageLanguageLabel;
+	public static String SelectLanguagePageProjectTypeLabel;
+	public static String SelectProjectPageFilterText;
+	
+	public static String SelectProjectPageName;
+	public static String SelectProjectPageTitle;
+	public static String SelectProjectPageDescription;
+	public static String SelectProjectPageChooseProjectLabel;
 	
 	public static String RestartInDebugMode;
 	public static String RestartInRunMode;
@@ -145,6 +188,8 @@ public class Messages extends NLS {
 	public static String NewProjectPage_InvalidProjectName;
 	public static String NewProjectPage_ProjectCreateErrorTitle;
 	public static String NewProjectPage_ProjectCreateErrorMsg;
+	public static String NewProjectPage_CodewindConnectError;
+	public static String NewProjectPage_TemplateListError;
 	
 	static {
 		// initialize resource bundle
