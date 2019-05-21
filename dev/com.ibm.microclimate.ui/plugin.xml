@@ -134,6 +134,13 @@
 				label="%ACTION_CONTAINER_SHELL"
 				class="com.ibm.microclimate.ui.internal.actions.ContainerShellAction"/>
 			<action
+				id="com.ibm.microclimate.ui.openAppOverview"
+				enablesFor="1"
+				menubarPath="group.open"
+				icon="%DEFAULT_ICON_PATH"
+				label="%ACTION_OPEN_APP_OVERVIEW"
+				class="com.ibm.microclimate.ui.internal.actions.OpenAppOverviewAction"/>
+			<action
 				id="com.ibm.microclimate.ui.openApplication"
 				enablesFor="1"
 				menubarPath="group.open"
@@ -298,6 +305,13 @@
 				id="com.ibm.microclimate.ui.internal.wizards.bindProject">
 			</action>
 		</objectContribution>
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors">
+	    <editor id="com.ibm.microclimate.ui.editors.appOverview"
+	        name="Application Overview"
+	        icon="icons/microclimate.ico"
+	        class="com.ibm.microclimate.ui.internal.editors.MCApplicationEditorPart"/>
 	</extension>
 
 </plugin>
