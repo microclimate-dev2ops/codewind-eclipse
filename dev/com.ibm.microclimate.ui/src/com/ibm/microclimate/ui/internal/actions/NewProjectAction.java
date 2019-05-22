@@ -58,7 +58,7 @@ public class NewProjectAction extends SelectionProviderAction {
 	public void run() {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("NewProjectAction ran but no Microclimate connection was selected");
+			MCLogger.logError("NewProjectAction ran but no Microclimate connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -70,7 +70,7 @@ public class NewProjectAction extends SelectionProviderAction {
 				return;
 			}
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred running the new project action on connection: " + connection.baseUrl, e);
+			MCLogger.logError("An error occurred running the new project action on connection: " + connection.baseUrl, e); //$NON-NLS-1$
 		}
 	}
 }

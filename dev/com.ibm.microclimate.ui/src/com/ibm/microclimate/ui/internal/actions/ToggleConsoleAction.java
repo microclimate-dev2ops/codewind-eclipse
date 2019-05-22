@@ -47,7 +47,7 @@ public abstract class ToggleConsoleAction extends Action {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("ToggleConsolesAction ran but no Microclimate application was selected");
+        	MCLogger.logError("ToggleConsolesAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
 

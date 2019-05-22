@@ -60,7 +60,7 @@ public class OpenAppAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("OpenAppAction ran but no Microclimate application was selected");
+        	MCLogger.logError("OpenAppAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
 

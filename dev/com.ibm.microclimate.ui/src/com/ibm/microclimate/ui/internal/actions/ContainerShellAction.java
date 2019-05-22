@@ -41,7 +41,7 @@ public class ContainerShellAction implements IObjectActionDelegate {
     public ContainerShellAction() {
     	delegate = LauncherDelegateManager.getInstance().getLauncherDelegate(LAUNCHER_DELEGATE_ID, false);
     	if (delegate == null) {
-    		MCLogger.logError("Could not get the local terminal launcher delegate.");
+    		MCLogger.logError("Could not get the local terminal launcher delegate."); //$NON-NLS-1$
     	}
     }
 
@@ -84,19 +84,19 @@ public class ContainerShellAction implements IObjectActionDelegate {
 		}
         
         // The command varies depending on the application type
-        String command = "bash";
+        String command = "bash"; //$NON-NLS-1$
         if (app.projectType.isType(ProjectType.TYPE_DOCKER) && app.projectType.isLanguage(ProjectType.LANGUAGE_PYTHON)) {
-        	command = "sh";
+        	command = "sh"; //$NON-NLS-1$
         }
 
         // Open a shell in the application container
         String envPath = MCUtil.getEnvPath();
-        String dockerPath = envPath != null ? envPath + "docker" : "docker";
+        String dockerPath = envPath != null ? envPath + "docker" : "docker"; //$NON-NLS-1$  //$NON-NLS-2$
         Map<String, Object> properties = new HashMap<>();
         properties.put(ITerminalsConnectorConstants.PROP_DELEGATE_ID, delegate.getId());
         properties.put(ITerminalsConnectorConstants.PROP_TITLE, app.name);
         properties.put(ITerminalsConnectorConstants.PROP_PROCESS_PATH, dockerPath);
-        properties.put(ITerminalsConnectorConstants.PROP_PROCESS_ARGS, "exec -it " + app.getContainerId() + " " + command);
+        properties.put(ITerminalsConnectorConstants.PROP_PROCESS_ARGS, "exec -it " + app.getContainerId() + " " + command); //$NON-NLS-1$ //$NON-NLS-2$
         delegate.execute(properties, null);
     }
 

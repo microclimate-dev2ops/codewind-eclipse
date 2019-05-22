@@ -51,7 +51,7 @@ public class RemoveConnectionAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("RemoveConnectionAction ran but no connection was selected");
+			MCLogger.logError("RemoveConnectionAction ran but no connection was selected"); //$NON-NLS-1$
 			return;
 		}
 

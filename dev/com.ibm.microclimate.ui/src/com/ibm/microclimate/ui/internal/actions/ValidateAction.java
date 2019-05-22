@@ -53,7 +53,7 @@ public class ValidateAction extends SelectionProviderAction {
     public void run() {
     	if (app == null) {
 			// should not be possible
-			MCLogger.logError("ValidateAction ran but no application was selected");
+			MCLogger.logError("ValidateAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 

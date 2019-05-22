@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -35,10 +36,10 @@ import com.ibm.microclimate.core.internal.InstallUtil;
 import com.ibm.microclimate.core.internal.MCLogger;
 import com.ibm.microclimate.core.internal.MCUtil;
 import com.ibm.microclimate.core.internal.PlatformUtil;
-import com.ibm.microclimate.core.internal.ProcessHelper;
 import com.ibm.microclimate.core.internal.ProcessHelper.ProcessResult;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnectionManager;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 import com.ibm.microclimate.ui.internal.views.ViewHelper;
 import com.ibm.microclimate.ui.internal.wizards.BindProjectWizard;
 
@@ -51,19 +52,19 @@ public class BindProjectAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		if (project == null) {
 			// Should not happen
-			MCLogger.logError("BindProjectAction ran but no project was selected");
+			MCLogger.logError("BindProjectAction ran but no project was selected"); //$NON-NLS-1$
 			return;
 		}
 		
 		MicroclimateConnection connection = setupConnection();
 		if (connection == null || !connection.isConnected()) {
-			MCUtil.openDialog(true, "Add Project Error", "Adding the project failed because a connection to Codewind could not be established. Check workspace logs for details.");
+			MCUtil.openDialog(true, Messages.BindProjectErrorTitle, Messages.BindProjectConnectionError);
 			return;
 		}
 		
 		String projectError = getProjectError(connection, project);
 		if (projectError != null) {
-			MCUtil.openDialog(true, "Add Project Error", projectError);
+			MCUtil.openDialog(true, Messages.BindProjectErrorTitle, projectError);
 			// If connection is new (not already registered), then close it
 			if (MicroclimateConnectionManager.getActiveConnection(connection.baseUrl.toString()) == null) {
 				connection.close();
@@ -91,7 +92,7 @@ public class BindProjectAction implements IObjectActionDelegate {
 	
 	private String getProjectError(MicroclimateConnection connection, IProject project) {
 		if (connection.getAppByName(project.getName()) != null) {
-			return "A Codewind project with the name " + project.getName() + " already exists.";
+			return NLS.bind(Messages.BindProjectAlreadyExistsError,  project.getName());
 		}
 		IPath workspacePath = connection.getWorkspacePath();
 		IPath projectPath = project.getLocation();
@@ -100,7 +101,7 @@ public class BindProjectAction implements IObjectActionDelegate {
 			projectPath = new Path(projectPath.toPortableString().toLowerCase());
 		}
 		if (!workspacePath.isPrefixOf(projectPath)) {
-			return "The " + project.getName() + " project is not located in the Codewind workspace: " + connection.getWorkspacePath().toOSString();
+			return NLS.bind(Messages.BindProjectBadLocationError, project.getName(), connection.getWorkspacePath().toOSString());
 		}
 		return null;
 	}
@@ -141,7 +142,7 @@ public class BindProjectAction implements IObjectActionDelegate {
 				// Will throw an Exception if fails
 				connection = MicroclimateConnectionManager.createConnection(MicroclimateConnectionManager.DEFAULT_CONNECTION_URL);
 			} catch(Exception e) {
-				MCLogger.log("Attempting to connect to Codewind failed: " + e.getMessage());
+				MCLogger.log("Attempting to connect to Codewind failed: " + e.getMessage()); //$NON-NLS-1$
 			}
 		}
 		if (connection != null && connection.isConnected()) {
@@ -154,12 +155,12 @@ public class BindProjectAction implements IObjectActionDelegate {
 				try {
 					ProcessResult result = InstallUtil.startCodewind(monitor);
 					if (result.getExitValue() != 0) {
-						throw new InvocationTargetException(null, "There was a problem trying to start Codewind: " + result.getError());
+						throw new InvocationTargetException(null, "There was a problem trying to start Codewind: " + result.getError()); //$NON-NLS-1$
 					}
 				} catch (IOException e) {
-					throw new InvocationTargetException(e, "An error occurred trying to start Codewind: " + e.getMessage());
+					throw new InvocationTargetException(e, "An error occurred trying to start Codewind: " + e.getMessage()); //$NON-NLS-1$
 				} catch (TimeoutException e) {
-					throw new InvocationTargetException(e, "Codewind did not start in the expected time: " + e.getMessage());
+					throw new InvocationTargetException(e, "Codewind did not start in the expected time: " + e.getMessage()); //$NON-NLS-1$
 				}
 			}
 		};
@@ -167,10 +168,10 @@ public class BindProjectAction implements IObjectActionDelegate {
 			ProgressMonitorDialog dialog = new ProgressMonitorDialog(part.getSite().getShell());
 			dialog.run(true, true, runnable);
 		} catch (InvocationTargetException e) {
-			MCLogger.logError("An error occurred trying to start Codewind", e);
+			MCLogger.logError("An error occurred trying to start Codewind", e); //$NON-NLS-1$
 			return null;
 		} catch (InterruptedException e) {
-			MCLogger.logError("Codewind start was interrupted", e);
+			MCLogger.logError("Codewind start was interrupted", e); //$NON-NLS-1$
 			return null;
 		}
 		
@@ -187,7 +188,7 @@ public class BindProjectAction implements IObjectActionDelegate {
 				}
 			}
 			if (!connection.isConnected()) {
-				MCLogger.logError("The connection at " + connection.baseUrl + " is not active.");
+				MCLogger.logError("The connection at " + connection.baseUrl + " is not active."); //$NON-NLS-1$ //$NON-NLS-2$
 				return null;
 			}
 			return connection;
@@ -207,7 +208,7 @@ public class BindProjectAction implements IObjectActionDelegate {
 			}
 		}
 		if (connection == null) {
-			MCLogger.logError("Failed to connect to Codewind at: " + MicroclimateConnectionManager.DEFAULT_CONNECTION_URL);
+			MCLogger.logError("Failed to connect to Codewind at: " + MicroclimateConnectionManager.DEFAULT_CONNECTION_URL); //$NON-NLS-1$
 		}
 		return connection;
 	}

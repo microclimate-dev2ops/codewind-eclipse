@@ -53,12 +53,12 @@ public class HideAllLogsAction extends Action {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("HideAllLogsAction ran but no Microclimate application was selected");
+        	MCLogger.logError("HideAllLogsAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
         
         if (app.getLogInfos() == null || app.getLogInfos().isEmpty()) {
-        	MCLogger.logError("HideAllLogsAction ran but there are no logs for the selected application: " + app.name);
+        	MCLogger.logError("HideAllLogsAction ran but there are no logs for the selected application: " + app.name); //$NON-NLS-1$
         	return;
         }
         

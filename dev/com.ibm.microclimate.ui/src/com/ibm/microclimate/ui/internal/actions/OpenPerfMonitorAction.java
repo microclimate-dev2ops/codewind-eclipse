@@ -59,7 +59,7 @@ public class OpenPerfMonitorAction extends SelectionProviderAction {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("OpenPerformanceMonitorAction ran but no Microclimate application was selected");
+        	MCLogger.logError("OpenPerformanceMonitorAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -71,7 +71,7 @@ public class OpenPerfMonitorAction extends SelectionProviderAction {
 
         URL url = app.mcConnection.getPerformanceMonitorURL(app);
 		if (url == null) {
-			MCLogger.logError("OpenPerformanceMonitorAction ran but could not get the url");
+			MCLogger.logError("OpenPerformanceMonitorAction ran but could not get the url"); //$NON-NLS-1$
 			return;
 		}
 
@@ -86,7 +86,7 @@ public class OpenPerfMonitorAction extends SelectionProviderAction {
 
 	        browser.openURL(url);
 		} catch (PartInitException e) {
-			MCLogger.logError("Error opening the app monitor in browser", e); //$NON-NLS-1$
+			MCLogger.logError("Error opening the performance monitor in browser", e); //$NON-NLS-1$
 		}
     }
     

@@ -24,10 +24,10 @@ import org.eclipse.ui.actions.SelectionProviderAction;
 
 import com.ibm.microclimate.core.internal.InstallUtil;
 import com.ibm.microclimate.core.internal.MCLogger;
-import com.ibm.microclimate.core.internal.ProcessHelper;
 import com.ibm.microclimate.core.internal.ProcessHelper.ProcessResult;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
 import com.ibm.microclimate.ui.MicroclimateUIPlugin;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 import com.ibm.microclimate.ui.internal.views.ViewHelper;
 
 /**
@@ -38,7 +38,7 @@ public class ActivateAction extends SelectionProviderAction {
 	protected MicroclimateConnection connection;
 	
 	public ActivateAction(ISelectionProvider selectionProvider) {
-		super(selectionProvider, "Activate");
+		super(selectionProvider, Messages.ActivateActionLabel);
 		selectionChanged(getStructuredSelection());
 	}
 
@@ -59,12 +59,12 @@ public class ActivateAction extends SelectionProviderAction {
 	public void run() {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("ActivateAction ran but no Microclimate connection was selected");
+			MCLogger.logError("ActivateAction ran but no Microclimate connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
 		try {
-			Job job = new Job("Activating Codewind") {
+			Job job = new Job(Messages.ActivateActionJobLabel) {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					// Try to stop Codewind
@@ -84,7 +84,7 @@ public class ActivateAction extends SelectionProviderAction {
 			};
 			job.schedule();
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred activating connection: " + connection.baseUrl, e);
+			MCLogger.logError("An error occurred activating connection: " + connection.baseUrl, e); //$NON-NLS-1$
 		}
 	}
 }

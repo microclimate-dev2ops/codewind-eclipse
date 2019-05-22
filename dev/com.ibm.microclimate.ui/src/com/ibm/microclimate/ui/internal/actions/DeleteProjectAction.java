@@ -62,7 +62,7 @@ public class DeleteProjectAction extends SelectionProviderAction {
 	public void run() {
 		if (app == null) {
 			// should not be possible
-			MCLogger.logError("DeleteProjectAction ran but no application was selected");
+			MCLogger.logError("DeleteProjectAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -78,7 +78,7 @@ public class DeleteProjectAction extends SelectionProviderAction {
     					}
     					return Status.OK_STATUS;
     				} catch (Exception e) {
-    					MCLogger.logError("An error occurred deleting the project: " + app.name + ", with id: " + app.projectID, e);
+    					MCLogger.logError("An error occurred deleting the project: " + app.name + ", with id: " + app.projectID, e); //$NON-NLS-1$ //$NON-NLS-2$
     					return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.DeleteProjectErrorMsg, app.name), e);
     				}
     			}

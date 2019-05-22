@@ -34,6 +34,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 import com.ibm.microclimate.core.internal.PlatformUtil;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 
 public class ProjectSelectionPage extends WizardPage {
 	
@@ -43,9 +44,9 @@ public class ProjectSelectionPage extends WizardPage {
 	private IProject project = null;
 
 	protected ProjectSelectionPage(BindProjectWizard wizard, MicroclimateConnection connection) {
-		super("Select Project");
-		setTitle("Project Selection");
-		setDescription("Select the project to add to Codewind");
+		super(Messages.SelectProjectPageName);
+		setTitle(Messages.SelectProjectPageTitle);
+		setDescription(Messages.SelectProjectPageDescription);
 		pattern.setPattern("*");
 		this.wizard = wizard;
 		this.connection = connection;
@@ -62,7 +63,7 @@ public class ProjectSelectionPage extends WizardPage {
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         Text projectLabel = new Text(composite, SWT.READ_ONLY);
-        projectLabel.setText("Choose the project to add:");
+        projectLabel.setText(Messages.SelectLanguagePageProjectTypeLabel);
         projectLabel.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
         projectLabel.setBackground(composite.getBackground());
         projectLabel.setForeground(composite.getForeground());
@@ -70,7 +71,7 @@ public class ProjectSelectionPage extends WizardPage {
 		// Filter text
 		Text filterText = new Text(composite, SWT.BORDER);
 		filterText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		filterText.setMessage("Type filter text");
+		filterText.setMessage(Messages.SelectProjectPageFilterText);
         
         CheckboxTableViewer projectList = CheckboxTableViewer.newCheckList(composite, SWT.BORDER);
         projectList.setContentProvider(new WorkbenchContentProvider());
@@ -111,7 +112,7 @@ public class ProjectSelectionPage extends WizardPage {
 			public void modifyText(ModifyEvent event) {
 				String filter = filterText.getText();
 				if (filter == null || filter.isEmpty()) {
-					filterText.setMessage("Type filter text");
+					filterText.setMessage(Messages.SelectProjectPageFilterText);
 					pattern.setPattern("*");
 				} else {
 					pattern.setPattern("*" + filter + "*");

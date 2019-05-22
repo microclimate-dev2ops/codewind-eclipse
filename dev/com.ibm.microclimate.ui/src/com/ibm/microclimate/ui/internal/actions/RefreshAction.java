@@ -81,7 +81,7 @@ public class RefreshAction implements IObjectActionDelegate {
     		job.schedule();
         } else {
         	// Should not happen
-        	MCLogger.logError("RefreshAction ran but no Microclimate object was selected");
+        	MCLogger.logError("RefreshAction ran but no Microclimate object was selected"); //$NON-NLS-1$
         }
     }
 

@@ -21,6 +21,7 @@ import org.eclipse.ui.actions.SelectionProviderAction;
 import com.ibm.microclimate.core.internal.MCLogger;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
 import com.ibm.microclimate.ui.MicroclimateUIPlugin;
+import com.ibm.microclimate.ui.internal.messages.Messages;
 import com.ibm.microclimate.ui.internal.views.ViewHelper;
 import com.ibm.microclimate.ui.internal.wizards.BindProjectWizard;
 
@@ -32,7 +33,7 @@ public class BindAction extends SelectionProviderAction {
 	protected MicroclimateConnection connection;
 	
 	public BindAction(ISelectionProvider selectionProvider) {
-		super(selectionProvider, "Add Project...");
+		super(selectionProvider, Messages.BindActionLabel);
 		setImageDescriptor(MicroclimateUIPlugin.getDefaultIcon());
 		selectionChanged(getStructuredSelection());
 	}
@@ -55,7 +56,7 @@ public class BindAction extends SelectionProviderAction {
 	public void run() {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("BindAction ran but no Microclimate connection was selected");
+			MCLogger.logError("BindAction ran but no Microclimate connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -69,7 +70,7 @@ public class BindAction extends SelectionProviderAction {
 			ViewHelper.refreshMicroclimateExplorerView(null);
 			ViewHelper.expandConnection(connection);
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred running the bind action on connection: " + connection.baseUrl, e);
+			MCLogger.logError("An error occurred running the bind action on connection: " + connection.baseUrl, e); //$NON-NLS-1$
 		}
 	}
 }

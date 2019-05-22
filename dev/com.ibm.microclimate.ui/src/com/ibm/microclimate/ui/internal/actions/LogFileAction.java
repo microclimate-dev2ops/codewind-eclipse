@@ -43,7 +43,7 @@ public class LogFileAction extends Action {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("LogFileAction ran but no Microclimate application was selected");
+        	MCLogger.logError("LogFileAction ran but no Microclimate application was selected"); //$NON-NLS-1$
 			return;
 		}
 

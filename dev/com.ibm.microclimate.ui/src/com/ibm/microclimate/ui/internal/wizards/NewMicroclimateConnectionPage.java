@@ -39,7 +39,6 @@ import org.eclipse.swt.widgets.Text;
 import com.ibm.microclimate.core.internal.InstallUtil;
 import com.ibm.microclimate.core.internal.MCLogger;
 import com.ibm.microclimate.core.internal.MicroclimateObjectFactory;
-import com.ibm.microclimate.core.internal.ProcessHelper;
 import com.ibm.microclimate.core.internal.ProcessHelper.ProcessResult;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnection;
 import com.ibm.microclimate.core.internal.connection.MicroclimateConnectionManager;
@@ -226,22 +225,22 @@ public class NewMicroclimateConnectionPage extends WizardPage {
 				try {
 					ProcessResult result = InstallUtil.startCodewind(monitor);
 					if (result.getExitValue() != 0) {
-						throw new InvocationTargetException(null, "There was a problem while trying to start Codewind: " + result.getError());
+						throw new InvocationTargetException(null, "There was a problem while trying to start Codewind: " + result.getError()); //$NON-NLS-1$
 					}
 				} catch (IOException e) {
-					throw new InvocationTargetException(e, "An error occurred trying to start Codewind: " + e.getMessage());
+					throw new InvocationTargetException(e, "An error occurred trying to start Codewind: " + e.getMessage()); //$NON-NLS-1$
 				} catch (TimeoutException e) {
-					throw new InvocationTargetException(e, "Codewind did not start in the expected time: " + e.getMessage());
+					throw new InvocationTargetException(e, "Codewind did not start in the expected time: " + e.getMessage()); //$NON-NLS-1$
 				}
 			}
 		};
 		try {
 			getWizard().getContainer().run(true, true, runnable);
 		} catch (InvocationTargetException e) {
-			MCLogger.logError("An error occurred trying to start Codewind", e);
+			MCLogger.logError("An error occurred trying to start Codewind", e); //$NON-NLS-1$
 			return null;
 		} catch (InterruptedException e) {
-			MCLogger.logError("Codewind start was interrupted", e);
+			MCLogger.logError("Codewind start was interrupted", e); //$NON-NLS-1$
 			return null;
 		}
 
@@ -260,7 +259,7 @@ public class NewMicroclimateConnectionPage extends WizardPage {
 			}
 		}
 		if (connection == null) {
-			MCLogger.logError("Failed to connect to Codewind at: " + uri.toString());
+			MCLogger.logError("Failed to connect to Codewind at: " + uri.toString()); //$NON-NLS-1$
 		}
 		return connection;
 	}

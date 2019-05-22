@@ -27,7 +27,7 @@ public class MicroclimateApplicationActionProvider extends CommonActionProvider 
 	private OpenAppMonitorAction openAppMonitorAction;
 	private OpenPerfMonitorAction openPerfMonitorAction;
 	private UnbindProjectAction unbindProjectAction;
-	private DeleteProjectAction deleteProjectAction;
+//	private DeleteProjectAction deleteProjectAction;
 	
     @Override
     public void init(ICommonActionExtensionSite aSite) {
@@ -38,7 +38,7 @@ public class MicroclimateApplicationActionProvider extends CommonActionProvider 
         openAppMonitorAction = new OpenAppMonitorAction(selProvider);
         openPerfMonitorAction = new OpenPerfMonitorAction(selProvider);
         unbindProjectAction = new UnbindProjectAction(selProvider);
-        deleteProjectAction = new DeleteProjectAction(selProvider);
+//        deleteProjectAction = new DeleteProjectAction(selProvider);
     }
     
     @Override
