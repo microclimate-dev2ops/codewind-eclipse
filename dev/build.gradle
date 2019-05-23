@@ -78,7 +78,7 @@ def artifactsFolder = file(projDir + '/' + project.properties['ant.artifacts.fol
 
 def corelibFolder = file(projDir + project.properties['microclimate.core.prereqlib.folder'])
 
-// Download dependent plugins from maven repository for 'com.ibm.microclimate.core'
+// Download dependent plugins from maven repository for 'org.eclipse.codewind.core'
 task getCoreDependencies(type: Copy) {
 
     if (!corelibFolder.exists()) {
