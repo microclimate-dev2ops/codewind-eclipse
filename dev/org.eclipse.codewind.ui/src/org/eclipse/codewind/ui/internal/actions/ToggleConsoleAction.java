@@ -11,8 +11,8 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -20,17 +20,17 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
 
 /**
- * Abstract base action for toggling the display of Microclimate logs.
+ * Abstract base action for toggling the display of Codewind logs.
  */
 public abstract class ToggleConsoleAction extends Action {
 
-    protected MCEclipseApplication app;
+    protected CodewindEclipseApplication app;
     
     public ToggleConsoleAction(String label) {
     	super(label, IAction.AS_CHECK_BOX);
     }
 
-    public void setApp(MCEclipseApplication app) {
+    public void setApp(CodewindEclipseApplication app) {
         this.app = app;
 
     	if (app.isAvailable() && consoleSupported()) {
@@ -46,7 +46,7 @@ public abstract class ToggleConsoleAction extends Action {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("ToggleConsolesAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("ToggleConsolesAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 

@@ -11,8 +11,8 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.core.internal.constants.AppState;
 import org.eclipse.codewind.core.internal.constants.ProjectType;
 import org.eclipse.codewind.core.internal.constants.StartMode;
@@ -28,7 +28,7 @@ import org.eclipse.ui.actions.SelectionProviderAction;
  */
 public class AttachDebuggerAction extends SelectionProviderAction {
 	
-	MCEclipseApplication app;
+	CodewindEclipseApplication app;
 	
 	public AttachDebuggerAction(ISelectionProvider selectionProvider) {
         super(selectionProvider, Messages.AttachDebuggerLabel);
@@ -39,8 +39,8 @@ public class AttachDebuggerAction extends SelectionProviderAction {
     public void selectionChanged(IStructuredSelection sel) {
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MCEclipseApplication) {
-            	app = (MCEclipseApplication) obj;
+			if (obj instanceof CodewindEclipseApplication) {
+            	app = (CodewindEclipseApplication) obj;
             	if (app.projectType.isLanguage(ProjectType.LANGUAGE_NODEJS)) {
             		this.setText(Messages.LaunchDebugSessionLabel);
             	} else {
@@ -60,7 +60,7 @@ public class AttachDebuggerAction extends SelectionProviderAction {
     public void run() {
     	if (app == null) {
 			// should not be possible
-			MCLogger.logError("AttachDebuggerAction ran but no application was selected"); //$NON-NLS-1$
+			Logger.logError("AttachDebuggerAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 

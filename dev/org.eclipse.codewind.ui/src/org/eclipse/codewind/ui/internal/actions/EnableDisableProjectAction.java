@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -22,11 +22,11 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action for enabling/disabling a Microclimate project.  Not currently used.
+ * Action for enabling/disabling a Codewind project.  Not currently used.
  */
 public class EnableDisableProjectAction implements IObjectActionDelegate {
 
-    protected MCEclipseApplication app;
+    protected CodewindEclipseApplication app;
 
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
@@ -38,8 +38,8 @@ public class EnableDisableProjectAction implements IObjectActionDelegate {
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MCEclipseApplication) {
-            	app = (MCEclipseApplication)obj;
+            if (obj instanceof CodewindEclipseApplication) {
+            	app = (CodewindEclipseApplication)obj;
             	if (app.isAvailable()) {
                 	action.setText(Messages.DisableProjectLabel);
                 } else {
@@ -57,15 +57,15 @@ public class EnableDisableProjectAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("EnableDisableProjectAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("EnableDisableProjectAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
         try {
-			app.mcConnection.requestProjectOpenClose(app, !app.isEnabled());
+			app.connection.requestProjectOpenClose(app, !app.isEnabled());
 		} catch (Exception e) {
-			MCLogger.logError("Error initiating enable/disable for project: " + app.name, e); //$NON-NLS-1$
-			MCUtil.openDialog(true, Messages.ErrorOnEnableDisableProjectDialogTitle, e.getMessage());
+			Logger.logError("Error initiating enable/disable for project: " + app.name, e); //$NON-NLS-1$
+			CoreUtil.openDialog(true, Messages.ErrorOnEnableDisableProjectDialogTitle, e.getMessage());
 			return;
 		}
     }

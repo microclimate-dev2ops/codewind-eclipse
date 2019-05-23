@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnectionManager;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
+import org.eclipse.codewind.core.internal.connection.CodewindConnectionManager;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,11 +21,11 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action to remove a Microclimate connection.
+ * Action to remove a Codewind connection.
  */
 public class RemoveConnectionAction implements IObjectActionDelegate {
 
-	protected MicroclimateConnection connection;
+	protected CodewindConnection connection;
 
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
@@ -37,8 +37,8 @@ public class RemoveConnectionAction implements IObjectActionDelegate {
 		IStructuredSelection sel = (IStructuredSelection) selection;
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MicroclimateConnection) {
-				connection = (MicroclimateConnection) obj;
+			if (obj instanceof CodewindConnection) {
+				connection = (CodewindConnection) obj;
 				action.setEnabled(true);
 				return;
 			}
@@ -50,14 +50,14 @@ public class RemoveConnectionAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("RemoveConnectionAction ran but no connection was selected"); //$NON-NLS-1$
+			Logger.logError("RemoveConnectionAction ran but no connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
 		try {
-			MicroclimateConnectionManager.removeConnection(connection.baseUrl.toString());
+			CodewindConnectionManager.removeConnection(connection.baseUrl.toString());
 		} catch (Exception e) {
-			MCLogger.logError("Error removing connection: " + connection.baseUrl.toString(), e); //$NON-NLS-1$
+			Logger.logError("Error removing connection: " + connection.baseUrl.toString(), e); //$NON-NLS-1$
 		}
 	}
 

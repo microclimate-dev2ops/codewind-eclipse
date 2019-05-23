@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.console.MicroclimateConsoleFactory;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.console.CodewindConsoleFactory;
 import org.eclipse.codewind.core.internal.console.ProjectLogInfo;
 import org.eclipse.codewind.core.internal.console.SocketConsole;
 import org.eclipse.codewind.ui.internal.messages.Messages;
@@ -25,13 +25,13 @@ import org.eclipse.ui.console.ConsolePlugin;
  */
 public class ShowAllLogsAction extends Action {
 
-    protected MCEclipseApplication app;
+    protected CodewindEclipseApplication app;
     
     public ShowAllLogsAction() {
     	super(Messages.ShowAllLogFilesAction);
     }
 
-    public void setApp(MCEclipseApplication app) {
+    public void setApp(CodewindEclipseApplication app) {
     	this.app = app;
 
     	// Only enable if there is a log file that does not currently have a console
@@ -51,19 +51,19 @@ public class ShowAllLogsAction extends Action {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("ShowAllLogsAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("ShowAllLogsAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
         
         if (app.getLogInfos() == null || app.getLogInfos().isEmpty()) {
-        	MCLogger.logError("ShowAllLogsAction ran but there are no logs for the selected application: " + app.name); //$NON-NLS-1$
+        	Logger.logError("ShowAllLogsAction ran but there are no logs for the selected application: " + app.name); //$NON-NLS-1$
         	return;
         }
         
         // Create consoles for any log files that don't have one yet
         for (ProjectLogInfo logInfo : app.getLogInfos()) {
     		if (app.getConsole(logInfo) == null) {
-    			SocketConsole console = MicroclimateConsoleFactory.createLogFileConsole(app, logInfo);
+    			SocketConsole console = CodewindConsoleFactory.createLogFileConsole(app, logInfo);
     			ConsolePlugin.getDefault().getConsoleManager().showConsoleView(console);
     			app.addConsole(console);
     		}

@@ -14,7 +14,7 @@ package org.eclipse.codewind.core.internal.constants;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,8 +79,8 @@ public class ProjectCapabilities {
 	
 	public ProjectCapabilities(JSONObject capabilities) {
 		try {
-			if (capabilities.has(MCConstants.KEY_START_MODES)) {
-				JSONArray modes = capabilities.getJSONArray(MCConstants.KEY_START_MODES);
+			if (capabilities.has(CoreConstants.KEY_START_MODES)) {
+				JSONArray modes = capabilities.getJSONArray(CoreConstants.KEY_START_MODES);
 				for (int i = 0; i < modes.length(); i++) {
 					StartMode startMode = StartMode.getStartMode(modes.getString(i));
 					if (startMode != null) {
@@ -89,12 +89,12 @@ public class ProjectCapabilities {
 				}
 			}
 		} catch (JSONException e) {
-			MCLogger.logError("Failed to parse the start mode capabilities.", e);
+			Logger.logError("Failed to parse the start mode capabilities.", e);
 		}
 		
 		try {
-			if (capabilities.has(MCConstants.KEY_CONTROL_COMMANDS)) {
-				JSONArray commands = capabilities.getJSONArray(MCConstants.KEY_CONTROL_COMMANDS);
+			if (capabilities.has(CoreConstants.KEY_CONTROL_COMMANDS)) {
+				JSONArray commands = capabilities.getJSONArray(CoreConstants.KEY_CONTROL_COMMANDS);
 				for (int i = 0; i < commands.length(); i++) {
 					ControlCommand controlCommand = ControlCommand.getControlCommand(commands.getString(i));
 					if (controlCommand != null) {
@@ -103,7 +103,7 @@ public class ProjectCapabilities {
 				}
 			}
 		} catch (JSONException e) {
-			MCLogger.logError("Failed to parse the control command capabilities.", e);
+			Logger.logError("Failed to parse the control command capabilities.", e);
 		}
 	}
 	

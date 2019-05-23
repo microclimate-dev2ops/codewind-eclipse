@@ -13,40 +13,40 @@ package org.eclipse.codewind.core.internal.console;
 
 import java.io.IOException;
 
-import org.eclipse.codewind.core.MicroclimateCorePlugin;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
-import org.eclipse.codewind.core.internal.connection.MicroclimateSocket;
+import org.eclipse.codewind.core.CodewindCorePlugin;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CodewindApplication;
+import org.eclipse.codewind.core.internal.connection.CodewindSocket;
 import org.eclipse.codewind.core.internal.messages.Messages;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
 public class SocketConsole extends IOConsole {
 
-	public final MicroclimateApplication app;
+	public final CodewindApplication app;
 	public final ProjectLogInfo logInfo;
-	private final MicroclimateSocket socket;
+	private final CodewindSocket socket;
 
 	private IOConsoleOutputStream outputStream;
 	private boolean isInitialized = false;
 	private boolean showOnUpdate = false;
 
-	public SocketConsole(String consoleName, ProjectLogInfo logInfo, MicroclimateApplication app) {
-		super(consoleName, MicroclimateConsoleFactory.MC_CONSOLE_TYPE,
-				MicroclimateCorePlugin.getIcon(MicroclimateCorePlugin.DEFAULT_ICON_PATH),
+	public SocketConsole(String consoleName, ProjectLogInfo logInfo, CodewindApplication app) {
+		super(consoleName, CodewindConsoleFactory.CODEWIND_CONSOLE_TYPE,
+				CodewindCorePlugin.getIcon(CodewindCorePlugin.DEFAULT_ICON_PATH),
 				true);
 
 		this.app = app;
 		this.logInfo = logInfo;
 		this.outputStream = newOutputStream();
-		this.socket = app.mcConnection.getMCSocket();
+		this.socket = app.connection.getSocket();
 		socket.registerSocketConsole(this);
 
 		try {
 			this.outputStream.write(Messages.LogFileInitialMsg);
-			app.mcConnection.requestEnableLogStream(app, logInfo);
+			app.connection.requestEnableLogStream(app, logInfo);
 		} catch (IOException e) {
-			MCLogger.logError("Error opening console output stream for: " + this.getName(), e);
+			Logger.logError("Error opening console output stream for: " + this.getName(), e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class SocketConsole extends IOConsole {
 			isInitialized = true;
 		}
 
-		MCLogger.log("Appending contents to log: " + this.getName());		// $NON-NLS-1$
+		Logger.log("Appending contents to log: " + this.getName());		// $NON-NLS-1$
 		outputStream.write(contents);
 		if (showOnUpdate) {
 			activate();
@@ -65,15 +65,15 @@ public class SocketConsole extends IOConsole {
 
 	@Override
 	protected void dispose() {
-		MCLogger.log("Dispose console " + getName()); //$NON-NLS-1$
+		Logger.log("Dispose console " + getName()); //$NON-NLS-1$
 
 		socket.deregisterSocketConsole(this);
 
 		try {
-			app.mcConnection.requestDisableLogStream(app, logInfo);
+			app.connection.requestDisableLogStream(app, logInfo);
 			outputStream.close();
 		} catch (IOException e) {
-			MCLogger.logError("Error closing console output stream for: " + this.getName(), e); //$NON-NLS-1$
+			Logger.logError("Error closing console output stream for: " + this.getName(), e); //$NON-NLS-1$
 		}
 
 		super.dispose();

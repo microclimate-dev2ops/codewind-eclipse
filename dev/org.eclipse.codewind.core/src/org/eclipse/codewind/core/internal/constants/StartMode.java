@@ -13,7 +13,7 @@ package org.eclipse.codewind.core.internal.constants;
 
 import java.util.EnumSet;
 
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.json.JSONObject;
 
 /**
@@ -30,7 +30,7 @@ public enum StartMode {
 	public final String startMode;
 
 	/**
-	 * @param buildStatus - Internal build status used by Microclimate
+	 * @param buildStatus - Internal build status used by Codewind
 	 */
 	private StartMode(String startMode) {
 		this.startMode = startMode;
@@ -52,22 +52,22 @@ public enum StartMode {
 	public static StartMode get(JSONObject obj) {
 		try {
 			String mode = null;
-			if (obj.has(MCConstants.KEY_START_MODE)) {
-				mode = obj.getString(MCConstants.KEY_START_MODE);
+			if (obj.has(CoreConstants.KEY_START_MODE)) {
+				mode = obj.getString(CoreConstants.KEY_START_MODE);
 			}
 			if (mode == null) {
-				MCLogger.log("No start mode was specified on JSON object");
+				Logger.log("No start mode was specified on JSON object");
 				return StartMode.RUN;
 			} else {
 				StartMode startMode = StartMode.get(mode);
 				if (startMode == null) {
-					MCLogger.log("Unrecognized start mode: " + mode);
+					Logger.log("Unrecognized start mode: " + mode);
 					return StartMode.RUN;
 				}
 				return startMode;
 			}
 		} catch (Exception e) {
-			MCLogger.logError("Failed to get start mode", e);
+			Logger.logError("Failed to get start mode", e);
 		}
 		return StartMode.RUN;
 	}

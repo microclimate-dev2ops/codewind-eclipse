@@ -11,7 +11,7 @@
 
 package org.eclipse.codewind.test;
 
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.constants.BuildStatus;
 import org.eclipse.codewind.test.util.Condition;
 import org.eclipse.codewind.test.util.TestUtil;
@@ -53,7 +53,7 @@ public abstract class BaseValidationTest extends BaseTest {
     	TestUtil.deleteFile(path.toOSString());
     	// Wait and check that the build is still marked as successful
     	Thread.sleep(2000);
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
     	assertTrue("The application build should be successful for project: " + projectName, app.getBuildStatus() == BuildStatus.SUCCESS);
     	// Check that there are no markers
     	IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);

@@ -11,10 +11,10 @@
 
 package org.eclipse.codewind.ui.internal.wizards;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
 import org.eclipse.codewind.core.internal.constants.ProjectType;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.wizard.WizardPage;
@@ -28,12 +28,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class LanguageSelectionPage extends WizardPage {
 
-	private MicroclimateConnection connection = null;
+	private CodewindConnection connection = null;
 	private IProject project = null;
 	private String language = null;
 	private String type = null;
 
-	protected LanguageSelectionPage(MicroclimateConnection connection, IProject project) {
+	protected LanguageSelectionPage(CodewindConnection connection, IProject project) {
 		super(Messages.SelectLanguagePageName);
 		setTitle(Messages.SelectLanguagePageTitle);
 		setDescription(Messages.SelectLanguagePageDescription);
@@ -175,23 +175,23 @@ public class LanguageSelectionPage extends WizardPage {
 		TableItem item = new TableItem(languageTable, SWT.NONE);
 		item.setText("Go");
 		item.setData(ProjectType.LANGUAGE_GO);
-		item.setImage(MicroclimateUIPlugin.getImage(MicroclimateUIPlugin.GO_ICON));
+		item.setImage(CodewindUIPlugin.getImage(CodewindUIPlugin.GO_ICON));
 		item = new TableItem(languageTable, SWT.NONE);
 		item.setText("Java");
 		item.setData(ProjectType.LANGUAGE_JAVA);
-		item.setImage(MicroclimateUIPlugin.getImage(MicroclimateUIPlugin.JAVA_ICON));
+		item.setImage(CodewindUIPlugin.getImage(CodewindUIPlugin.JAVA_ICON));
 		item = new TableItem(languageTable, SWT.NONE);
 		item.setText("Node.js");
 		item.setData(ProjectType.LANGUAGE_NODEJS);
-		item.setImage(MicroclimateUIPlugin.getImage(MicroclimateUIPlugin.NODE_ICON));
+		item.setImage(CodewindUIPlugin.getImage(CodewindUIPlugin.NODE_ICON));
 		item = new TableItem(languageTable, SWT.NONE);
 		item.setText("Python");
 		item.setData(ProjectType.LANGUAGE_PYTHON);
-		item.setImage(MicroclimateUIPlugin.getImage(MicroclimateUIPlugin.PYTHON_ICON));
+		item.setImage(CodewindUIPlugin.getImage(CodewindUIPlugin.PYTHON_ICON));
 		item = new TableItem(languageTable, SWT.NONE);
 		item.setText("Swift");
 		item.setData(ProjectType.LANGUAGE_SWIFT);
-		item.setImage(MicroclimateUIPlugin.getImage(MicroclimateUIPlugin.SWIFT_ICON));
+		item.setImage(CodewindUIPlugin.getImage(CodewindUIPlugin.SWIFT_ICON));
 	}
 	
 	private void fillTypeTable(Table typeTable) {
@@ -210,7 +210,7 @@ public class LanguageSelectionPage extends WizardPage {
 		this.project = project;
 	}
 	
-	public MicroclimateConnection getConnection() {
+	public CodewindConnection getConnection() {
 		return connection;
 	}
 	
@@ -238,7 +238,7 @@ public class LanguageSelectionPage extends WizardPage {
 		try {
 			return connection.requestProjectValidate(project.getLocation().toFile().getAbsolutePath());
 		} catch (Exception e) {
-			MCLogger.logError("Could not get the project type because validate failed for project: " + project.getName()); //$NON-NLS-1$
+			Logger.logError("Could not get the project type because validate failed for project: " + project.getName()); //$NON-NLS-1$
 		}
 		return null;
 	}

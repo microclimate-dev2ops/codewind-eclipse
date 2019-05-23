@@ -30,7 +30,7 @@ import com.sun.jdi.connect.AttachingConnector;
 import com.sun.jdi.connect.Connector;
 
 /**
- * Static utilities to support launching and debugging Microclimate applications.
+ * Static utilities to support launching and debugging Codewind applications.
  */
 @SuppressWarnings("restriction")
 public class LaunchUtilities {

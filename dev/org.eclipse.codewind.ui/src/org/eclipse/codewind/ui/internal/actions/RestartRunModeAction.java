@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
 import org.eclipse.codewind.core.internal.constants.AppState;
 import org.eclipse.codewind.core.internal.constants.StartMode;
 import org.eclipse.codewind.ui.internal.messages.Messages;
@@ -28,11 +28,11 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action to restart a Microclimate application in run mode.
+ * Action to restart a Codewind application in run mode.
  */
 public class RestartRunModeAction implements IObjectActionDelegate, IViewActionDelegate, IActionDelegate2 {
 
-    protected MCEclipseApplication app;
+    protected CodewindEclipseApplication app;
 
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
@@ -44,8 +44,8 @@ public class RestartRunModeAction implements IObjectActionDelegate, IViewActionD
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MCEclipseApplication) {
-            	app = (MCEclipseApplication)obj;
+            if (obj instanceof CodewindEclipseApplication) {
+            	app = (CodewindEclipseApplication)obj;
             	if (app.isAvailable() && app.getProjectCapabilities().canRestart()) {
 		            action.setEnabled(app.getAppState() == AppState.STARTED || app.getAppState() == AppState.STARTING);
 	            	return;
@@ -60,7 +60,7 @@ public class RestartRunModeAction implements IObjectActionDelegate, IViewActionD
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("RestartRunModeAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("RestartRunModeAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -69,10 +69,10 @@ public class RestartRunModeAction implements IObjectActionDelegate, IViewActionD
         	app.clearDebugger();
         	
         	// Restart the project in run mode
-			app.mcConnection.requestProjectRestart(app, StartMode.RUN.startMode);
+			app.connection.requestProjectRestart(app, StartMode.RUN.startMode);
 		} catch (Exception e) {
-			MCLogger.logError("Error initiating restart for project: " + app.name, e); //$NON-NLS-1$
-			MCUtil.openDialog(true, Messages.ErrorOnRestartDialogTitle, e.getMessage());
+			Logger.logError("Error initiating restart for project: " + app.name, e); //$NON-NLS-1$
+			CoreUtil.openDialog(true, Messages.ErrorOnRestartDialogTitle, e.getMessage());
 			return;
 		}
     }

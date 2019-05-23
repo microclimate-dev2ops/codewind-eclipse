@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.wizards;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -31,18 +31,18 @@ public class BindProjectWizard extends Wizard implements INewWizard {
 	private ProjectSelectionPage projectPage;
 	private LanguageSelectionPage languagePage;
 	
-	private final MicroclimateConnection connection;
+	private final CodewindConnection connection;
 	private IProject project = null;
 	
 	// If a connection is passed in and no project then the project selection page will be shown
-	public BindProjectWizard(MicroclimateConnection connection) {
+	public BindProjectWizard(CodewindConnection connection) {
 		super();
 		this.connection = connection;
 		init();
 	}
 	
 	// If the project is passed in then the project selection page will not be shown
-	public BindProjectWizard(MicroclimateConnection connection, IProject project) {
+	public BindProjectWizard(CodewindConnection connection, IProject project) {
 		super();
 		this.connection = connection;
 		this.project = project;
@@ -51,7 +51,7 @@ public class BindProjectWizard extends Wizard implements INewWizard {
 	
 	private void init() {
 		setNeedsProgressMonitor(true);
-		setDefaultPageImageDescriptor(MicroclimateUIPlugin.getImageDescriptor(MicroclimateUIPlugin.MICROCLIMATE_BANNER));
+		setDefaultPageImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.MICROCLIMATE_BANNER));
 		setHelpAvailable(false);
 	}
 
@@ -102,8 +102,8 @@ public class BindProjectWizard extends Wizard implements INewWizard {
 					connection.requestProjectBind(project.getName(), project.getLocation().toFile().getAbsolutePath(), languagePage.getLanguage(), languagePage.getType());
 					return Status.OK_STATUS;
 				} catch (Exception e) {
-					MCLogger.logError("An error occured trying to add the project to Codewind: " + project.getName(), e); //$NON-NLS-1$
-					return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.BindProjectWizardError, project.getName()), e);
+					Logger.logError("An error occured trying to add the project to Codewind: " + project.getName(), e); //$NON-NLS-1$
+					return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, NLS.bind(Messages.BindProjectWizardError, project.getName()), e);
 				}
 			}
 		};

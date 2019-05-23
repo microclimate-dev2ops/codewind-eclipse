@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.console.MicroclimateConsoleFactory;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.console.CodewindConsoleFactory;
 import org.eclipse.codewind.core.internal.console.ProjectLogInfo;
 import org.eclipse.codewind.core.internal.console.SocketConsole;
 import org.eclipse.jface.action.Action;
@@ -24,14 +24,14 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.navigator.ICommonViewerSite;
 
 /**
- * Action for showing a log file for a Microclimate application
+ * Action for showing a log file for a Codewind application
  */
 public class LogFileAction extends Action {
 	
 	private final ProjectLogInfo logInfo;
-	private final MCEclipseApplication app;
+	private final CodewindEclipseApplication app;
 	
-	public LogFileAction(MCEclipseApplication app, ProjectLogInfo logInfo, ICommonViewerSite viewSite) {
+	public LogFileAction(CodewindEclipseApplication app, ProjectLogInfo logInfo, ICommonViewerSite viewSite) {
 		super(logInfo.logName, IAction.AS_CHECK_BOX);
     	this.logInfo = logInfo;
     	this.app = app;
@@ -42,12 +42,12 @@ public class LogFileAction extends Action {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("LogFileAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("LogFileAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
         if (isChecked()) {
-    		SocketConsole console = MicroclimateConsoleFactory.createLogFileConsole(app, logInfo);
+    		SocketConsole console = CodewindConsoleFactory.createLogFileConsole(app, logInfo);
 			ConsolePlugin.getDefault().getConsoleManager().showConsoleView(console);
 			app.addConsole(console);
         } else {

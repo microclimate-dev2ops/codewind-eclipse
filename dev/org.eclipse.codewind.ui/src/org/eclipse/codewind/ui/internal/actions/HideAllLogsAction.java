@@ -11,8 +11,8 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.core.internal.console.ProjectLogInfo;
 import org.eclipse.codewind.core.internal.console.SocketConsole;
 import org.eclipse.codewind.ui.internal.messages.Messages;
@@ -26,13 +26,13 @@ import org.eclipse.ui.console.IConsoleManager;
  */
 public class HideAllLogsAction extends Action {
 
-    protected MCEclipseApplication app;
+    protected CodewindEclipseApplication app;
     
     public HideAllLogsAction() {
     	super(Messages.HideAllLogFilesAction);
     }
 
-    public void setApp(MCEclipseApplication app) {
+    public void setApp(CodewindEclipseApplication app) {
         this.app = app;
 
     	// Only enable if there is at least one log file that has a console
@@ -52,12 +52,12 @@ public class HideAllLogsAction extends Action {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("HideAllLogsAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("HideAllLogsAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
         
         if (app.getLogInfos() == null || app.getLogInfos().isEmpty()) {
-        	MCLogger.logError("HideAllLogsAction ran but there are no logs for the selected application: " + app.name); //$NON-NLS-1$
+        	Logger.logError("HideAllLogsAction ran but there are no logs for the selected application: " + app.name); //$NON-NLS-1$
         	return;
         }
         

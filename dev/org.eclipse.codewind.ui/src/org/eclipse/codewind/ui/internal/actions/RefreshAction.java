@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CodewindApplication;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.codewind.ui.internal.views.ViewHelper;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -28,12 +28,12 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Refresh action for a Microclimate connection or application.  This retrieves the
+ * Refresh action for a Codewind connection or application.  This retrieves the
  * latest information for the object from Microcliamte and updates the view.
  */
 public class RefreshAction implements IObjectActionDelegate {
 
-    protected Object microclimateObject;
+    protected Object codewindObject;
 
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
@@ -45,8 +45,8 @@ public class RefreshAction implements IObjectActionDelegate {
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MicroclimateConnection || obj instanceof MicroclimateApplication) {
-            	microclimateObject = obj;
+            if (obj instanceof CodewindConnection || obj instanceof CodewindApplication) {
+            	codewindObject = obj;
             	action.setEnabled(true);
             	return;
             }
@@ -56,31 +56,31 @@ public class RefreshAction implements IObjectActionDelegate {
 
     @Override
     public void run(IAction action) {
-        if (microclimateObject instanceof MicroclimateConnection) {
-        	final MicroclimateConnection connection = (MicroclimateConnection) microclimateObject;
+        if (codewindObject instanceof CodewindConnection) {
+        	final CodewindConnection connection = (CodewindConnection) codewindObject;
         	Job job = new Job(NLS.bind(Messages.RefreshConnectionJobLabel, connection.baseUrl.toString())) {
     			@Override
     			protected IStatus run(IProgressMonitor monitor) {
 		        	connection.refreshApps(null);
-		        	ViewHelper.refreshMicroclimateExplorerView(connection);
+		        	ViewHelper.refreshCodewindExplorerView(connection);
 		        	return Status.OK_STATUS;
     			}
     		};
     		job.schedule();
-        } else if (microclimateObject instanceof MicroclimateApplication) {
-        	final MicroclimateApplication app = (MicroclimateApplication) microclimateObject;
+        } else if (codewindObject instanceof CodewindApplication) {
+        	final CodewindApplication app = (CodewindApplication) codewindObject;
         	Job job = new Job(NLS.bind(Messages.RefreshProjectJobLabel, app.name)) {
     			@Override
     			protected IStatus run(IProgressMonitor monitor) {
-    				app.mcConnection.refreshApps(app.projectID);
-    				ViewHelper.refreshMicroclimateExplorerView(app);
+    				app.connection.refreshApps(app.projectID);
+    				ViewHelper.refreshCodewindExplorerView(app);
 		        	return Status.OK_STATUS;
     			}
     		};
     		job.schedule();
         } else {
         	// Should not happen
-        	MCLogger.logError("RefreshAction ran but no Microclimate object was selected"); //$NON-NLS-1$
+        	Logger.logError("RefreshAction ran but no Codewind object was selected"); //$NON-NLS-1$
         }
     }
 

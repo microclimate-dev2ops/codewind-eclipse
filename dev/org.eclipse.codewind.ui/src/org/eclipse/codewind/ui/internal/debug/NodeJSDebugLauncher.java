@@ -15,13 +15,13 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.codewind.core.MicroclimateCorePlugin;
+import org.eclipse.codewind.core.CodewindCorePlugin;
 import org.eclipse.codewind.core.internal.HttpUtil;
 import org.eclipse.codewind.core.internal.IDebugLauncher;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.HttpUtil.HttpResult;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -42,7 +42,7 @@ public class NodeJSDebugLauncher implements IDebugLauncher {
 	private static final String DEBUG_INFO = "/json/list";
 	private static final String DEVTOOLS_URL_FIELD = "devtoolsFrontendUrl";
 	
-	public IStatus launchDebugger(MicroclimateApplication app) {
+	public IStatus launchDebugger(CodewindApplication app) {
 		String urlString = null;
 		Exception e = null;
 		try {
@@ -51,14 +51,14 @@ public class NodeJSDebugLauncher implements IDebugLauncher {
 			e = e1;
 		}
 		if (urlString == null) {
-			MCLogger.logError("Failed to get the debug URL for the " + app.name + " application.", e); //$NON-NLS-1$ //$NON-NLS-2$
-			return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.NodeJSDebugURLError, app.name), e);
+			Logger.logError("Failed to get the debug URL for the " + app.name + " application.", e); //$NON-NLS-1$ //$NON-NLS-2$
+			return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, NLS.bind(Messages.NodeJSDebugURLError, app.name), e);
 		}
 		return openNodeJSDebugger(urlString);
 	}
 	
 	@Override
-	public boolean canAttachDebugger(MicroclimateApplication app) {
+	public boolean canAttachDebugger(CodewindApplication app) {
 		String host = app.host;
 		int debugPort = app.getDebugPort();
 		
@@ -78,15 +78,15 @@ public class NodeJSDebugLauncher implements IDebugLauncher {
 				}
 			}
 		} catch (Exception e) {
-			MCLogger.log("Failed to retrieve the debug information for the " + app.name + " app: " + e.getMessage()); //$NON-NLS-1$  //$NON-NLS-2$
+			Logger.log("Failed to retrieve the debug information for the " + app.name + " app: " + e.getMessage()); //$NON-NLS-1$  //$NON-NLS-2$
 		}
 		
 		return false;
 	}
 
-	private String getDebugURL(MicroclimateApplication app) throws Exception {
-		IPreferenceStore prefs = MicroclimateCorePlugin.getDefault().getPreferenceStore();
-		int debugTimeout = prefs.getInt(MicroclimateCorePlugin.DEBUG_CONNECT_TIMEOUT_PREFSKEY);
+	private String getDebugURL(CodewindApplication app) throws Exception {
+		IPreferenceStore prefs = CodewindCorePlugin.getDefault().getPreferenceStore();
+		int debugTimeout = prefs.getInt(CodewindCorePlugin.DEBUG_CONNECT_TIMEOUT_PREFSKEY);
 		
 		String host = app.host;
 		int debugPort = app.getDebugPort();
@@ -126,9 +126,9 @@ public class NodeJSDebugLauncher implements IDebugLauncher {
 		}
 		
 		if (result != null && !result.isGoodResponse) {
-		    MCLogger.logError("Error getting debug information for the " + app.name + " application. Error code: " + result.responseCode + ", error: " + result.error + "."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		    Logger.logError("Error getting debug information for the " + app.name + " application. Error code: " + result.responseCode + ", error: " + result.error + "."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} else {
-			MCLogger.logError("An exception occurred trying to retrieve the debug information for the " + app.name + " application.", e); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.logError("An exception occurred trying to retrieve the debug information for the " + app.name + " application.", e); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
 		if (e != null) {
@@ -138,10 +138,10 @@ public class NodeJSDebugLauncher implements IDebugLauncher {
 	}
 	
 	private IStatus openNodeJSDebugger(final String chromeDevToolsUrl) {
-		IPreferenceStore prefs = MicroclimateCorePlugin.getDefault().getPreferenceStore();
-		String browserName = prefs.getString(MicroclimateCorePlugin.NODEJS_DEBUG_BROWSER_PREFSKEY);
+		IPreferenceStore prefs = CodewindCorePlugin.getDefault().getPreferenceStore();
+		String browserName = prefs.getString(CodewindCorePlugin.NODEJS_DEBUG_BROWSER_PREFSKEY);
 		if (browserName != null){
-			MCLogger.log("Using the " + browserName + " browser from the preferences.");  //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.log("Using the " + browserName + " browser from the preferences.");  //$NON-NLS-1$ //$NON-NLS-2$
 			// If the previously saved browser is not valid, so load the message dialog again
 			if (!foundValidBrowser(browserName)){
 				browserName = null;
@@ -170,8 +170,8 @@ public class NodeJSDebugLauncher implements IDebugLauncher {
 						boolean isNodejsDefaultBrowserSet = browserSelection.isNodejsDefaultBrowserSet();
 						if (isNodejsDefaultBrowserSet) {
 							if (browserSelection.getBrowserName() != null) {
-								IPreferenceStore prefs = MicroclimateCorePlugin.getDefault().getPreferenceStore();
-								prefs.setValue(MicroclimateCorePlugin.NODEJS_DEBUG_BROWSER_PREFSKEY, browserSelection.getBrowserName());
+								IPreferenceStore prefs = CodewindCorePlugin.getDefault().getPreferenceStore();
+								prefs.setValue(CodewindCorePlugin.NODEJS_DEBUG_BROWSER_PREFSKEY, browserSelection.getBrowserName());
 					        }
 						}
 					}

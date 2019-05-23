@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -123,13 +123,13 @@ final String url;
 	}
 
 	protected void launchWebBrowser(String browserName, String urlStr) {
-		MCLogger.log("Launch web browser " + browserName + " with url: " + url); //$NON-NLS-1$ //$NON-NLS-2$
+		Logger.log("Launch web browser " + browserName + " with url: " + url); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		URL url = null;
 		try {
 			url = new URL(urlStr);
 		} catch (MalformedURLException e1) {
-			MCLogger.logError("Could not create a url for the string: " + urlStr, e1);
+			Logger.logError("Could not create a url for the string: " + urlStr, e1);
 			return;
 		}
 
@@ -155,7 +155,7 @@ final String url;
 			try {
 				ebi.openURL(url);
 			} catch (Exception e) {
-				MCLogger.logError("Could not launch the browser for Node.js debugging", e); //$NON-NLS-1$
+				Logger.logError("Could not launch the browser for Node.js debugging", e); //$NON-NLS-1$
 			}
 		}
 	}

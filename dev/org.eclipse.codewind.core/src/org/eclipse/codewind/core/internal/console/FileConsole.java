@@ -15,8 +15,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.eclipse.codewind.core.MicroclimateCorePlugin;
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.CodewindCorePlugin;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
@@ -27,8 +27,8 @@ public class FileConsole extends IOConsole {
 	private final IOConsoleOutputStream outputStream;
 
 	public FileConsole(String consoleName, IPath logFilePath) throws FileNotFoundException {
-		super(consoleName, MicroclimateConsoleFactory.MC_CONSOLE_TYPE,
-				MicroclimateCorePlugin.getIcon(MicroclimateCorePlugin.DEFAULT_ICON_PATH),
+		super(consoleName, CodewindConsoleFactory.CODEWIND_CONSOLE_TYPE,
+				CodewindCorePlugin.getIcon(CodewindCorePlugin.DEFAULT_ICON_PATH),
 				true);
 
 		File logFile = new File(logFilePath.toOSString());
@@ -43,14 +43,14 @@ public class FileConsole extends IOConsole {
 
 	@Override
 	protected void dispose() {
-		MCLogger.log("Dispose console " + getName()); //$NON-NLS-1$
+		Logger.log("Dispose console " + getName()); //$NON-NLS-1$
 
 		logMonitorThread.disable();
 		logMonitorThread.interrupt();
 		try {
 			outputStream.close();
 		} catch (IOException e) {
-			MCLogger.logError("Error closing console output stream", e); //$NON-NLS-1$
+			Logger.logError("Error closing console output stream", e); //$NON-NLS-1$
 		}
 
 		super.dispose();

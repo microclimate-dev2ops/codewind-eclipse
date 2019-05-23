@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Codewind UI Plugin
 Bundle-SymbolicName: org.eclipse.codewind.ui;singleton:=true
 Bundle-Version: 1.1.3.qualifier
-Bundle-Activator: org.eclipse.codewind.ui.MicroclimateUIPlugin
+Bundle-Activator: org.eclipse.codewind.ui.CodewindUIPlugin
 Bundle-Vendor: IBM
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,

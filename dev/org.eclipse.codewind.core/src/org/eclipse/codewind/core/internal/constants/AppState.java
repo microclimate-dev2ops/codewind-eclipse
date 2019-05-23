@@ -11,7 +11,7 @@
 
 package org.eclipse.codewind.core.internal.constants;
 
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.core.internal.messages.Messages;
 
 public enum AppState {
@@ -26,7 +26,7 @@ public enum AppState {
 	public final String displayString;
 
 	/**
-	 * @param appState - App state used by Microclimate
+	 * @param appState - App state used by Codewind
 	 */
 	private AppState(String appState, String displayString) {
 		this.appState = appState;
@@ -39,7 +39,7 @@ public enum AppState {
 				return state;
 			}
 		}
-		MCLogger.logError("Unrecognized application state: " + appState);
+		Logger.logError("Unrecognized application state: " + appState);
 		return AppState.UNKNOWN;
 	}
 

@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.IStatus;
 
 public interface IDebugLauncher {
 	
-	public IStatus launchDebugger(MicroclimateApplication app);
+	public IStatus launchDebugger(CodewindApplication app);
 	
-	public boolean canAttachDebugger(MicroclimateApplication app);
+	public boolean canAttachDebugger(CodewindApplication app);
 	
 }

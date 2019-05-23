@@ -12,30 +12,30 @@
 package org.eclipse.codewind.ui.internal.views;
 
 import org.eclipse.codewind.core.internal.IUpdateHandler;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
+import org.eclipse.codewind.core.internal.CodewindApplication;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
 
 /**
- * Update handler registered on the Microclimate core plug-in in order to keep
- * the Microclimate view up to date.
+ * Update handler registered on the Codewind core plug-in in order to keep
+ * the Codewind view up to date.
  */
 public class UpdateHandler implements IUpdateHandler {
 	
 	@Override
 	public void updateAll() {
-		ViewHelper.refreshMicroclimateExplorerView(null);
+		ViewHelper.refreshCodewindExplorerView(null);
 	}
 
 	@Override
-	public void updateConnection(MicroclimateConnection connection) {
-		ViewHelper.refreshMicroclimateExplorerView(connection);
+	public void updateConnection(CodewindConnection connection) {
+		ViewHelper.refreshCodewindExplorerView(connection);
 		ViewHelper.expandConnection(connection);
 	}
 
 	@Override
-	public void updateApplication(MicroclimateApplication application) {
-		ViewHelper.refreshMicroclimateExplorerView(application);
-		ViewHelper.expandConnection(application.mcConnection);
+	public void updateApplication(CodewindApplication application) {
+		ViewHelper.refreshCodewindExplorerView(application);
+		ViewHelper.expandConnection(application.connection);
 	}
 
 }

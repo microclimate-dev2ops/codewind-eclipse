@@ -11,11 +11,11 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.constants.BuildStatus;
-import org.eclipse.codewind.core.internal.constants.MCConstants;
+import org.eclipse.codewind.core.internal.constants.CoreConstants;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -29,7 +29,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class StartBuildAction implements IObjectActionDelegate {
 
-	protected MicroclimateApplication app;
+	protected CodewindApplication app;
 
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
@@ -41,8 +41,8 @@ public class StartBuildAction implements IObjectActionDelegate {
 		IStructuredSelection sel = (IStructuredSelection) selection;
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MicroclimateApplication) {
-				app = (MicroclimateApplication) obj;
+			if (obj instanceof CodewindApplication) {
+				app = (CodewindApplication) obj;
 				if (app.isAvailable() && app.getBuildStatus() != BuildStatus.IN_PROGRESS && app.getBuildStatus() != BuildStatus.QUEUED) {
 					action.setEnabled(true);
 					return;
@@ -56,15 +56,15 @@ public class StartBuildAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		if (app == null) {
 			// should not be possible
-			MCLogger.logError("StartBuildAction ran but no application was selected"); //$NON-NLS-1$
+			Logger.logError("StartBuildAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
 		try {
-			app.mcConnection.requestProjectBuild(app, MCConstants.VALUE_ACTION_BUILD);
+			app.connection.requestProjectBuild(app, CoreConstants.VALUE_ACTION_BUILD);
 		} catch (Exception e) {
-			MCLogger.logError("Error requesting build for application: " + app.name, e); //$NON-NLS-1$
-			MCUtil.openDialog(true, NLS.bind(Messages.StartBuildError, app.name), e.getMessage());
+			Logger.logError("Error requesting build for application: " + app.name, e); //$NON-NLS-1$
+			CoreUtil.openDialog(true, NLS.bind(Messages.StartBuildError, app.name), e.getMessage());
 			return;
 		}
 	}

@@ -11,7 +11,7 @@
 
 package org.eclipse.codewind.core.internal.constants;
 
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.core.internal.messages.Messages;
 
 public enum BuildStatus {
@@ -28,7 +28,7 @@ public enum BuildStatus {
 	public final String displayString;
 
 	/**
-	 * @param buildStatus - Internal build status used by Microclimate
+	 * @param buildStatus - Internal build status used by Codewind
 	 */
 	private BuildStatus(String buildStatus, String displayString) {
 		this.status = buildStatus;
@@ -44,7 +44,7 @@ public enum BuildStatus {
 				return status;
 			}
 		}
-		MCLogger.logError("Unrecognized application state: " + buildStatus);
+		Logger.logError("Unrecognized application state: " + buildStatus);
 		return BuildStatus.UNKOWN;
 	}
 	

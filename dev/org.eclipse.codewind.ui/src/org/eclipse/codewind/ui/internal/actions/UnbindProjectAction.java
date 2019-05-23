@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -25,7 +25,7 @@ import org.eclipse.ui.actions.SelectionProviderAction;
  */
 public class UnbindProjectAction extends SelectionProviderAction {
 	
-	MCEclipseApplication app;
+	CodewindEclipseApplication app;
 	
 	public UnbindProjectAction(ISelectionProvider selectionProvider) {
 		super(selectionProvider, Messages.UnbindActionLabel);
@@ -36,8 +36,8 @@ public class UnbindProjectAction extends SelectionProviderAction {
 	public void selectionChanged(IStructuredSelection sel) {
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MCEclipseApplication) {
-				app = (MCEclipseApplication) obj;
+			if (obj instanceof CodewindEclipseApplication) {
+				app = (CodewindEclipseApplication) obj;
 				setEnabled(true);
 				return;
 			}
@@ -49,15 +49,15 @@ public class UnbindProjectAction extends SelectionProviderAction {
 	public void run() {
 		if (app == null) {
 			// should not be possible
-			MCLogger.logError("UnbindProjectAction ran but no application was selected"); //$NON-NLS-1$
+			Logger.logError("UnbindProjectAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 		
 		try {
-			app.mcConnection.requestProjectUnbind(app.projectID);
+			app.connection.requestProjectUnbind(app.projectID);
 		} catch (Exception e) {
-			MCLogger.logError("Error requesting application remove: " + app.name, e); //$NON-NLS-1$
-			MCUtil.openDialog(true, NLS.bind(Messages.UnbindActionError, app.name), e.getMessage());
+			Logger.logError("Error requesting application remove: " + app.name, e); //$NON-NLS-1$
+			CoreUtil.openDialog(true, NLS.bind(Messages.UnbindActionError, app.name), e.getMessage());
 			return;
 		}
 	}

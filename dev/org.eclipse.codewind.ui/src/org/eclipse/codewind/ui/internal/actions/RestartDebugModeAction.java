@@ -11,13 +11,13 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
 import org.eclipse.codewind.core.internal.constants.AppState;
 import org.eclipse.codewind.core.internal.constants.ProjectType;
 import org.eclipse.codewind.core.internal.constants.StartMode;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -41,11 +41,11 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action to restart a Microclimate application in debug mode.
+ * Action to restart a Codewind application in debug mode.
  */
 public class RestartDebugModeAction implements IObjectActionDelegate, IViewActionDelegate, IActionDelegate2 {
 
-    protected MCEclipseApplication app;
+    protected CodewindEclipseApplication app;
 
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
@@ -57,8 +57,8 @@ public class RestartDebugModeAction implements IObjectActionDelegate, IViewActio
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MCEclipseApplication) {
-            	app = (MCEclipseApplication)obj;
+            if (obj instanceof CodewindEclipseApplication) {
+            	app = (CodewindEclipseApplication)obj;
             	if (app.isAvailable() && app.supportsDebug()) {
 		            action.setEnabled(app.getAppState() == AppState.STARTED || app.getAppState() == AppState.STARTING);
 	            	return;
@@ -73,7 +73,7 @@ public class RestartDebugModeAction implements IObjectActionDelegate, IViewActio
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("RestartDebugModeAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("RestartDebugModeAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
         
@@ -103,7 +103,7 @@ public class RestartDebugModeAction implements IObjectActionDelegate, IViewActio
 	        					project.open(monitor);
 	        					return Status.OK_STATUS;
 	        				} catch (CoreException e) {
-	        					return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID,
+	        					return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID,
 	        							NLS.bind(Messages.ProjectOpenError, app.name), e);
 	        				}
 	        			}
@@ -122,20 +122,20 @@ public class RestartDebugModeAction implements IObjectActionDelegate, IViewActio
         	app.clearDebugger();
         	
         	// Restart the project in debug mode. The debugger will be attached when the restart result
-        	// event is received from Microclimate.
+        	// event is received from Codewind.
         	// Try debug mode first since it allows debug of initialization.  If not supported use
         	// debugNoInit mode.
         	if (app.getProjectCapabilities().supportsDebugMode()) {
-        		app.mcConnection.requestProjectRestart(app, StartMode.DEBUG.startMode);
+        		app.connection.requestProjectRestart(app, StartMode.DEBUG.startMode);
         	} else if (app.getProjectCapabilities().supportsDebugNoInitMode()) {
-        		app.mcConnection.requestProjectRestart(app, StartMode.DEBUG_NO_INIT.startMode);
+        		app.connection.requestProjectRestart(app, StartMode.DEBUG_NO_INIT.startMode);
         	} else {
         		// Should never get here
-        		MCLogger.logError("Project restart in debug mode requested but project does not support any debug modes: " + app.name); //$NON-NLS-1$
+        		Logger.logError("Project restart in debug mode requested but project does not support any debug modes: " + app.name); //$NON-NLS-1$
         	}
 		} catch (Exception e) {
-			MCLogger.logError("Error initiating restart for project: " + app.name, e); //$NON-NLS-1$
-			MCUtil.openDialog(true, Messages.ErrorOnRestartDialogTitle, e.getMessage());
+			Logger.logError("Error initiating restart for project: " + app.name, e); //$NON-NLS-1$
+			CoreUtil.openDialog(true, Messages.ErrorOnRestartDialogTitle, e.getMessage());
 			return;
 		}
     }
@@ -155,7 +155,7 @@ public class RestartDebugModeAction implements IObjectActionDelegate, IViewActio
 			public void run() {
 				Shell shell = Display.getDefault().getActiveShell();
 				String[] buttonLabels = new String[] {Messages.DialogYesButton, Messages.DialogNoButton, Messages.DialogCancelButton};
-				MessageDialog dialog = new MessageDialog(shell, title, MicroclimateUIPlugin.getImage(MicroclimateUIPlugin.MICROCLIMATE_ICON),
+				MessageDialog dialog = new MessageDialog(shell, title, CodewindUIPlugin.getImage(CodewindUIPlugin.MICROCLIMATE_ICON),
 						msg, MessageDialog.QUESTION, buttonLabels, 0);
 				result[0] = dialog.open();
 			}

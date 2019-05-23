@@ -11,10 +11,10 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
-import org.eclipse.codewind.core.internal.constants.MCConstants;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
+import org.eclipse.codewind.core.internal.constants.CoreConstants;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -23,11 +23,11 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action for enabling/disabling auto build on a Microclimate project.
+ * Action for enabling/disabling auto build on a Codewind project.
  */
 public class EnableDisableAutoBuildAction implements IObjectActionDelegate {
 
-    protected MCEclipseApplication app;
+    protected CodewindEclipseApplication app;
 
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
@@ -39,8 +39,8 @@ public class EnableDisableAutoBuildAction implements IObjectActionDelegate {
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MCEclipseApplication) {
-            	app = (MCEclipseApplication)obj;
+            if (obj instanceof CodewindEclipseApplication) {
+            	app = (CodewindEclipseApplication)obj;
             	if (app.isAvailable()) {
 	            	if (app.isAutoBuild()) {
 	                	action.setText(Messages.DisableAutoBuildLabel);
@@ -60,17 +60,17 @@ public class EnableDisableAutoBuildAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("EnableDisableAutoBuildAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("EnableDisableAutoBuildAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
         try {
-        	String actionKey = app.isAutoBuild() ? MCConstants.VALUE_ACTION_DISABLEAUTOBUILD : MCConstants.VALUE_ACTION_ENABLEAUTOBUILD;
-			app.mcConnection.requestProjectBuild(app, actionKey);
+        	String actionKey = app.isAutoBuild() ? CoreConstants.VALUE_ACTION_DISABLEAUTOBUILD : CoreConstants.VALUE_ACTION_ENABLEAUTOBUILD;
+			app.connection.requestProjectBuild(app, actionKey);
 			app.setAutoBuild(!app.isAutoBuild());
 		} catch (Exception e) {
-			MCLogger.logError("Error initiating enable/disable for project: " + app.name, e); //$NON-NLS-1$
-			MCUtil.openDialog(true, Messages.ErrorOnEnableDisableAutoBuildDialogTitle, e.getMessage());
+			Logger.logError("Error initiating enable/disable for project: " + app.name, e); //$NON-NLS-1$
+			CoreUtil.openDialog(true, Messages.ErrorOnEnableDisableAutoBuildDialogTitle, e.getMessage());
 			return;
 		}
     }

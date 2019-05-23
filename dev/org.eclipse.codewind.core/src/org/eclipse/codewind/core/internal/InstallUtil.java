@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
-import org.eclipse.codewind.core.MicroclimateCorePlugin;
+import org.eclipse.codewind.core.CodewindCorePlugin;
 import org.eclipse.codewind.core.internal.PlatformUtil.OperatingSystem;
 import org.eclipse.codewind.core.internal.ProcessHelper.ProcessResult;
 import org.eclipse.core.runtime.FileLocator;
@@ -100,7 +100,7 @@ public class InstallUtil {
 		String relPath = installMap.get(os);
 		if (relPath == null) {
 			String msg = "Failed to get the relative path for the install executable";
-			MCLogger.logError(msg);
+			Logger.logError(msg);
 			throw new IOException(msg);
 		}
 		
@@ -108,7 +108,7 @@ public class InstallUtil {
 		String installerDir = getInstallerDir();
 		if (!FileUtil.makeDir(installerDir)) {
 			String msg = "Failed to make the directory for the installer utility: " + installerDir;
-			MCLogger.logError(msg);
+			Logger.logError(msg);
 			throw new IOException(msg);
 		}
 		
@@ -119,7 +119,7 @@ public class InstallUtil {
 		InputStream stream = null;
 		String execPath = installerDir + File.separator + execName;
 		try {
-			stream = FileLocator.openStream(MicroclimateCorePlugin.getDefault().getBundle(), new Path(relPath), false);
+			stream = FileLocator.openStream(CodewindCorePlugin.getDefault().getBundle(), new Path(relPath), false);
 			FileUtil.copyFile(stream, execPath);
 			if (PlatformUtil.getOS() != PlatformUtil.OperatingSystem.WINDOWS) {
 				Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxr-xr-x");
@@ -139,7 +139,7 @@ public class InstallUtil {
 	}
 	
 	private static String getInstallerDir() {
-		IPath stateLoc = MicroclimateCorePlugin.getDefault().getStateLocation();
+		IPath stateLoc = CodewindCorePlugin.getDefault().getStateLocation();
 		return stateLoc.append(INSTALLER_DIR).toOSString();
 	}
 

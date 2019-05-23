@@ -11,7 +11,7 @@
 
 package org.eclipse.codewind.core.internal.console;
 
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,10 +50,10 @@ public class ProjectTemplateInfo {
 			try {
 				value = projectInfo.getString(key);
 			} catch (JSONException e) {
-				MCLogger.logError("An error occurred retrieving the value from the project template object for key: " + key, e);
+				Logger.logError("An error occurred retrieving the value from the project template object for key: " + key, e);
 			}
 		} else {
-			MCLogger.logError("The project template object did not have the expected key: " + key);
+			Logger.logError("The project template object did not have the expected key: " + key);
 		}
 		return value;
 	}

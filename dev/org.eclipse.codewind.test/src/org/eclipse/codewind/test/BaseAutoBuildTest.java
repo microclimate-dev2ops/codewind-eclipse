@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.test;
 
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.constants.AppState;
-import org.eclipse.codewind.test.util.MicroclimateUtil;
+import org.eclipse.codewind.test.util.CodewindUtil;
 import org.eclipse.codewind.test.util.TestUtil;
 import org.eclipse.core.runtime.IPath;
 import org.junit.FixMethodOrder;
@@ -50,10 +50,10 @@ public abstract class BaseAutoBuildTest extends BaseTest {
     	pingApp(text1);
     	// Run a build
     	build();
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
     	// For Java builds the states can go by quickly so don't do an assert on this
-    	MicroclimateUtil.waitForAppState(app, AppState.STOPPED, 120, 1);
-    	assertTrue("App should be in started state", MicroclimateUtil.waitForAppState(app, AppState.STARTED, 120, 1));
+    	CodewindUtil.waitForAppState(app, AppState.STOPPED, 120, 1);
+    	assertTrue("App should be in started state", CodewindUtil.waitForAppState(app, AppState.STARTED, 120, 1));
     	// Check for the new text
     	pingApp(text2);
     }
@@ -70,10 +70,10 @@ public abstract class BaseAutoBuildTest extends BaseTest {
     	TestUtil.updateFile(path.toOSString(), text2, text3);
     	// Check that build is started automatically
     	buildIfWindows();
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
     	// For Java builds the states can go by quickly so don't do an assert on this
-    	MicroclimateUtil.waitForAppState(app, AppState.STOPPED, 120, 1);
-    	assertTrue("App should be in started state", MicroclimateUtil.waitForAppState(app, AppState.STARTED, 120, 1));
+    	CodewindUtil.waitForAppState(app, AppState.STOPPED, 120, 1);
+    	assertTrue("App should be in started state", CodewindUtil.waitForAppState(app, AppState.STARTED, 120, 1));
     	// Check for the new text
     	pingApp(text3);
     }
