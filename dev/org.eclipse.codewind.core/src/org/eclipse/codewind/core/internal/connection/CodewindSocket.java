@@ -390,8 +390,8 @@ public class CodewindSocket {
 		if (!CoreConstants.REQUEST_STATUS_SUCCESS.equalsIgnoreCase(status)) {
 			Logger.logError("Project restart failed on the application: " + event.toString()); //$NON-NLS-1$
 			CoreUtil.openDialog(true,
-					Messages.MicroclimateSocket_ErrRestartingProjectDialogTitle,
-					NLS.bind(Messages.MicroclimateSocket_ErrRestartingProjectDialogMsg,
+					Messages.Socket_ErrRestartingProjectDialogTitle,
+					NLS.bind(Messages.Socket_ErrRestartingProjectDialogMsg,
 							app.name, status));
 			return;
 		}

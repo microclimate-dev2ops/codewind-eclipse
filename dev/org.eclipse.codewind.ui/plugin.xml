@@ -47,10 +47,10 @@
 	<extension point="org.eclipse.ui.views"> 
 		<category
 			id="org.eclipse.codewind.ui.views"
-			name="%MICROCLIMATE_CATEGORY_NAME"/>
+			name="%CODEWIND_CATEGORY_NAME"/>
 		<view
 			id="org.eclipse.codewind.ui.explorerView"
-			name="%MICROCLIMATE_VIEW_NAME"
+			name="%CODEWIND_VIEW_NAME"
 			category="org.eclipse.codewind.ui.views"
 			allowMultiple="false"
 			icon="%DEFAULT_ICON_PATH"
@@ -244,7 +244,7 @@
 	<extension point="org.eclipse.ui.newWizards">
 		<category
 			id = "org.eclipse.codewind.ui.new"
-			name="%MICROCLIMATE_CATEGORY_NAME">
+			name="%CODEWIND_CATEGORY_NAME">
 		</category>
 		<wizard
 			id="com.ibm.microcliamte.ui.wizards.newConnection"

@@ -19,9 +19,7 @@ public class CoreConstants {
 
 			BUILD_LOG_SHORTNAME = "build.log",
 
-			MC_SERVER_BASE_NAME = "Codewind Project - ",
-
-			// Version string returned by development builds of MC
+			// Version string returned by development builds of Codewind
 			VERSION_LATEST = "latest",
 
 			// Portal API endpoints
@@ -79,8 +77,8 @@ public class CoreConstants {
 			KEY_AUTO_BUILD = "autoBuild",
 
 			KEY_ENV_WORKSPACE_LOC = "workspace_location",
-			KEY_ENV_MC_VERSION = "microclimate_version",
-			KEY_ENV_MC_SOCKET_NAMESPACE = "socket_namespace",
+			KEY_ENV_VERSION = "microclimate_version",
+			KEY_ENV_SOCKET_NAMESPACE = "socket_namespace",
 
 			KEY_LANGUAGE = "language",
 			KEY_FRAMEWORK = "framework",
@@ -140,8 +138,7 @@ public class CoreConstants {
 
 			;
 
-	// Microclimate 18.12 is required as earlier versions are missing needed APIs.
 	public static final int
-			REQUIRED_MC_VERSION = 1812;
+			REQUIRED_CODEWIND_VERSION = 1812;
 
 }

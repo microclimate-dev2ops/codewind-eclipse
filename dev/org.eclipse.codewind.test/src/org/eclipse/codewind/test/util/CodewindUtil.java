@@ -60,7 +60,7 @@ public class CodewindUtil {
 			}
 		}
 		
-		// Delete the projects from Microclimate
+		// Delete the projects from Codewind
 		List<CodewindApplication> apps = connection.getApps();
 		for (CodewindApplication app: apps) {
 			connection.requestProjectDelete(app.projectID);

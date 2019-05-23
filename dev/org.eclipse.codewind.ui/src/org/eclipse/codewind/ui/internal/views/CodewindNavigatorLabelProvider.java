@@ -45,15 +45,15 @@ public class CodewindNavigatorLabelProvider extends LabelProvider implements ISt
 	public String getText(Object element) {
 		if (element instanceof CodewindConnection) {
 			CodewindConnection connection = (CodewindConnection)element;
-			String text = Messages.MicroclimateConnectionLabel + " " + connection.baseUrl;
+			String text = Messages.CodewindConnectionLabel + " " + connection.baseUrl;
 			if (!connection.isConnected()) {
 				String errorMsg = connection.getConnectionErrorMsg();
 				if (errorMsg == null) {
-					errorMsg = Messages.MicroclimateDisconnected;
+					errorMsg = Messages.CodewindDisconnected;
 				}
 				text = text + " (" + errorMsg + ")";
 			} else if (connection.getApps().size() == 0) {
-				text = text + " (" + Messages.MicroclimateConnectionNoProjects + ")";
+				text = text + " (" + Messages.CodewindConnectionNoProjects + ")";
 			}
 			return text;
 		} else if (element instanceof CodewindApplication) {
@@ -73,7 +73,7 @@ public class CodewindNavigatorLabelProvider extends LabelProvider implements ISt
 					builder.append(" [" + buildStatus.getDisplayString() + "]");
 				}
 			} else {
-				builder.append(" [" + Messages.MicroclimateProjectDisabled + "]");
+				builder.append(" [" + Messages.CodewindProjectDisabled + "]");
 			}
 			return builder.toString();
 		}
@@ -85,16 +85,16 @@ public class CodewindNavigatorLabelProvider extends LabelProvider implements ISt
 		StyledString styledString;
 		if (element instanceof CodewindConnection) {
 			CodewindConnection connection = (CodewindConnection)element;
-			styledString = new StyledString(Messages.MicroclimateConnectionLabel + " " );
+			styledString = new StyledString(Messages.CodewindConnectionLabel + " " );
 			styledString.append(connection.baseUrl.toString(), StyledString.QUALIFIER_STYLER);
 			if (!connection.isConnected()) {
 				String errorMsg = connection.getConnectionErrorMsg();
 				if (errorMsg == null) {
-					errorMsg = Messages.MicroclimateDisconnected;
+					errorMsg = Messages.CodewindDisconnected;
 				}
 				styledString.append(" (" + errorMsg + ")", ERROR_STYLER);
 			} else if (connection.getApps().size() == 0) {
-				styledString.append(" (" + Messages.MicroclimateConnectionNoProjects + ")", StyledString.DECORATIONS_STYLER);
+				styledString.append(" (" + Messages.CodewindConnectionNoProjects + ")", StyledString.DECORATIONS_STYLER);
 			}
 		} else if (element instanceof CodewindApplication) {
 			CodewindApplication app = (CodewindApplication)element;
@@ -115,7 +115,7 @@ public class CodewindNavigatorLabelProvider extends LabelProvider implements ISt
 					styledString.append(" [" + buildStatus.getDisplayString() + "]", StyledString.DECORATIONS_STYLER);
 				}
 			} else {
-				styledString.append(" [" + Messages.MicroclimateProjectDisabled + "]", StyledString.DECORATIONS_STYLER);
+				styledString.append(" [" + Messages.CodewindProjectDisabled + "]", StyledString.DECORATIONS_STYLER);
 			}
 		} else {
 			styledString = new StyledString(getText(element));

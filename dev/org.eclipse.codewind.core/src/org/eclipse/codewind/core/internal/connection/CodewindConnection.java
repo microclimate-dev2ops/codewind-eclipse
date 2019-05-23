@@ -76,7 +76,7 @@ public class CodewindConnection {
 		this.baseUrl = uri;
 
 		if (CodewindConnectionManager.getActiveConnection(uri.toString()) != null) {
-			onInitFail(NLS.bind(Messages.MicroclimateConnection_ErrConnection_AlreadyExists, baseUrl));
+			onInitFail(NLS.bind(Messages.Connection_ErrConnection_AlreadyExists, baseUrl));
 		}
 		
 		JSONObject env = getEnvData(this.baseUrl);
@@ -84,10 +84,10 @@ public class CodewindConnection {
 		this.versionStr = getMCVersion(env);
 
 //		if (UNKNOWN_VERSION.equals(versionStr)) {
-//			onInitFail(NLS.bind(Messages.MicroclimateConnection_ErrConnection_VersionUnknown,
+//			onInitFail(NLS.bind(Messages.Connection_ErrConnection_VersionUnknown,
 //					MCConstants.REQUIRED_MC_VERSION));
 //		} else if (!isSupportedVersion(versionStr)) {
-//			onInitFail(NLS.bind(Messages.MicroclimateConnection_ErrConnection_OldVersion,
+//			onInitFail(NLS.bind(Messages.Connection_ErrConnection_OldVersion,
 //					versionStr, MCConstants.REQUIRED_MC_VERSION));
 //		}
 
@@ -97,7 +97,7 @@ public class CodewindConnection {
 		if (localWorkspacePath == null) {
 			// Can't recover from this
 			// This should never happen since we have already determined it is a supported version of Codewind.
-			onInitFail(Messages.MicroclimateConnection_ErrConnection_WorkspaceErr);
+			onInitFail(Messages.Connection_ErrConnection_WorkspaceErr);
 		}
 		
 		this.socketNamespace = getSocketNamespace(env);
@@ -155,13 +155,13 @@ public class CodewindConnection {
 	}
 
 	private static String getMCVersion(JSONObject env) {
-		if (!env.has(CoreConstants.KEY_ENV_MC_VERSION)) {
+		if (!env.has(CoreConstants.KEY_ENV_VERSION)) {
 			Logger.logError("Missing version from env data"); //$NON-NLS-1$
 			return UNKNOWN_VERSION;
 		}
 
 		try {
-			String versionStr = env.getString(CoreConstants.KEY_ENV_MC_VERSION);
+			String versionStr = env.getString(CoreConstants.KEY_ENV_VERSION);
 			Logger.log("Codewind version is: " + versionStr); //$NON-NLS-1$
 			return versionStr;
 		} catch (JSONException e) {
@@ -189,7 +189,7 @@ public class CodewindConnection {
 		// The version will have a format like '1809', which corresponds to v18.09
 		try {
 			int version = Integer.parseInt(versionStr);
-			return version >= CoreConstants.REQUIRED_MC_VERSION;
+			return version >= CoreConstants.REQUIRED_CODEWIND_VERSION;
 		}
 		catch(NumberFormatException e) {
 			Logger.logError("Couldn't parse version number from " + versionStr); //$NON-NLS-1$
@@ -260,8 +260,8 @@ public class CodewindConnection {
 	}
 	
 	private static String getSocketNamespace(JSONObject env) throws JSONException {
-		if (env.has(CoreConstants.KEY_ENV_MC_SOCKET_NAMESPACE)) {
-			Object nsObj = env.get(CoreConstants.KEY_ENV_MC_SOCKET_NAMESPACE);
+		if (env.has(CoreConstants.KEY_ENV_SOCKET_NAMESPACE)) {
+			Object nsObj = env.get(CoreConstants.KEY_ENV_SOCKET_NAMESPACE);
 			if (nsObj instanceof String) {
 				String namespace = (String)nsObj;
 				if (!namespace.isEmpty()) {
@@ -286,7 +286,7 @@ public class CodewindConnection {
 			Logger.log("App list update success"); //$NON-NLS-1$
 		}
 		catch(Exception e) {
-			CoreUtil.openDialog(true, Messages.MicroclimateConnection_ErrGettingProjectListTitle, e.getMessage());
+			CoreUtil.openDialog(true, Messages.Connection_ErrGettingProjectListTitle, e.getMessage());
 		}
 	}
 	
@@ -715,13 +715,13 @@ public class CodewindConnection {
 			String version = getMCVersion(envData);
 			if (UNKNOWN_VERSION.equals(versionStr)) {
 				Logger.logError("Failed to get the Codewind version after reconnect");
-				this.connectionErrorMsg = NLS.bind(Messages.MicroclimateConnection_ErrConnection_VersionUnknown, CoreConstants.REQUIRED_MC_VERSION);
+				this.connectionErrorMsg = NLS.bind(Messages.Connection_ErrConnection_VersionUnknown, CoreConstants.REQUIRED_CODEWIND_VERSION);
 				CoreUtil.updateConnection(this);
 				return;
 			}
 			if (!isSupportedVersion(version)) {
 				Logger.logError("The detected version of Codewind after reconnect is not supported: " + version);
-				this.connectionErrorMsg = NLS.bind(Messages.MicroclimateConnection_ErrConnection_OldVersion, versionStr, CoreConstants.REQUIRED_MC_VERSION);
+				this.connectionErrorMsg = NLS.bind(Messages.Connection_ErrConnection_OldVersion, versionStr, CoreConstants.REQUIRED_CODEWIND_VERSION);
 				CoreUtil.updateConnection(this);
 				return;
 			}
@@ -730,7 +730,7 @@ public class CodewindConnection {
 			if (path == null) {
 				// This should not happen since the version was ok
 				Logger.logError("Failed to get the local workspace path after reconnect");
-				this.connectionErrorMsg = Messages.MicroclimateConnection_ErrConnection_WorkspaceErr;
+				this.connectionErrorMsg = Messages.Connection_ErrConnection_WorkspaceErr;
 				CoreUtil.updateConnection(this);
 				return;
 			}
@@ -752,7 +752,7 @@ public class CodewindConnection {
 			}
 		} catch (Exception e) {
 			Logger.logError("An exception occurred while trying to update the connection information", e);
-			this.connectionErrorMsg = Messages.MicroclimateConnection_ErrConnection_UpdateCacheException;
+			this.connectionErrorMsg = Messages.Connection_ErrConnection_UpdateCacheException;
 			CoreUtil.updateConnection(this);
 			return;
 		}

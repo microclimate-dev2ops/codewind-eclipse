@@ -57,7 +57,7 @@ public abstract class BaseValidationTest extends BaseTest {
     	assertTrue("The application build should be successful for project: " + projectName, app.getBuildStatus() == BuildStatus.SUCCESS);
     	// Check that there are no markers
     	IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-    	assertTrue("There should be no microclimate markers on project: " + projectName, getMarkers(project).length == 0);
+    	assertTrue("There should be no Codewind markers on project: " + projectName, getMarkers(project).length == 0);
     }
     
     @Test

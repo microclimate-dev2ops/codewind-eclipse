@@ -31,7 +31,7 @@ public class CodewindReconnectJob {
 	 * To be used when an initial connection cannot be established when loading from prefs on Eclipse start-up.
 	 */
 	static void createAndStart(final URI url) {
-		final String msg = NLS.bind(Messages.MicroclimateReconnectJob_ReconnectJobName, url);
+		final String msg = NLS.bind(Messages.ReconnectJob_ReconnectJobName, url);
 
 		Job reconnectJob = Job.create(msg, new ICoreRunnable() {
 			@Override
@@ -94,8 +94,8 @@ public class CodewindReconnectJob {
 					Logger.logError(e);
 					monitor.setCanceled(true);
 
-					CoreUtil.openDialog(true, Messages.MicroclimateReconnectJob_ReconnectErrorDialogTitle,
-							NLS.bind(Messages.MicroclimateReconnectJob_ReconnectErrorDialogMsg, url));
+					CoreUtil.openDialog(true, Messages.ReconnectJob_ReconnectErrorDialogTitle,
+							NLS.bind(Messages.ReconnectJob_ReconnectErrorDialogMsg, url));
 				}
 			}
 		});

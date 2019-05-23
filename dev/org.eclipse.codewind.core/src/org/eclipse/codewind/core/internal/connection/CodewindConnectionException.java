@@ -28,7 +28,7 @@ public class CodewindConnectionException extends ConnectException {
 	public final String message;
 
 	public CodewindConnectionException(URI url) {
-		String msg = NLS.bind(Messages.MicroclimateConnectionException_ConnectingToMCFailed, url);
+		String msg = NLS.bind(Messages.ConnectionException_ConnectingToMCFailed, url);
 
 		message = msg;
 		connectionUrl = url;
