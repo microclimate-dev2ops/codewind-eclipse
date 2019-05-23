@@ -18,52 +18,52 @@
          
          <page id="MicroclimateParentPage"
          	name="%PREFS_PARENT_PAGE_NAME"
-         	class="com.ibm.microclimate.ui.internal.prefs.MicroclimatePrefsParentPage">
+         	class="org.eclipse.codewind.ui.internal.prefs.MicroclimatePrefsParentPage">
          </page>
          
          <page id="MicroclimateConnectionsPage"
          	name="%PREFS_CONNECTION_PAGE_NAME"
          	category="MicroclimateParentPage"
-         	class="com.ibm.microclimate.ui.internal.prefs.MicroclimateConnectionPrefsPage">
+         	class="org.eclipse.codewind.ui.internal.prefs.MicroclimateConnectionPrefsPage">
          </page>    
    	</extension>
 
 	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
 		<launchConfigurationTypeImage
-			id="com.ibm.microclimate.core.internal.launchConfigurationTypeImage"
-			configTypeID="com.ibm.microclimate.core.internal.launchConfigurationType"
+			id="org.eclipse.codewind.core.internal.launchConfigurationTypeImage"
+			configTypeID="org.eclipse.codewind.core.internal.launchConfigurationType"
 			icon="%DEFAULT_ICON_PATH"/>
 	</extension>
 	
 	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
 		<launchConfigurationTabGroup
-			id="com.ibm.microclimate.ui.internal.launchConfigTabGroup"
-			type="com.ibm.microclimate.core.internal.launchConfigurationType"
-			class="com.ibm.microclimate.ui.internal.MicroclimateLaunchConfigTabGroup"/>
+			id="org.eclipse.codewind.ui.internal.launchConfigTabGroup"
+			type="org.eclipse.codewind.core.internal.launchConfigurationType"
+			class="org.eclipse.codewind.ui.internal.MicroclimateLaunchConfigTabGroup"/>
 	</extension>
 
 	<!--  Extensions for Microclimate Explorer View -->
 
 	<extension point="org.eclipse.ui.views"> 
 		<category
-			id="com.ibm.microclimate.ui.views"
+			id="org.eclipse.codewind.ui.views"
 			name="%MICROCLIMATE_CATEGORY_NAME"/>
 		<view
-			id="com.ibm.microclimate.ui.explorerView"
+			id="org.eclipse.codewind.ui.explorerView"
 			name="%MICROCLIMATE_VIEW_NAME"
-			category="com.ibm.microclimate.ui.views"
+			category="org.eclipse.codewind.ui.views"
 			allowMultiple="false"
 			icon="%DEFAULT_ICON_PATH"
-			class="com.ibm.microclimate.ui.internal.views.MicroclimateExplorerView"/>
+			class="org.eclipse.codewind.ui.internal.views.MicroclimateExplorerView"/>
 	</extension>
 	
 	<extension point="org.eclipse.ui.navigator.viewer">
 		<viewerContentBinding
-			viewerId="com.ibm.microclimate.ui.explorerView">
+			viewerId="org.eclipse.codewind.ui.explorerView">
 			<includes>
 				<contentExtension
 					isRoot="true"
-					pattern="com.ibm.microclimate.ui.navigatorContent"/>
+					pattern="org.eclipse.codewind.ui.navigatorContent"/>
 			</includes>
 		</viewerContentBinding>
 	</extension>
@@ -73,17 +73,17 @@
 			name="%NAVIGATOR_CONTENT_NAME"
 			icon="%DEFAULT_ICON_PATH"
 			activeByDefault="true"
-			contentProvider="com.ibm.microclimate.ui.internal.views.MicroclimateNavigatorContentProvider"
-			labelProvider="com.ibm.microclimate.ui.internal.views.MicroclimateNavigatorLabelProvider"  
-			id="com.ibm.microclimate.ui.navigatorContent"> 
+			contentProvider="org.eclipse.codewind.ui.internal.views.MicroclimateNavigatorContentProvider"
+			labelProvider="org.eclipse.codewind.ui.internal.views.MicroclimateNavigatorLabelProvider"  
+			id="org.eclipse.codewind.ui.navigatorContent"> 
 			<enablement>
 				<or>
 					<instanceof value="org.eclipse.core.resources.IWorkspaceRoot" />
 				</or>
 			</enablement>
 			<actionProvider
-				id="com.ibm.microclimate.ui.microclimateActionProvider"
-				class="com.ibm.microclimate.ui.internal.actions.MicroclimateActionProvider">
+				id="org.eclipse.codewind.ui.microclimateActionProvider"
+				class="org.eclipse.codewind.ui.internal.actions.MicroclimateActionProvider">
 				<enablement>
 					<or>
 						<instanceof value="org.eclipse.core.resources.IWorkspaceRoot" />
@@ -94,29 +94,29 @@
 				</enablement>
 			</actionProvider>
 			<actionProvider
-				id="com.ibm.microclimate.ui.microclimateConnectionActionProvider"
-				class="com.ibm.microclimate.ui.internal.actions.MicroclimateConnectionActionProvider">
+				id="org.eclipse.codewind.ui.microclimateConnectionActionProvider"
+				class="org.eclipse.codewind.ui.internal.actions.MicroclimateConnectionActionProvider">
 				<enablement>
 					<or>
-						<instanceof value="com.ibm.microclimate.core.internal.connection.MicroclimateConnection" />
+						<instanceof value="org.eclipse.codewind.core.internal.connection.MicroclimateConnection" />
 					</or>
 				</enablement>
 			</actionProvider>
 			<actionProvider
-				id="com.ibm.microclimate.ui.microclimateApplicationActionProvider"
-				class="com.ibm.microclimate.ui.internal.actions.MicroclimateApplicationActionProvider">
+				id="org.eclipse.codewind.ui.microclimateApplicationActionProvider"
+				class="org.eclipse.codewind.ui.internal.actions.MicroclimateApplicationActionProvider">
 				<enablement>
 					<or>
-						<instanceof value="com.ibm.microclimate.core.internal.MicroclimateApplication" />
+						<instanceof value="org.eclipse.codewind.core.internal.MicroclimateApplication" />
 					</or>
 				</enablement>
 			</actionProvider>
 			<actionProvider
-				id="com.ibm.microclimate.ui.logFileActionProvider"
-				class="com.ibm.microclimate.ui.internal.actions.LogFileActionProvider">
+				id="org.eclipse.codewind.ui.logFileActionProvider"
+				class="org.eclipse.codewind.ui.internal.actions.LogFileActionProvider">
 				<enablement>
 					<or>
-						<instanceof value="com.ibm.microclimate.core.internal.MicroclimateApplication" />
+						<instanceof value="org.eclipse.codewind.core.internal.MicroclimateApplication" />
 					</or>
 				</enablement>
 			</actionProvider>
@@ -125,102 +125,102 @@
 
 	<extension point="org.eclipse.ui.popupMenus">
 		<objectContribution
-			id="com.ibm.microclimate.ui.appObjectActions"
-			objectClass="com.ibm.microclimate.core.internal.MicroclimateApplication">
+			id="org.eclipse.codewind.ui.appObjectActions"
+			objectClass="org.eclipse.codewind.core.internal.MicroclimateApplication">
 			<action
-				id="com.ibm.microclimate.ui.containerShell"
+				id="org.eclipse.codewind.ui.containerShell"
 				enablesFor="1"
 				menubarPath="group.open"
 				label="%ACTION_CONTAINER_SHELL"
-				class="com.ibm.microclimate.ui.internal.actions.ContainerShellAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.ContainerShellAction"/>
 			<action
-				id="com.ibm.microclimate.ui.openAppOverview"
+				id="org.eclipse.codewind.ui.openAppOverview"
 				enablesFor="1"
 				menubarPath="group.open"
 				icon="%DEFAULT_ICON_PATH"
 				label="%ACTION_OPEN_APP_OVERVIEW"
-				class="com.ibm.microclimate.ui.internal.actions.OpenAppOverviewAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.OpenAppOverviewAction"/>
 			<action
-				id="com.ibm.microclimate.ui.openApplication"
+				id="org.eclipse.codewind.ui.openApplication"
 				enablesFor="1"
 				menubarPath="group.open"
 				icon="%OPEN_BROWSER_ICON_PATH"
 				label="%ACTION_OPEN_APP"
-				class="com.ibm.microclimate.ui.internal.actions.OpenAppAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.OpenAppAction"/>
 			<action
-				id="com.ibm.microclimate.ui.importApplication"
+				id="org.eclipse.codewind.ui.importApplication"
 				enablesFor="1"
 				menubarPath="group.show"
 				icon="%IMPORT_ICON_PATH"
 				label="%ACTION_IMPORT_PROJECT"
-				class="com.ibm.microclimate.ui.internal.actions.ImportProjectAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.ImportProjectAction"/>
 			<action
-				id="com.ibm.microclimate.ui.restartDebugMode"
+				id="org.eclipse.codewind.ui.restartDebugMode"
 				enablesFor="1"
 				menubarPath="group.generate"
 				icon="%DEBUG_ICON_PATH"
 				label="%ACTION_RESTART_DEBUG_MODE"
-				class="com.ibm.microclimate.ui.internal.actions.RestartDebugModeAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.RestartDebugModeAction"/>
 			<action
-				id="com.ibm.microclimate.ui.restartRunMode"
+				id="org.eclipse.codewind.ui.restartRunMode"
 				enablesFor="1"
 				menubarPath="group.generate"
 				icon="%RUN_ICON_PATH"
 				label="%ACTION_RESTART_RUN_MODE"
-				class="com.ibm.microclimate.ui.internal.actions.RestartRunModeAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.RestartRunModeAction"/>
 			<action
-				id="com.ibm.microclimate.ui.enableDisableAutoBuild"
+				id="org.eclipse.codewind.ui.enableDisableAutoBuild"
 				enablesFor="1"
 				menubarPath="group.build"
 				label="%ACTION_ENABLE_DISABLE_AUTO_BUILD"
-				class="com.ibm.microclimate.ui.internal.actions.EnableDisableAutoBuildAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.EnableDisableAutoBuildAction"/>
 			<action
-				id="com.ibm.microclimate.ui.buildApplication"
+				id="org.eclipse.codewind.ui.buildApplication"
 				enablesFor="1"
 				menubarPath="group.build"
 				icon="%BUILD_ICON_PATH"
 				label="%ACTION_START_BUILD"
-				class="com.ibm.microclimate.ui.internal.actions.StartBuildAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.StartBuildAction"/>
 			<action
-				id="com.ibm.microclimate.ui.refreshApplication"
+				id="org.eclipse.codewind.ui.refreshApplication"
 				enablesFor="1"
 				menubarPath="group.additions"
 				icon="%REFRESH_ICON_PATH"
 				label="%ACTION_REFRESH"
-				class="com.ibm.microclimate.ui.internal.actions.RefreshAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.RefreshAction"/>
 		</objectContribution>
 		<objectContribution
-			id="com.ibm.microclimate.ui.appObjectActions"
-			objectClass="com.ibm.microclimate.core.internal.connection.MicroclimateConnection">
+			id="org.eclipse.codewind.ui.appObjectActions"
+			objectClass="org.eclipse.codewind.core.internal.connection.MicroclimateConnection">
 			<action
-				id="com.ibm.microclimate.ui.refreshConnection"
+				id="org.eclipse.codewind.ui.refreshConnection"
 				enablesFor="1"
 				menubarPath="group.additions"
 				icon="%REFRESH_ICON_PATH"
 				label="%ACTION_REFRESH"
-				class="com.ibm.microclimate.ui.internal.actions.RefreshAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.RefreshAction"/>
 			<!--
 			<action
-				id="com.ibm.microclimate.ui.removeConnection"
+				id="org.eclipse.codewind.ui.removeConnection"
 				enablesFor="1"
 				menubarPath="group.additions"
 				label="%ACTION_CONNECTION_REMOVE_CONNECTION"
-				class="com.ibm.microclimate.ui.internal.actions.RemoveConnectionAction"/>
+				class="org.eclipse.codewind.ui.internal.actions.RemoveConnectionAction"/>
 			-->
 		</objectContribution>
 	</extension>
 
 	<extension point="org.eclipse.ui.viewActions">
 		<viewContribution
-			id="com.ibm.microclimate.ui.explorerViewActions"
-			targetID="com.ibm.microclimate.ui.explorerView">
+			id="org.eclipse.codewind.ui.explorerViewActions"
+			targetID="org.eclipse.codewind.ui.explorerView">
 			<action
 				id="com.ibm.microcliamte.ui.createConnectionAction"
 				label="%NEW_CONNECTION_MENU_LABEL"
 				menubarPath="group.new"
 				toolbarPath="group.new" 
 				icon="%DEFAULT_ICON_PATH"
-				class="com.ibm.microclimate.ui.internal.actions.CreateConnectionAction">
+				class="org.eclipse.codewind.ui.internal.actions.CreateConnectionAction">
 			</action>
 			<action
 				id="com.ibm.microcliamte.ui.restartRunModeAction"
@@ -228,7 +228,7 @@
 				menubarPath="group.top"
 				toolbarPath="group.top" 
 				icon="%RUN_ICON_PATH"
-				class="com.ibm.microclimate.ui.internal.actions.RestartRunModeAction">
+				class="org.eclipse.codewind.ui.internal.actions.RestartRunModeAction">
 			</action>
 			<action
 				id="com.ibm.microcliamte.ui.restartDebugModeAction"
@@ -236,21 +236,21 @@
 				menubarPath="group.top"
 				toolbarPath="group.top" 
 				icon="%DEBUG_ICON_PATH"
-				class="com.ibm.microclimate.ui.internal.actions.RestartDebugModeAction">
+				class="org.eclipse.codewind.ui.internal.actions.RestartDebugModeAction">
 			</action>
 		</viewContribution>
 	</extension>
 
 	<extension point="org.eclipse.ui.newWizards">
 		<category
-			id = "com.ibm.microclimate.ui.new"
+			id = "org.eclipse.codewind.ui.new"
 			name="%MICROCLIMATE_CATEGORY_NAME">
 		</category>
 		<wizard
 			id="com.ibm.microcliamte.ui.wizards.newConnection"
 			name="%NEW_CONNECTION_MENU_LABEL"
-			class="com.ibm.microclimate.ui.internal.wizards.NewMicroclimateConnectionWizard"
-			category="com.ibm.microclimate.ui.new"
+			class="org.eclipse.codewind.ui.internal.wizards.NewMicroclimateConnectionWizard"
+			category="org.eclipse.codewind.ui.new"
 			icon="%DEFAULT_ICON_PATH">
 			<description>%NEW_CONNECTION_DESCRIPTION</description>
 			<selection class="org.eclipse.core.resources.IResource"/>
@@ -258,8 +258,8 @@
 		<wizard
 			id="com.ibm.microcliamte.ui.wizards.newProject"
 			name="%NEW_PROJECT_MENU_LABEL"
-			class="com.ibm.microclimate.ui.internal.wizards.NewMicroclimateProjectWizard"
-			category="com.ibm.microclimate.ui.new"
+			class="org.eclipse.codewind.ui.internal.wizards.NewMicroclimateProjectWizard"
+			category="org.eclipse.codewind.ui.new"
 			project="true"
 			icon="%DEFAULT_ICON_PATH">
 			<description>%NEW_PROJECT_DESCRIPTION</description>
@@ -269,16 +269,16 @@
 	
 	<extension point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
-			markerType="com.ibm.microclimate.core.validationMarker"
-			class="com.ibm.microclimate.ui.internal.marker.MicroclimateMarkerResolutionGenerator"/>
+			markerType="org.eclipse.codewind.core.validationMarker"
+			class="org.eclipse.codewind.ui.internal.marker.MicroclimateMarkerResolutionGenerator"/>
 	</extension>
 	
 	<extension point="org.eclipse.ui.console.consolePageParticipants">
       <consolePageParticipant
-      		id="com.ibm.microclimate.ui.socketConsolePageParticipant"
-            class="com.ibm.microclimate.ui.internal.console.SocketConsolePageParticipant">
+      		id="org.eclipse.codewind.ui.socketConsolePageParticipant"
+            class="org.eclipse.codewind.ui.internal.console.SocketConsolePageParticipant">
          <enablement>
-            <instanceof value="com.ibm.microclimate.core.internal.console.SocketConsole"/>
+            <instanceof value="org.eclipse.codewind.core.internal.console.SocketConsole"/>
          </enablement>
       </consolePageParticipant>
    </extension>
@@ -287,31 +287,31 @@
 		<objectContribution
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
-			id="com.ibm.microclimate.ui.internal.wizards.bindWizard">
+			id="org.eclipse.codewind.ui.internal.wizards.bindWizard">
 			<menu
 				label="%PROJECT_CONTEXT_MENU_NAME"
 				path="additions"
 				icon="%DEFAULT_ICON_PATH"
-				id="com.ibm.microclimate.ui.internal.projectContextMenu">
+				id="org.eclipse.codewind.ui.internal.projectContextMenu">
 				<separator
 					name="popupActions">
 				</separator>
 			</menu>
 			<action
 				label="%BIND_PROJECT_ACTION"
-				class="com.ibm.microclimate.ui.internal.actions.BindProjectAction"
-				menubarPath="com.ibm.microclimate.ui.internal.projectContextMenu/popupActions"
+				class="org.eclipse.codewind.ui.internal.actions.BindProjectAction"
+				menubarPath="org.eclipse.codewind.ui.internal.projectContextMenu/popupActions"
 				icon="%DEFAULT_ICON_PATH"
-				id="com.ibm.microclimate.ui.internal.wizards.bindProject">
+				id="org.eclipse.codewind.ui.internal.wizards.bindProject">
 			</action>
 		</objectContribution>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors">
-	    <editor id="com.ibm.microclimate.ui.editors.appOverview"
+	    <editor id="org.eclipse.codewind.ui.editors.appOverview"
 	        name="Application Overview"
 	        icon="icons/microclimate.ico"
-	        class="com.ibm.microclimate.ui.internal.editors.MCApplicationEditorPart"/>
+	        class="org.eclipse.codewind.ui.internal.editors.MCApplicationEditorPart"/>
 	</extension>
 
 </plugin>

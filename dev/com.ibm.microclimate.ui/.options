@@ -1,1 +1,1 @@
-com.ibm.microclimate.core/debug/info=true
+org.eclipse.codewind.core/debug/info=true
