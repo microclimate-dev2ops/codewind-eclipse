@@ -12,7 +12,7 @@
 package org.eclipse.codewind.ui.internal.console;
 
 import org.eclipse.codewind.core.internal.console.SocketConsole;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.debug.internal.ui.IInternalDebugUIConstants;
 import org.eclipse.debug.ui.DebugUITools;
@@ -27,7 +27,7 @@ public class ShowOnContentChangeAction extends Action {
 	public ShowOnContentChangeAction(SocketConsole console) {
 		super(Messages.ShowOnContentChangeAction, IAction.AS_CHECK_BOX);
 		setToolTipText(Messages.ShowOnContentChangeAction);
-		setId(MicroclimateUIPlugin.PLUGIN_ID + ".ShowOnContentChangeAction"); //$NON-NLS-1$
+		setId(CodewindUIPlugin.PLUGIN_ID + ".ShowOnContentChangeAction"); //$NON-NLS-1$
         setImageDescriptor(DebugUITools.getImageDescriptor(IInternalDebugUIConstants.IMG_ELCL_STANDARD_OUT));
 		this.console = console;
 	}

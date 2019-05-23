@@ -16,15 +16,15 @@
    	<extension
          point="org.eclipse.ui.preferencePages">
          
-         <page id="MicroclimateParentPage"
+         <page id="CodewindParentPage"
          	name="%PREFS_PARENT_PAGE_NAME"
-         	class="org.eclipse.codewind.ui.internal.prefs.MicroclimatePrefsParentPage">
+         	class="org.eclipse.codewind.ui.internal.prefs.CodewindPrefsParentPage">
          </page>
          
-         <page id="MicroclimateConnectionsPage"
+         <page id="CodewindConnectionsPage"
          	name="%PREFS_CONNECTION_PAGE_NAME"
-         	category="MicroclimateParentPage"
-         	class="org.eclipse.codewind.ui.internal.prefs.MicroclimateConnectionPrefsPage">
+         	category="CodewindParentPage"
+         	class="org.eclipse.codewind.ui.internal.prefs.CodewindConnectionPrefsPage">
          </page>    
    	</extension>
 
@@ -39,10 +39,10 @@
 		<launchConfigurationTabGroup
 			id="org.eclipse.codewind.ui.internal.launchConfigTabGroup"
 			type="org.eclipse.codewind.core.internal.launchConfigurationType"
-			class="org.eclipse.codewind.ui.internal.MicroclimateLaunchConfigTabGroup"/>
+			class="org.eclipse.codewind.ui.internal.CodewindLaunchConfigTabGroup"/>
 	</extension>
 
-	<!--  Extensions for Microclimate Explorer View -->
+	<!--  Extensions for Codewind Explorer View -->
 
 	<extension point="org.eclipse.ui.views"> 
 		<category
@@ -54,7 +54,7 @@
 			category="org.eclipse.codewind.ui.views"
 			allowMultiple="false"
 			icon="%DEFAULT_ICON_PATH"
-			class="org.eclipse.codewind.ui.internal.views.MicroclimateExplorerView"/>
+			class="org.eclipse.codewind.ui.internal.views.CodewindExplorerView"/>
 	</extension>
 	
 	<extension point="org.eclipse.ui.navigator.viewer">
@@ -73,8 +73,8 @@
 			name="%NAVIGATOR_CONTENT_NAME"
 			icon="%DEFAULT_ICON_PATH"
 			activeByDefault="true"
-			contentProvider="org.eclipse.codewind.ui.internal.views.MicroclimateNavigatorContentProvider"
-			labelProvider="org.eclipse.codewind.ui.internal.views.MicroclimateNavigatorLabelProvider"  
+			contentProvider="org.eclipse.codewind.ui.internal.views.CodewindNavigatorContentProvider"
+			labelProvider="org.eclipse.codewind.ui.internal.views.CodewindNavigatorLabelProvider"  
 			id="org.eclipse.codewind.ui.navigatorContent"> 
 			<enablement>
 				<or>
@@ -82,8 +82,8 @@
 				</or>
 			</enablement>
 			<actionProvider
-				id="org.eclipse.codewind.ui.microclimateActionProvider"
-				class="org.eclipse.codewind.ui.internal.actions.MicroclimateActionProvider">
+				id="org.eclipse.codewind.ui.actionProvider"
+				class="org.eclipse.codewind.ui.internal.actions.CodewindActionProvider">
 				<enablement>
 					<or>
 						<instanceof value="org.eclipse.core.resources.IWorkspaceRoot" />
@@ -94,20 +94,20 @@
 				</enablement>
 			</actionProvider>
 			<actionProvider
-				id="org.eclipse.codewind.ui.microclimateConnectionActionProvider"
-				class="org.eclipse.codewind.ui.internal.actions.MicroclimateConnectionActionProvider">
+				id="org.eclipse.codewind.ui.connectionActionProvider"
+				class="org.eclipse.codewind.ui.internal.actions.CodewindConnectionActionProvider">
 				<enablement>
 					<or>
-						<instanceof value="org.eclipse.codewind.core.internal.connection.MicroclimateConnection" />
+						<instanceof value="org.eclipse.codewind.core.internal.connection.CodewindConnection" />
 					</or>
 				</enablement>
 			</actionProvider>
 			<actionProvider
-				id="org.eclipse.codewind.ui.microclimateApplicationActionProvider"
-				class="org.eclipse.codewind.ui.internal.actions.MicroclimateApplicationActionProvider">
+				id="org.eclipse.codewind.ui.applicationActionProvider"
+				class="org.eclipse.codewind.ui.internal.actions.CodewindApplicationActionProvider">
 				<enablement>
 					<or>
-						<instanceof value="org.eclipse.codewind.core.internal.MicroclimateApplication" />
+						<instanceof value="org.eclipse.codewind.core.internal.CodewindApplication" />
 					</or>
 				</enablement>
 			</actionProvider>
@@ -116,7 +116,7 @@
 				class="org.eclipse.codewind.ui.internal.actions.LogFileActionProvider">
 				<enablement>
 					<or>
-						<instanceof value="org.eclipse.codewind.core.internal.MicroclimateApplication" />
+						<instanceof value="org.eclipse.codewind.core.internal.CodewindApplication" />
 					</or>
 				</enablement>
 			</actionProvider>
@@ -126,7 +126,7 @@
 	<extension point="org.eclipse.ui.popupMenus">
 		<objectContribution
 			id="org.eclipse.codewind.ui.appObjectActions"
-			objectClass="org.eclipse.codewind.core.internal.MicroclimateApplication">
+			objectClass="org.eclipse.codewind.core.internal.CodewindApplication">
 			<action
 				id="org.eclipse.codewind.ui.containerShell"
 				enablesFor="1"
@@ -191,7 +191,7 @@
 		</objectContribution>
 		<objectContribution
 			id="org.eclipse.codewind.ui.appObjectActions"
-			objectClass="org.eclipse.codewind.core.internal.connection.MicroclimateConnection">
+			objectClass="org.eclipse.codewind.core.internal.connection.CodewindConnection">
 			<action
 				id="org.eclipse.codewind.ui.refreshConnection"
 				enablesFor="1"
@@ -249,7 +249,7 @@
 		<wizard
 			id="com.ibm.microcliamte.ui.wizards.newConnection"
 			name="%NEW_CONNECTION_MENU_LABEL"
-			class="org.eclipse.codewind.ui.internal.wizards.NewMicroclimateConnectionWizard"
+			class="org.eclipse.codewind.ui.internal.wizards.NewCodewindConnectionWizard"
 			category="org.eclipse.codewind.ui.new"
 			icon="%DEFAULT_ICON_PATH">
 			<description>%NEW_CONNECTION_DESCRIPTION</description>
@@ -258,7 +258,7 @@
 		<wizard
 			id="com.ibm.microcliamte.ui.wizards.newProject"
 			name="%NEW_PROJECT_MENU_LABEL"
-			class="org.eclipse.codewind.ui.internal.wizards.NewMicroclimateProjectWizard"
+			class="org.eclipse.codewind.ui.internal.wizards.NewCodewindProjectWizard"
 			category="org.eclipse.codewind.ui.new"
 			project="true"
 			icon="%DEFAULT_ICON_PATH">
@@ -270,7 +270,7 @@
 	<extension point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
 			markerType="org.eclipse.codewind.core.validationMarker"
-			class="org.eclipse.codewind.ui.internal.marker.MicroclimateMarkerResolutionGenerator"/>
+			class="org.eclipse.codewind.ui.internal.marker.CodewindMarkerResolutionGenerator"/>
 	</extension>
 	
 	<extension point="org.eclipse.ui.console.consolePageParticipants">
@@ -311,7 +311,7 @@
 	    <editor id="org.eclipse.codewind.ui.editors.appOverview"
 	        name="Application Overview"
 	        icon="icons/microclimate.ico"
-	        class="org.eclipse.codewind.ui.internal.editors.MCApplicationEditorPart"/>
+	        class="org.eclipse.codewind.ui.internal.editors.ApplicationOverviewEditorPart"/>
 	</extension>
 
 </plugin>

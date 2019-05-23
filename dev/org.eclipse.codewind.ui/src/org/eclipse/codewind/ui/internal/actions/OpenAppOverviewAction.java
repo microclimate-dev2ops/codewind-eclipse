@@ -11,10 +11,10 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
-import org.eclipse.codewind.ui.internal.editors.MCApplicationEditorInput;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CodewindApplication;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
+import org.eclipse.codewind.ui.internal.editors.ApplicationOverviewEditorInput;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -28,7 +28,7 @@ import org.eclipse.ui.IWorkbenchWindow;
  */
 public class OpenAppOverviewAction implements IObjectActionDelegate {
 
-    protected MicroclimateApplication app;
+    protected CodewindApplication app;
 
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
@@ -40,8 +40,8 @@ public class OpenAppOverviewAction implements IObjectActionDelegate {
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MicroclimateApplication) {
-            	app = (MicroclimateApplication) obj;
+            if (obj instanceof CodewindApplication) {
+            	app = (CodewindApplication) obj;
             	action.setEnabled(true);
             	return;
             }
@@ -53,18 +53,18 @@ public class OpenAppOverviewAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("OpenAppOverviewAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("OpenAppOverviewAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
         
-        IWorkbenchWindow workbenchWindow = MicroclimateUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
+        IWorkbenchWindow workbenchWindow = CodewindUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage page = workbenchWindow.getActivePage();
 		
 		try {
-			MCApplicationEditorInput input = new MCApplicationEditorInput(app);
-			page.openEditor(input, MCApplicationEditorInput.EDITOR_ID);
+			ApplicationOverviewEditorInput input = new ApplicationOverviewEditorInput(app);
+			page.openEditor(input, ApplicationOverviewEditorInput.EDITOR_ID);
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred opening the editor for application: " + app.name, e); //$NON-NLS-1$
+			Logger.logError("An error occurred opening the editor for application: " + app.name, e); //$NON-NLS-1$
 		}
     }
 

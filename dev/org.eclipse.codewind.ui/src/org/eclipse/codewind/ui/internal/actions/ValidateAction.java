@@ -11,22 +11,22 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.actions.SelectionProviderAction;
 
 /**
- * Action for initiating the validation of a Microclimate application.  This
+ * Action for initiating the validation of a Codewind application.  This
  * action only shows when auto build is disabled on the project.  When auto
  * build is enabled, a build occurs every time a change is made and validation
  * is run automatically on every build.
  */
 public class ValidateAction extends SelectionProviderAction {
 	
-	MicroclimateApplication app;
+	CodewindApplication app;
 	
 	public ValidateAction(ISelectionProvider selectionProvider) {
         super(selectionProvider, Messages.ValidateLabel);
@@ -37,8 +37,8 @@ public class ValidateAction extends SelectionProviderAction {
     public void selectionChanged(IStructuredSelection sel) {
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MicroclimateApplication) {
-				app = (MicroclimateApplication) obj;
+			if (obj instanceof CodewindApplication) {
+				app = (CodewindApplication) obj;
 				if (app.isAvailable()) {
 					setEnabled(true);
 					return;
@@ -52,14 +52,14 @@ public class ValidateAction extends SelectionProviderAction {
     public void run() {
     	if (app == null) {
 			// should not be possible
-			MCLogger.logError("ValidateAction ran but no application was selected"); //$NON-NLS-1$
+			Logger.logError("ValidateAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
 		try {
-			app.mcConnection.requestValidate(app);
+			app.connection.requestValidate(app);
 		} catch (Exception e) {
-			MCLogger.logError("Error requesting validation for application: " + app.name, e); //$NON-NLS-1$
+			Logger.logError("Error requesting validation for application: " + app.name, e); //$NON-NLS-1$
 		}
     }
     

@@ -11,9 +11,9 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.codewind.ui.internal.views.ViewHelper;
 import org.eclipse.codewind.ui.internal.wizards.BindProjectWizard;
@@ -29,11 +29,11 @@ import org.eclipse.ui.actions.SelectionProviderAction;
  */
 public class BindAction extends SelectionProviderAction {
 
-	protected MicroclimateConnection connection;
+	protected CodewindConnection connection;
 	
 	public BindAction(ISelectionProvider selectionProvider) {
 		super(selectionProvider, Messages.BindActionLabel);
-		setImageDescriptor(MicroclimateUIPlugin.getDefaultIcon());
+		setImageDescriptor(CodewindUIPlugin.getDefaultIcon());
 		selectionChanged(getStructuredSelection());
 	}
 
@@ -42,8 +42,8 @@ public class BindAction extends SelectionProviderAction {
 	public void selectionChanged(IStructuredSelection sel) {
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MicroclimateConnection) {
-				connection = (MicroclimateConnection)obj;
+			if (obj instanceof CodewindConnection) {
+				connection = (CodewindConnection)obj;
 				setEnabled(connection.isConnected());
 				return;
 			}
@@ -55,7 +55,7 @@ public class BindAction extends SelectionProviderAction {
 	public void run() {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("BindAction ran but no Microclimate connection was selected"); //$NON-NLS-1$
+			Logger.logError("BindAction ran but no Codewind connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
@@ -65,11 +65,11 @@ public class BindAction extends SelectionProviderAction {
 			if (dialog.open() == Window.CANCEL) {
 				return;
 			}
-			ViewHelper.openMicroclimateExplorerView();
-			ViewHelper.refreshMicroclimateExplorerView(null);
+			ViewHelper.openCodewindExplorerView();
+			ViewHelper.refreshCodewindExplorerView(null);
 			ViewHelper.expandConnection(connection);
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred running the bind action on connection: " + connection.baseUrl, e); //$NON-NLS-1$
+			Logger.logError("An error occurred running the bind action on connection: " + connection.baseUrl, e); //$NON-NLS-1$
 		}
 	}
 }

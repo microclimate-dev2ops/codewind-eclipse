@@ -31,7 +31,7 @@ public class FileUtil {
                     result = fp.mkdirs();
                 }
             } catch (Exception e) {
-                MCLogger.logError("Failed to create directory: " + path, e);
+                Logger.logError("Failed to create directory: " + path, e);
                 result = false;
             }
         }
@@ -93,7 +93,7 @@ public class FileUtil {
                             deleteDirectory(dir + File.separator + fileList[i], recursive);
                         } else {
                             if (!curFp.delete())
-                                MCLogger.log("Could not delete " + curFp.getName());
+                                Logger.log("Could not delete " + curFp.getName());
                         }
                     }
                 }

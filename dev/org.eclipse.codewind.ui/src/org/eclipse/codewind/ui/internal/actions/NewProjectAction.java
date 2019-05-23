@@ -13,12 +13,12 @@ package org.eclipse.codewind.ui.internal.actions;
 
 import java.util.List;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
 import org.eclipse.codewind.core.internal.console.ProjectTemplateInfo;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
-import org.eclipse.codewind.ui.internal.wizards.NewMicroclimateProjectWizard;
+import org.eclipse.codewind.ui.internal.wizards.NewCodewindProjectWizard;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -31,11 +31,11 @@ import org.eclipse.ui.actions.SelectionProviderAction;
  */
 public class NewProjectAction extends SelectionProviderAction {
 
-	protected MicroclimateConnection connection;
+	protected CodewindConnection connection;
 	
 	public NewProjectAction(ISelectionProvider selectionProvider) {
 		super(selectionProvider, Messages.NewProjectAction_Label);
-		setImageDescriptor(MicroclimateUIPlugin.getDefaultIcon());
+		setImageDescriptor(CodewindUIPlugin.getDefaultIcon());
 		selectionChanged(getStructuredSelection());
 	}
 
@@ -44,8 +44,8 @@ public class NewProjectAction extends SelectionProviderAction {
 	public void selectionChanged(IStructuredSelection sel) {
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MicroclimateConnection) {
-				connection = (MicroclimateConnection)obj;
+			if (obj instanceof CodewindConnection) {
+				connection = (CodewindConnection)obj;
 				setEnabled(connection.isConnected());
 				return;
 			}
@@ -57,19 +57,19 @@ public class NewProjectAction extends SelectionProviderAction {
 	public void run() {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("NewProjectAction ran but no Microclimate connection was selected"); //$NON-NLS-1$
+			Logger.logError("NewProjectAction ran but no connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
 		try {
 			List<ProjectTemplateInfo> templates = connection.requestProjectTemplates();
-			NewMicroclimateProjectWizard wizard = new NewMicroclimateProjectWizard(connection, templates);
+			NewCodewindProjectWizard wizard = new NewCodewindProjectWizard(connection, templates);
 			WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
 			if (dialog.open() == Window.CANCEL) {
 				return;
 			}
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred running the new project action on connection: " + connection.baseUrl, e); //$NON-NLS-1$
+			Logger.logError("An error occurred running the new project action on connection: " + connection.baseUrl, e); //$NON-NLS-1$
 		}
 	}
 }

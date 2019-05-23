@@ -11,14 +11,14 @@
 
 package org.eclipse.codewind.core.internal;
 
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
 
 public interface IUpdateHandler {
 	
 	public void updateAll();
 	
-	public void updateConnection(MicroclimateConnection connection);
+	public void updateConnection(CodewindConnection connection);
 	
-	public void updateApplication(MicroclimateApplication application);
+	public void updateApplication(CodewindApplication application);
 
 }

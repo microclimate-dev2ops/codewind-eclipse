@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Microclimate Test Plugin
 Bundle-SymbolicName: org.eclipse.codewind.test
 Bundle-Version: 1.1.1.qualifier
-Bundle-Activator: org.eclipse.codewind.test.MicroclimateTestPlugin
+Bundle-Activator: org.eclipse.codewind.test.CodewindTestPlugin
 Bundle-Vendor: IBM
 Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

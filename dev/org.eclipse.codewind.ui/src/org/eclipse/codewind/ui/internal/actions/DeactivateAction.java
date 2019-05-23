@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.codewind.core.internal.InstallUtil;
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.core.internal.ProcessHelper.ProcessResult;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnectionManager;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
+import org.eclipse.codewind.core.internal.connection.CodewindConnectionManager;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.codewind.ui.internal.views.ViewHelper;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -36,7 +36,7 @@ import org.eclipse.ui.actions.SelectionProviderAction;
  */
 public class DeactivateAction extends SelectionProviderAction {
 
-	protected MicroclimateConnection connection;
+	protected CodewindConnection connection;
 	
 	public DeactivateAction(ISelectionProvider selectionProvider) {
 		super(selectionProvider, Messages.DeactivateActionLabel);
@@ -47,8 +47,8 @@ public class DeactivateAction extends SelectionProviderAction {
 	public void selectionChanged(IStructuredSelection sel) {
 		if (sel.size() == 1) {
 			Object obj = sel.getFirstElement();
-			if (obj instanceof MicroclimateConnection) {
-				connection = (MicroclimateConnection)obj;
+			if (obj instanceof CodewindConnection) {
+				connection = (CodewindConnection)obj;
 				setEnabled(connection.isConnected());
 				return;
 			}
@@ -60,14 +60,14 @@ public class DeactivateAction extends SelectionProviderAction {
 	public void run() {
 		if (connection == null) {
 			// should not be possible
-			MCLogger.logError("DeactivateAction ran but no Microclimate connection was selected"); //$NON-NLS-1$
+			Logger.logError("DeactivateAction ran but no connection was selected"); //$NON-NLS-1$
 			return;
 		}
 
 		try {
-			MicroclimateConnectionManager.removeConnection(connection.baseUrl.toString());
+			CodewindConnectionManager.removeConnection(connection.baseUrl.toString());
 			connection.close();
-			ViewHelper.refreshMicroclimateExplorerView(null);
+			ViewHelper.refreshCodewindExplorerView(null);
 			Job job = new Job(Messages.DeactivateActionJobLabel) {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
@@ -75,19 +75,19 @@ public class DeactivateAction extends SelectionProviderAction {
 					try {
 						ProcessResult result = InstallUtil.stopCodewind(monitor);
 						if (result.getExitValue() != 0) {
-							return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.DeactivateActionErrorWithMsg, result.getError()));
+							return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, NLS.bind(Messages.DeactivateActionErrorWithMsg, result.getError()));
 						}
 					} catch (IOException e) {
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.DeactivateActionError, e);
+						return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, Messages.DeactivateActionError, e);
 					} catch (TimeoutException e) {
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.DeactivateActionTimeout, e);
+						return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, Messages.DeactivateActionTimeout, e);
 					}
 					return Status.OK_STATUS;
 				}
 			};
 			job.schedule();
 		} catch (Exception e) {
-			MCLogger.logError("An error occurred deactivating connection: " + connection.baseUrl, e); //$NON-NLS-1$
+			Logger.logError("An error occurred deactivating connection: " + connection.baseUrl, e); //$NON-NLS-1$
 		}
 	}
 }

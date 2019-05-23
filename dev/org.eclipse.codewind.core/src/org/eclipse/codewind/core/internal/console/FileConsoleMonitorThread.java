@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.eclipse.codewind.core.internal.MCLogger;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
 /**
@@ -86,7 +86,7 @@ public class FileConsoleMonitorThread extends Thread {
 	            }
 			}
 			catch(IOException e) {
-				MCLogger.logError("Error updating application log for file " + inputFile.getAbsolutePath(), e); //$NON-NLS-1$
+				Logger.logError("Error updating application log for file " + inputFile.getAbsolutePath(), e); //$NON-NLS-1$
 			}
 		}
 
@@ -96,7 +96,7 @@ public class FileConsoleMonitorThread extends Thread {
 			}
 		}
 		catch(IOException e) {
-			MCLogger.logError(e);
+			Logger.logError(e);
 		}
 		// The owning IOConsole is responsible for closing its outputstream.
 	}

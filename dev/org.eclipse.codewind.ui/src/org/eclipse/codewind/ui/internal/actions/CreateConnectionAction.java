@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.codewind.core.internal.InstallUtil;
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
 import org.eclipse.codewind.core.internal.ProcessHelper.ProcessResult;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnectionManager;
-import org.eclipse.codewind.ui.MicroclimateUIPlugin;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
+import org.eclipse.codewind.core.internal.connection.CodewindConnectionManager;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.codewind.ui.internal.views.ViewHelper;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -40,18 +40,18 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
 /**
- * Action to create a new Microclimate connection. This action is used in several places
+ * Action to create a new Codewind connection. This action is used in several places
  * including:
  *    The File > New menu
- *    Popup menu in the Microclimate view
- *    Toolbar action in the Microclimate view
+ *    Popup menu in the Codewind view
+ *    Toolbar action in the Codewind view
  *
  */
 public class CreateConnectionAction extends Action implements IViewActionDelegate, IActionDelegate2 {
 	
 	public CreateConnectionAction(Shell shell) {
         super(Messages.ActionNewConnection);
-        setImageDescriptor(MicroclimateUIPlugin.getImageDescriptor(MicroclimateUIPlugin.MICROCLIMATE_ICON));
+        setImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.MICROCLIMATE_ICON));
     }
 
     public CreateConnectionAction() {
@@ -69,9 +69,9 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 	public void run() {
 //		Wizard wizard = new NewMicroclimateConnectionWizard();
 //		WizardLauncher.launchWizardWithoutSelection(wizard);
-		List<MicroclimateConnection> connections = MicroclimateConnectionManager.activeConnections();
+		List<CodewindConnection> connections = CodewindConnectionManager.activeConnections();
 		if (connections != null && !connections.isEmpty() && connections.get(0).isConnected()) {
-			MCUtil.openDialog(false, Messages.ConnectionErrorTitle, Messages.ConnectionAlreadyExistsError);
+			CoreUtil.openDialog(false, Messages.ConnectionErrorTitle, Messages.ConnectionAlreadyExistsError);
 			return;
 		}
 		setupConnection();
@@ -104,28 +104,28 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 	}
 	
     public static void setupConnection() {
-		List<MicroclimateConnection> connections = MicroclimateConnectionManager.activeConnections();
-		MicroclimateConnection conn = null;
+		List<CodewindConnection> connections = CodewindConnectionManager.activeConnections();
+		CodewindConnection conn = null;
 		if (connections != null && !connections.isEmpty()) {
 			conn = connections.get(0);
 			if (conn.isConnected()) {
 				return;
 			}
 		}
-		final MicroclimateConnection existingConnection = conn;
+		final CodewindConnection existingConnection = conn;
 		
     	Job job = new Job(Messages.ConnectingJobLabel) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				SubMonitor mon = SubMonitor.convert(monitor, 100);
 				mon.setTaskName(Messages.DetectingConnectionTask);
-				MicroclimateConnection connection = existingConnection;
+				CodewindConnection connection = existingConnection;
 				if (connection == null) {
 					// Try to create a connection
 					try {
-						connection = MicroclimateConnectionManager.createConnection(MicroclimateConnectionManager.DEFAULT_CONNECTION_URL);
+						connection = CodewindConnectionManager.createConnection(CodewindConnectionManager.DEFAULT_CONNECTION_URL);
 					} catch(Exception e) {
-						MCLogger.log("Attempting to connect to Codewind failed: " + e.getMessage()); //$NON-NLS-1$
+						Logger.log("Attempting to connect to Codewind failed: " + e.getMessage()); //$NON-NLS-1$
 					}
 				}
 				mon.worked(5);
@@ -135,12 +135,12 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 					try {
 						ProcessResult result = InstallUtil.startCodewind(mon.split(75));
 						if (result.getExitValue() != 0) {
-							return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, NLS.bind(Messages.StartCodewindErrorWithMsg, result.getError()));
+							return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, NLS.bind(Messages.StartCodewindErrorWithMsg, result.getError()));
 						}
 					} catch (IOException e) {
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.StartCodewindError, e);
+						return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, Messages.StartCodewindError, e);
 					} catch (TimeoutException e) {
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.StartCodewindTimeout, e);
+						return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, Messages.StartCodewindTimeout, e);
 					}
 				}
 				if (mon.isCanceled()) {
@@ -168,14 +168,14 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 						if (connection != existingConnection) {
 							connection.close();
 						}
-						MCLogger.logError("The connection at " + connection.baseUrl + " is not active."); //$NON-NLS-1$ //$NON-NLS-2$
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.StartCodewindNotActive);
+						Logger.logError("The connection at " + connection.baseUrl + " is not active."); //$NON-NLS-1$ //$NON-NLS-2$
+						return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, Messages.StartCodewindNotActive);
 					}
 				} else {
 					// If there was no connection, try to create one
 					for (int i = 0; i < 10; i++) {
 						try {
-							connection = MicroclimateConnectionManager.createConnection(MicroclimateConnectionManager.DEFAULT_CONNECTION_URL);
+							connection = CodewindConnectionManager.createConnection(CodewindConnectionManager.DEFAULT_CONNECTION_URL);
 							break;
 						} catch (Exception e) {
 							try {
@@ -190,14 +190,14 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 						mon.worked(1);
 					}
 					if (connection == null) {
-						return new Status(IStatus.ERROR, MicroclimateUIPlugin.PLUGIN_ID, Messages.StartCodewindConnectionError);
+						return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, Messages.StartCodewindConnectionError);
 					}
 				}
 				
-				if (MicroclimateConnectionManager.getActiveConnection(connection.baseUrl.toString()) == null) {
-					MicroclimateConnectionManager.add(connection);
+				if (CodewindConnectionManager.getActiveConnection(connection.baseUrl.toString()) == null) {
+					CodewindConnectionManager.add(connection);
 				}
-				ViewHelper.refreshMicroclimateExplorerView(null);
+				ViewHelper.refreshCodewindExplorerView(null);
 				ViewHelper.expandConnection(connection);
 				
 				return Status.OK_STATUS;

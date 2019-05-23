@@ -13,11 +13,11 @@ package org.eclipse.codewind.ui.internal.actions;
 
 import java.net.URL;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.constants.AppState;
-import org.eclipse.codewind.core.internal.constants.MCConstants;
+import org.eclipse.codewind.core.internal.constants.CoreConstants;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -33,7 +33,7 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
  */
 public class OpenAppMonitorAction extends SelectionProviderAction {
 
-    protected MicroclimateApplication app;
+    protected CodewindApplication app;
     
 	public OpenAppMonitorAction(ISelectionProvider selectionProvider) {
         super(selectionProvider, Messages.ActionOpenAppMonitor);
@@ -45,8 +45,8 @@ public class OpenAppMonitorAction extends SelectionProviderAction {
     public void selectionChanged(IStructuredSelection sel) {
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MicroclimateApplication) {
-            	app = (MicroclimateApplication)obj;
+            if (obj instanceof CodewindApplication) {
+            	app = (CodewindApplication)obj;
             	setEnabled(app.isAvailable() && app.getAppState() == AppState.STARTED);
             	return;
             }
@@ -58,12 +58,12 @@ public class OpenAppMonitorAction extends SelectionProviderAction {
     public void run() {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("OpenAppMonitorAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("OpenAppMonitorAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
         if (!app.isRunning()) {
-        	MCUtil.openDialog(true, Messages.OpenAppAction_CantOpenNotRunningAppTitle,
+        	CoreUtil.openDialog(true, Messages.OpenAppAction_CantOpenNotRunningAppTitle,
         			Messages.OpenAppAction_CantOpenNotRunningAppMsg);
         	return;
         }
@@ -71,7 +71,7 @@ public class OpenAppMonitorAction extends SelectionProviderAction {
         URL url = app.getMetricsUrl();
 		if (url == null) {
 			// this should not happen
-			MCLogger.logError("OpenAppMonitorAction ran but could not construct the url"); //$NON-NLS-1$
+			Logger.logError("OpenAppMonitorAction ran but could not construct the url"); //$NON-NLS-1$
 			return;
 		}
 
@@ -82,11 +82,11 @@ public class OpenAppMonitorAction extends SelectionProviderAction {
 			IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench().getBrowserSupport();
 			IWebBrowser browser = browserSupport
 					.createBrowser(IWorkbenchBrowserSupport.NAVIGATION_BAR | IWorkbenchBrowserSupport.LOCATION_BAR,
-							app.projectID + "_" + MCConstants.VIEW_MONITOR, app.name, NLS.bind(Messages.BrowserTooltipAppMonitor, app.name));
+							app.projectID + "_" + CoreConstants.VIEW_MONITOR, app.name, NLS.bind(Messages.BrowserTooltipAppMonitor, app.name));
 
 	        browser.openURL(url);
 		} catch (PartInitException e) {
-			MCLogger.logError("Error opening the app monitor in browser", e); //$NON-NLS-1$
+			Logger.logError("Error opening the app monitor in browser", e); //$NON-NLS-1$
 		}
     }
     

@@ -13,9 +13,9 @@ package org.eclipse.codewind.ui.internal.actions;
 
 import java.net.URL;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.constants.AppState;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.action.IAction;
@@ -34,7 +34,7 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
  */
 public class OpenAppAction implements IObjectActionDelegate {
 
-    protected MicroclimateApplication app;
+    protected CodewindApplication app;
 
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
@@ -46,8 +46,8 @@ public class OpenAppAction implements IObjectActionDelegate {
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MicroclimateApplication) {
-            	app = (MicroclimateApplication)obj;
+            if (obj instanceof CodewindApplication) {
+            	app = (CodewindApplication)obj;
             	action.setEnabled(app.isAvailable() && app.getAppState() == AppState.STARTED);
             	return;
             }
@@ -59,12 +59,12 @@ public class OpenAppAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("OpenAppAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("OpenAppAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
 
         if (!app.isRunning()) {
-        	MCUtil.openDialog(true, Messages.OpenAppAction_CantOpenNotRunningAppTitle,
+        	CoreUtil.openDialog(true, Messages.OpenAppAction_CantOpenNotRunningAppTitle,
         			Messages.OpenAppAction_CantOpenNotRunningAppMsg);
         	return;
         }
@@ -82,7 +82,7 @@ public class OpenAppAction implements IObjectActionDelegate {
 
 	        browser.openURL(appRootUrl);
 		} catch (PartInitException e) {
-			MCLogger.logError("Error opening app in browser", e); //$NON-NLS-1$
+			Logger.logError("Error opening app in browser", e); //$NON-NLS-1$
 		}
     }
 

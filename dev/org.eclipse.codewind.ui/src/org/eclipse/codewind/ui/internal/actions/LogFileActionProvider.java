@@ -11,7 +11,7 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
 import org.eclipse.codewind.core.internal.console.ProjectLogInfo;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.jface.action.IMenuManager;
@@ -25,7 +25,7 @@ import org.eclipse.ui.navigator.ICommonMenuConstants;
 import org.eclipse.ui.navigator.ICommonViewerSite;
 
 /**
- * Action provider for application log files in the Microclimate view.
+ * Action provider for application log files in the Codewind view.
  */
 public class LogFileActionProvider extends CommonActionProvider {
 	
@@ -51,8 +51,8 @@ public class LogFileActionProvider extends CommonActionProvider {
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
         	Object obj = sel.getFirstElement();
-        	if (obj instanceof MCEclipseApplication) {
-        		final MCEclipseApplication app = (MCEclipseApplication)obj;
+        	if (obj instanceof CodewindEclipseApplication) {
+        		final CodewindEclipseApplication app = (CodewindEclipseApplication)obj;
     			if (app.isAvailable() && app.getLogInfos() != null && !app.getLogInfos().isEmpty()) {
     				MenuManager menuMgr = new MenuManager(Messages.ShowLogFilesMenu, "ShowLogFiles");
     				showAllLogsAction.setApp(app);

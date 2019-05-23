@@ -14,9 +14,9 @@ package org.eclipse.codewind.ui.internal.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.codewind.core.internal.MCLogger;
-import org.eclipse.codewind.core.internal.MCUtil;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
+import org.eclipse.codewind.core.internal.Logger;
+import org.eclipse.codewind.core.internal.CoreUtil;
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.constants.ProjectType;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -34,13 +34,13 @@ public class ContainerShellAction implements IObjectActionDelegate {
 	
 	private static final String LAUNCHER_DELEGATE_ID = "org.eclipse.tm.terminal.connector.local.launcher.local"; //$NON-NLS-1$
 	
-    protected MicroclimateApplication app;
+    protected CodewindApplication app;
     protected ILauncherDelegate delegate;
     
     public ContainerShellAction() {
     	delegate = LauncherDelegateManager.getInstance().getLauncherDelegate(LAUNCHER_DELEGATE_ID, false);
     	if (delegate == null) {
-    		MCLogger.logError("Could not get the local terminal launcher delegate."); //$NON-NLS-1$
+    		Logger.logError("Could not get the local terminal launcher delegate."); //$NON-NLS-1$
     	}
     }
 
@@ -54,8 +54,8 @@ public class ContainerShellAction implements IObjectActionDelegate {
         IStructuredSelection sel = (IStructuredSelection) selection;
         if (sel.size() == 1) {
             Object obj = sel.getFirstElement();
-            if (obj instanceof MicroclimateApplication) {
-            	app = (MicroclimateApplication)obj;
+            if (obj instanceof CodewindApplication) {
+            	app = (CodewindApplication)obj;
             	action.setEnabled(app.isAvailable() && app.getContainerId() != null);
             	return;
             }
@@ -67,18 +67,18 @@ public class ContainerShellAction implements IObjectActionDelegate {
     public void run(IAction action) {
         if (app == null) {
         	// should not be possible
-        	MCLogger.logError("ContainerShellAction ran but no Microclimate application was selected"); //$NON-NLS-1$
+        	Logger.logError("ContainerShellAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
         
         if (app.getContainerId() == null) {
-        	MCLogger.logError("ContainerShellAction ran but the container id for the application is not set: " + app.name); //$NON-NLS-1$
+        	Logger.logError("ContainerShellAction ran but the container id for the application is not set: " + app.name); //$NON-NLS-1$
 			return;
         }
         
         if (delegate == null) {
         	// should not be possible
-        	MCLogger.logError("ContainerShellAction ran but the local terminal laucher delegate is null"); //$NON-NLS-1$
+        	Logger.logError("ContainerShellAction ran but the local terminal laucher delegate is null"); //$NON-NLS-1$
 			return;
 		}
         
@@ -89,7 +89,7 @@ public class ContainerShellAction implements IObjectActionDelegate {
         }
 
         // Open a shell in the application container
-        String envPath = MCUtil.getEnvPath();
+        String envPath = CoreUtil.getEnvPath();
         String dockerPath = envPath != null ? envPath + "docker" : "docker"; //$NON-NLS-1$  //$NON-NLS-2$
         Map<String, Object> properties = new HashMap<>();
         properties.put(ITerminalsConnectorConstants.PROP_DELEGATE_ID, delegate.getId());

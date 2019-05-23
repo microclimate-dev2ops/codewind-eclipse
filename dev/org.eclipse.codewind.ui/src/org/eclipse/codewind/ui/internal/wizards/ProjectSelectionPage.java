@@ -12,7 +12,7 @@
 package org.eclipse.codewind.ui.internal.wizards;
 
 import org.eclipse.codewind.core.internal.PlatformUtil;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
 import org.eclipse.codewind.ui.internal.messages.Messages;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -39,10 +39,10 @@ public class ProjectSelectionPage extends WizardPage {
 	
 	private final BindProjectWizard wizard;
 	private SearchPattern pattern = new SearchPattern(SearchPattern.RULE_PATTERN_MATCH | SearchPattern.RULE_PREFIX_MATCH | SearchPattern.RULE_BLANK_MATCH);
-	private final MicroclimateConnection connection;
+	private final CodewindConnection connection;
 	private IProject project = null;
 
-	protected ProjectSelectionPage(BindProjectWizard wizard, MicroclimateConnection connection) {
+	protected ProjectSelectionPage(BindProjectWizard wizard, CodewindConnection connection) {
 		super(Messages.SelectProjectPageName);
 		setTitle(Messages.SelectProjectPageTitle);
 		setDescription(Messages.SelectProjectPageDescription);

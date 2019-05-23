@@ -48,20 +48,20 @@ public class HttpUtil {
 			// Read error first because sometimes if there is an error, connection.getInputStream() throws an exception
 			InputStream eis = connection.getErrorStream();
 			if (eis != null) {
-				error = MCUtil.readAllFromStream(eis);
+				error = CoreUtil.readAllFromStream(eis);
 			}
 			else {
 				error = null;
 			}
 
 			if (!isGoodResponse) {
-				MCLogger.logError("Received bad response code " + responseCode + " from "
+				Logger.logError("Received bad response code " + responseCode + " from "
 						+ connection.getURL() + " - Error:\n" + error);
 				response = null;
 			} else {
 				InputStream is = connection.getInputStream();
 				if (is != null) {
-					response = MCUtil.readAllFromStream(is);
+					response = CoreUtil.readAllFromStream(is);
 				}
 				else {
 					response = null;
@@ -101,7 +101,7 @@ public class HttpUtil {
 	public static HttpResult post(URI uri, JSONObject payload) throws IOException {
 		HttpURLConnection connection = null;
 
-		MCLogger.log("POST " + payload.toString() + " TO " + uri);
+		Logger.log("POST " + payload.toString() + " TO " + uri);
 		try {
 			connection = (HttpURLConnection) uri.toURL().openConnection();
 
@@ -127,7 +127,7 @@ public class HttpUtil {
 	public static HttpResult post(URI uri) throws IOException {
 		HttpURLConnection connection = null;
 
-		MCLogger.log("Empty POST TO " + uri);
+		Logger.log("Empty POST TO " + uri);
 		try {
 			connection = (HttpURLConnection) uri.toURL().openConnection();
 			connection.setRequestMethod("POST");
@@ -143,7 +143,7 @@ public class HttpUtil {
 	public static HttpResult put(URI uri) throws IOException {
 		HttpURLConnection connection = null;
 
-		MCLogger.log("PUT " + uri);
+		Logger.log("PUT " + uri);
 		try {
 			connection = (HttpURLConnection) uri.toURL().openConnection();
 
@@ -161,7 +161,7 @@ public class HttpUtil {
 	public static HttpResult head(URI uri) throws IOException {
 		HttpURLConnection connection = null;
 
-		MCLogger.log("HEAD " + uri);
+		Logger.log("HEAD " + uri);
 		try {
 			connection = (HttpURLConnection) uri.toURL().openConnection();
 
@@ -179,7 +179,7 @@ public class HttpUtil {
 	public static HttpResult delete(URI uri) throws IOException {
 		HttpURLConnection connection = null;
 
-		MCLogger.log("DELETE " + uri);
+		Logger.log("DELETE " + uri);
 		try {
 			connection = (HttpURLConnection) uri.toURL().openConnection();
 

@@ -19,22 +19,22 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.codewind.core.internal.HttpUtil;
-import org.eclipse.codewind.core.internal.MCEclipseApplication;
-import org.eclipse.codewind.core.internal.MicroclimateApplication;
-import org.eclipse.codewind.core.internal.MicroclimateObjectFactory;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnection;
-import org.eclipse.codewind.core.internal.connection.MicroclimateConnectionManager;
-import org.eclipse.codewind.core.internal.console.MicroclimateConsoleFactory;
+import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
+import org.eclipse.codewind.core.internal.CodewindApplication;
+import org.eclipse.codewind.core.internal.CodewindObjectFactory;
+import org.eclipse.codewind.core.internal.connection.CodewindConnection;
+import org.eclipse.codewind.core.internal.connection.CodewindConnectionManager;
+import org.eclipse.codewind.core.internal.console.CodewindConsoleFactory;
 import org.eclipse.codewind.core.internal.console.ProjectLogInfo;
 import org.eclipse.codewind.core.internal.console.ProjectTemplateInfo;
 import org.eclipse.codewind.core.internal.console.SocketConsole;
 import org.eclipse.codewind.core.internal.constants.AppState;
-import org.eclipse.codewind.core.internal.constants.MCConstants;
+import org.eclipse.codewind.core.internal.constants.CoreConstants;
 import org.eclipse.codewind.core.internal.constants.ProjectType;
 import org.eclipse.codewind.core.internal.constants.StartMode;
 import org.eclipse.codewind.test.util.Condition;
 import org.eclipse.codewind.test.util.ImportUtil;
-import org.eclipse.codewind.test.util.MicroclimateUtil;
+import org.eclipse.codewind.test.util.CodewindUtil;
 import org.eclipse.codewind.test.util.TestUtil;
 import org.eclipse.codewind.ui.internal.actions.ImportProjectAction;
 import org.eclipse.core.resources.IMarker;
@@ -62,7 +62,7 @@ public abstract class BaseTest extends TestCase {
 	
 	protected static final String MARKER_TYPE = "org.eclipse.codewind.core.validationMarker";
 	
-	protected static MicroclimateConnection connection;
+	protected static CodewindConnection connection;
 	protected static IProject project;
 	
 	protected static String projectName;
@@ -77,20 +77,20 @@ public abstract class BaseTest extends TestCase {
     	origAutoBuildSetting = setWorkspaceAutoBuild(false);
     	
         // Create a microclimate connection
-        connection = MicroclimateObjectFactory.createMicroclimateConnection(new URI(MICROCLIMATE_URI));
-        MicroclimateConnectionManager.add(connection);
+        connection = CodewindObjectFactory.createCodewindConnection(new URI(MICROCLIMATE_URI));
+        CodewindConnectionManager.add(connection);
         
         // Create a new microprofile project
         createProject(projectType, projectName);
         
         // Wait for the project to be created
-        assertTrue("The application " + projectName + " should be created", MicroclimateUtil.waitForProject(connection, projectName, 300, 5));
+        assertTrue("The application " + projectName + " should be created", CodewindUtil.waitForProject(connection, projectName, 300, 5));
         
         // Wait for the project to be started
-        assertTrue("The application " + projectName + " should be running", MicroclimateUtil.waitForProjectStart(connection, projectName, 600, 5));
+        assertTrue("The application " + projectName + " should be running", CodewindUtil.waitForProjectStart(connection, projectName, 600, 5));
         
         // Import the application into eclipse
-        MicroclimateApplication app = connection.getAppByName(projectName);
+        CodewindApplication app = connection.getAppByName(projectName);
         ImportProjectAction.importProject(app);
         project = ImportUtil.waitForProject(projectName);
         assertNotNull("The " + projectName + " project should be imported in eclipse", project);
@@ -98,7 +98,7 @@ public abstract class BaseTest extends TestCase {
     
 	public void doTearDown() {
 		try {
-			MicroclimateUtil.cleanup(connection);
+			CodewindUtil.cleanup(connection);
 		} catch (Exception e) {
 			TestUtil.print("Test case cleanup failed", e);
 		}
@@ -110,8 +110,8 @@ public abstract class BaseTest extends TestCase {
 	}
     
     public void checkApp(String text) throws Exception {
-    	MicroclimateApplication app = connection.getAppByName(projectName);
-    	assertTrue("App should be in started state.  Current state is: " + app.getAppState(), MicroclimateUtil.waitForAppState(app, AppState.STARTED, 120, 2));
+    	CodewindApplication app = connection.getAppByName(projectName);
+    	assertTrue("App should be in started state.  Current state is: " + app.getAppState(), CodewindUtil.waitForAppState(app, AppState.STARTED, 120, 2));
     	pingApp(text);
     	checkMode(StartMode.RUN);
     	showConsoles();
@@ -119,7 +119,7 @@ public abstract class BaseTest extends TestCase {
     }
     
     protected void pingApp(String expectedText) throws Exception {
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
     	URL url = app.getRootUrl();
     	url = new URL(url.toExternalForm() + relativeURL);
     	HttpUtil.HttpResult result = HttpUtil.get(url.toURI());
@@ -132,12 +132,12 @@ public abstract class BaseTest extends TestCase {
     }
     
     protected void checkMode(StartMode mode) throws Exception {
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
     	for (int i = 0; i < 5 && app.getStartMode() != mode; i++) {
     		Thread.sleep(1000);
     	}
     	assertTrue("App is in " + app.getStartMode() + " when it should be in " + mode + " mode.", app.getStartMode() == mode);
-    	ILaunch launch = ((MCEclipseApplication)app).getLaunch();
+    	ILaunch launch = ((CodewindEclipseApplication)app).getLaunch();
     	if (StartMode.DEBUG_MODES.contains(mode)) {
     		assertNotNull("There should be a launch for the app", launch);
         	IDebugTarget debugTarget = launch.getDebugTarget();
@@ -149,26 +149,26 @@ public abstract class BaseTest extends TestCase {
     }
     
     protected void switchMode(StartMode mode) throws Exception {
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
     	connection.requestProjectRestart(app, mode.startMode);
     	// For Java builds the states can go by quickly so don't do an assert on this
-    	MicroclimateUtil.waitForAppState(app, AppState.STOPPED, 30, 1);
-    	assertTrue("App should be in started state instead of: " + app.getAppState(), MicroclimateUtil.waitForAppState(app, AppState.STARTED, 120, 1));
+    	CodewindUtil.waitForAppState(app, AppState.STOPPED, 30, 1);
+    	assertTrue("App should be in started state instead of: " + app.getAppState(), CodewindUtil.waitForAppState(app, AppState.STARTED, 120, 1));
     	checkMode(mode);
     }
     
     protected void showConsoles() throws Exception {
-    	MCEclipseApplication app = (MCEclipseApplication) connection.getAppByName(projectName);
+    	CodewindEclipseApplication app = (CodewindEclipseApplication) connection.getAppByName(projectName);
 		for (ProjectLogInfo logInfo : app.getLogInfos()) {
     		if (app.getConsole(logInfo) == null) {
-    			SocketConsole console = MicroclimateConsoleFactory.createLogFileConsole(app, logInfo);
+    			SocketConsole console = CodewindConsoleFactory.createLogFileConsole(app, logInfo);
     			app.addConsole(console);
     		}
     	}
     }
 
     protected void checkConsoles() throws Exception {
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
     	Set<String> expectedConsoles = new HashSet<String>();
     	Set<String> foundConsoles = new HashSet<String>();
 		for (ProjectLogInfo logInfo : app.getLogInfos()) {
@@ -205,13 +205,13 @@ public abstract class BaseTest extends TestCase {
     }
     
     protected void build() throws Exception {
-    	MicroclimateApplication app = connection.getAppByName(projectName);
-		connection.requestProjectBuild(app, MCConstants.VALUE_ACTION_BUILD);
+    	CodewindApplication app = connection.getAppByName(projectName);
+		connection.requestProjectBuild(app, CoreConstants.VALUE_ACTION_BUILD);
     }
     
     protected void setAutoBuild(boolean enabled) throws Exception {
-    	String actionKey = enabled ? MCConstants.VALUE_ACTION_ENABLEAUTOBUILD : MCConstants.VALUE_ACTION_DISABLEAUTOBUILD;
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	String actionKey = enabled ? CoreConstants.VALUE_ACTION_ENABLEAUTOBUILD : CoreConstants.VALUE_ACTION_DISABLEAUTOBUILD;
+    	CodewindApplication app = connection.getAppByName(projectName);
 		connection.requestProjectBuild(app, actionKey);
     }
     
@@ -220,7 +220,7 @@ public abstract class BaseTest extends TestCase {
     }
     
     protected void runValidation() throws Exception {
-    	MicroclimateApplication app = connection.getAppByName(projectName);
+    	CodewindApplication app = connection.getAppByName(projectName);
 		connection.requestValidate(app);
     }
     
