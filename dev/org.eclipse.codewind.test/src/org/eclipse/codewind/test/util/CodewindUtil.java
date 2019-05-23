@@ -47,27 +47,25 @@ public class CodewindUtil {
 	}
 	
 	public static void cleanup(CodewindConnection connection) throws Exception {
-		// Delete eclipse projects
-		List<CodewindApplication> allApps = connection.getApps();
-		for (CodewindApplication app: allApps) {
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(app.name);
-			if (project != null && project.exists()) {
-				try {
-	                project.delete(IResource.FORCE | IResource.NEVER_DELETE_PROJECT_CONTENT, null);
-	            } catch (Exception e) {
-	                TestUtil.print("Failed to clean up project: " + project.getName(), e);
-	            }
-			}
-		}
-		
-		// Delete the projects from Codewind
+		// Remove projects
 		List<CodewindApplication> apps = connection.getApps();
 		for (CodewindApplication app: apps) {
-			connection.requestProjectDelete(app.projectID);
+			connection.requestProjectUnbind(app.projectID);
 			try {
 				Thread.sleep(2000);
 			} catch (Exception e) {
 				// Ignore
+			}
+		}
+		
+		for (CodewindApplication app: apps) {
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(app.name);
+			if (project != null && project.exists()) {
+				try {
+	                project.delete(IResource.FORCE | IResource.ALWAYS_DELETE_PROJECT_CONTENT, null);
+	            } catch (Exception e) {
+	                TestUtil.print("Failed to clean up project: " + project.getName(), e);
+	            }
 			}
 		}
 		
