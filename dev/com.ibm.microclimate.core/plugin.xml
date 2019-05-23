@@ -13,22 +13,22 @@
 
 <plugin>
  
-<!-- This relies on com.ibm.microclimate.ui org.eclipse.debug.ui.launchConfigurationTabGroups extension -->
+<!-- This relies on org.eclipse.codewind.ui org.eclipse.debug.ui.launchConfigurationTabGroups extension -->
 <extension point="org.eclipse.debug.core.launchConfigurationTypes">
     <launchConfigurationType
-      id="com.ibm.microclimate.core.internal.launchConfigurationType"
+      id="org.eclipse.codewind.core.internal.launchConfigurationType"
       name="%LAUNCH_CONFIG_NAME"
-      delegate="com.ibm.microclimate.core.internal.launch.MicroclimateLaunchConfigDelegate"
+      delegate="org.eclipse.codewind.core.internal.launch.MicroclimateLaunchConfigDelegate"
       modes="run, debug"
       public="false"
       sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
-      sourcePathComputerId="com.ibm.microclimate.core.internal.MicroclimateSourcePathComputer"/>
+      sourcePathComputerId="org.eclipse.codewind.core.internal.MicroclimateSourcePathComputer"/>
 </extension>
 
 <extension point="org.eclipse.debug.core.sourcePathComputers">
 	<sourcePathComputer
-		id="com.ibm.microclimate.core.internal.MicroclimateSourcePathComputer"
-		class="com.ibm.microclimate.core.internal.launch.MicroclimateSourcePathComputer"
+		id="org.eclipse.codewind.core.internal.MicroclimateSourcePathComputer"
+		class="org.eclipse.codewind.core.internal.launch.MicroclimateSourcePathComputer"
 		name="Microclimate Source Path Computer">
 	</sourcePathComputer>
 </extension>
