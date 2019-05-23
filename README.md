@@ -10,7 +10,7 @@ We welcome [issues](https://github.com/microclimate-dev2ops/codewind-eclipse/iss
 
 1. Create a file called `.options` in your Eclipse install directory (the same directory with the `eclipse` executable) with the following content:
 
-`com.ibm.microclimate.core/debug/info=true`
+`org.eclipse.codewind.core/debug/info=true`
 
 2. Launch eclipse with the `-debug` flag.
 3. The logs are written to the Eclipse workspace directory, to `.metadata/.log`.

@@ -97,7 +97,7 @@
 			<category name="was4d"
 				label="Codewind V${version} Unit Tests"
 				description="Codewind V${version} Unit Tests">
-				<feature id="com.ibm.microclimate.test" />
+				<feature id="org.eclipse.codewind.test" />
 		  	</category>
 		</generateUpdateSite>
 
@@ -110,7 +110,7 @@
 			addIncludedFeatures="true">
 
 		<!-- Add Main feature here -->
-			<feature id="com.ibm.microclimate.test" />
+			<feature id="org.eclipse.codewind.test" />
 	  	</generateUpdateSite>
 
 	  	<!-- Step 3 -->

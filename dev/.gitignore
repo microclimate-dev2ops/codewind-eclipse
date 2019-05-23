@@ -3,6 +3,6 @@
 target_platform/
 tools.image/
 **/tools.pii.package
-com.ibm.microclimate*/**/build/
+org.eclipse.codewind*/**/build/
 ant_build/buildLabel.properties
 ant_build/target_platform.tar.gz
