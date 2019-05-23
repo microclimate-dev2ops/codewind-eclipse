@@ -76,8 +76,8 @@ public class CodewindLaunchConfigDelegate extends AbstractJavaLaunchConfiguratio
 				Logger.logError("Debugger connect failure"); //$NON-NLS-1$
 
 				CoreUtil.openDialog(true,
-						Messages.MicroclimateServerBehaviour_DebuggerConnectFailureDialogTitle,
-						Messages.MicroclimateServerBehaviour_DebuggerConnectFailureDialogMsg);
+						Messages.DebuggerConnectFailureDialogTitle,
+						Messages.DebuggerConnectFailureDialogMsg);
 			}
 		} catch (IllegalConnectorArgumentsException | CoreException | IOException e) {
 			Logger.logError(e);

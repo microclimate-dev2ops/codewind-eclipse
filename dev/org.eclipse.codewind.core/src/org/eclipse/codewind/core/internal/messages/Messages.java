@@ -16,24 +16,24 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.eclipse.codewind.core.internal.messages.messages"; //$NON-NLS-1$
 
-	public static String MicroclimateConnection_ErrConnection_AlreadyExists;
-	public static String MicroclimateConnection_ErrConnection_OldVersion;
-	public static String MicroclimateConnection_ErrConnection_VersionUnknown;
-	public static String MicroclimateConnection_ErrConnection_WorkspaceErr;
-	public static String MicroclimateConnection_ErrContactingServerDialogMsg;
-	public static String MicroclimateConnection_ErrContactingServerDialogTitle;
-	public static String MicroclimateConnection_ErrGettingProjectListTitle;
-	public static String MicroclimateConnection_ErrConnection_UpdateCacheException;
+	public static String Connection_ErrConnection_AlreadyExists;
+	public static String Connection_ErrConnection_OldVersion;
+	public static String Connection_ErrConnection_VersionUnknown;
+	public static String Connection_ErrConnection_WorkspaceErr;
+	public static String Connection_ErrContactingServerDialogMsg;
+	public static String Connection_ErrContactingServerDialogTitle;
+	public static String Connection_ErrGettingProjectListTitle;
+	public static String Connection_ErrConnection_UpdateCacheException;
 
-	public static String MicroclimateConnectionException_ConnectingToMCFailed;
+	public static String ConnectionException_ConnectingToMCFailed;
 
-	public static String MicroclimateReconnectJob_ReconnectErrorDialogMsg;
-	public static String MicroclimateReconnectJob_ReconnectErrorDialogTitle;
-	public static String MicroclimateReconnectJob_ReconnectJobName;
+	public static String ReconnectJob_ReconnectErrorDialogMsg;
+	public static String ReconnectJob_ReconnectErrorDialogTitle;
+	public static String ReconnectJob_ReconnectJobName;
 
-	public static String MicroclimateServerBehaviour_DebugLaunchConfigName;
-	public static String MicroclimateServerBehaviour_DebuggerConnectFailureDialogTitle;
-	public static String MicroclimateServerBehaviour_DebuggerConnectFailureDialogMsg;
+	public static String DebugLaunchConfigName;
+	public static String DebuggerConnectFailureDialogTitle;
+	public static String DebuggerConnectFailureDialogMsg;
 
 	public static String BuildConsoleName;
 	public static String AppConsoleName;
@@ -43,8 +43,8 @@ public class Messages extends NLS {
 	public static String FileNotFoundTitle;
 	public static String FileNotFoundMsg;
 
-	public static String MicroclimateSocket_ErrRestartingProjectDialogMsg;
-	public static String MicroclimateSocket_ErrRestartingProjectDialogTitle;
+	public static String Socket_ErrRestartingProjectDialogMsg;
+	public static String Socket_ErrRestartingProjectDialogTitle;
 	
 	public static String AppStateStarting;
 	public static String AppStateStarted;

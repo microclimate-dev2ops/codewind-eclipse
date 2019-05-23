@@ -67,7 +67,7 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 
 	@Override
 	public void run() {
-//		Wizard wizard = new NewMicroclimateConnectionWizard();
+//		Wizard wizard = new NewCodewindConnectionWizard();
 //		WizardLauncher.launchWizardWithoutSelection(wizard);
 		List<CodewindConnection> connections = CodewindConnectionManager.activeConnections();
 		if (connections != null && !connections.isEmpty() && connections.get(0).isConnected()) {

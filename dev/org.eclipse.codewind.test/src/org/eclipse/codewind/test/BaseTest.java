@@ -58,7 +58,7 @@ import junit.framework.TestCase;
 
 public abstract class BaseTest extends TestCase {
 
-	protected static final String MICROCLIMATE_URI = "http://localhost:9090";
+	protected static final String CODEWIND_URI = "http://localhost:9090";
 	
 	protected static final String MARKER_TYPE = "org.eclipse.codewind.core.validationMarker";
 	
@@ -76,8 +76,8 @@ public abstract class BaseTest extends TestCase {
     	// Disable workspace auto build
     	origAutoBuildSetting = setWorkspaceAutoBuild(false);
     	
-        // Create a microclimate connection
-        connection = CodewindObjectFactory.createCodewindConnection(new URI(MICROCLIMATE_URI));
+        // Create a Codewind connection
+        connection = CodewindObjectFactory.createCodewindConnection(new URI(CODEWIND_URI));
         CodewindConnectionManager.add(connection);
         
         // Create a new microprofile project

@@ -137,7 +137,7 @@ public class CodewindDebugConnector {
 	}
 
 	private static String getDebugLaunchName(String projectName, String host, String debugPort) {
-		return NLS.bind(Messages.MicroclimateServerBehaviour_DebugLaunchConfigName,
+		return NLS.bind(Messages.DebugLaunchConfigName,
 				new Object[] {
 						projectName,
 						host,

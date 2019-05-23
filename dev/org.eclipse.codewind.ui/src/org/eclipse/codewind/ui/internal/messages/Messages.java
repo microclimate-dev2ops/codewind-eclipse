@@ -59,10 +59,10 @@ public class Messages extends NLS {
 	public static String StartBuildAction_AlreadyBuildingTitle;
 	public static String StartBuildAction_AlreadyBuildingMsg;
 	
-	public static String MicroclimateConnectionLabel;
-	public static String MicroclimateDisconnected;
-	public static String MicroclimateProjectDisabled;
-	public static String MicroclimateConnectionNoProjects;
+	public static String CodewindConnectionLabel;
+	public static String CodewindDisconnected;
+	public static String CodewindProjectDisabled;
+	public static String CodewindConnectionNoProjects;
 	
 	public static String ActivateActionLabel;
 	public static String ActivateActionJobLabel;
