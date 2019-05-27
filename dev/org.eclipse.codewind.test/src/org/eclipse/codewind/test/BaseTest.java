@@ -273,6 +273,7 @@ public abstract class BaseTest extends TestCase {
 		}
 		assertNotNull("No template found that matches the project type: " + projectType, templateInfo);
 		connection.requestProjectCreate(templateInfo, name);
+		connection.requestProjectBind(name, connection.getWorkspacePath() + "/" + name, type.language, type.type);
 
 	}
 
