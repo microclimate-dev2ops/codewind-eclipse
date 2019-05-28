@@ -256,12 +256,12 @@ public abstract class BaseTest extends TestCase {
 		for (ProjectTemplateInfo template : templates) {
 			if (type.language.equals(template.getLanguage())) {
 				if (type.isLanguage(ProjectType.LANGUAGE_JAVA)) {
-					String extension = template.getExtension();
-					if (type.isType(ProjectType.TYPE_LIBERTY) && extension.toLowerCase().contains("microprofile")) {
+					String label = template.getLabel();
+					if (type.isType(ProjectType.TYPE_LIBERTY) && label.toLowerCase().contains("microprofile")) {
 						templateInfo = template;
 						break;
 					}
-					if (type.isType(ProjectType.TYPE_SPRING) && extension.toLowerCase().contains("spring")) {
+					if (type.isType(ProjectType.TYPE_SPRING) && label.toLowerCase().contains("spring")) {
 						templateInfo = template;
 						break;
 					}

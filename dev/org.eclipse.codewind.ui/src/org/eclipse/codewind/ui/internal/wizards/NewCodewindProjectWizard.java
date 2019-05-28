@@ -93,9 +93,9 @@ public class NewCodewindProjectWizard extends Wizard implements INewWizard {
 					newConnection.requestProjectCreate(info, name);
 					String type = null;
 					if (ProjectType.LANGUAGE_JAVA.equals(info.getLanguage())) {
-						if (info.getExtension().toLowerCase().contains("spring")) {
+						if (info.getLabel().toLowerCase().contains("spring")) {
 							type = "spring";
-						} else if (info.getExtension().toLowerCase().contains("microprofile")) {
+						} else if (info.getLabel().toLowerCase().contains("microprofile")) {
 							type = "liberty";
 						} else {
 							type = "docker";
@@ -123,7 +123,7 @@ public class NewCodewindProjectWizard extends Wizard implements INewWizard {
 					ViewHelper.expandConnection(newConnection);
 					return Status.OK_STATUS;
 				} catch (Exception e) {
-					Logger.logError("An error occured trying to create a project with type: " + info.getExtension() + ", and name: " + name, e); //$NON-NLS-1$ //$NON-NLS-2$
+					Logger.logError("An error occured trying to create a project with type: " + info.getUrl() + ", and name: " + name, e); //$NON-NLS-1$ //$NON-NLS-2$
 					return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, NLS.bind(Messages.NewProjectPage_ProjectCreateErrorMsg, name), e);
 				}
 			}
