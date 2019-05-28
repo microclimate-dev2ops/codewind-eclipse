@@ -19,7 +19,7 @@ public class ProjectTemplateInfo {
 	
 	public static final String LABEL_KEY = "label";
 	public static final String DESCRIPTION_KEY = "description";
-	public static final String EXTENSION_KEY = "extension";
+	public static final String URL_KEY = "url";
 	public static final String LANGUAGE_KEY = "language";
 	
 	private JSONObject projectInfo;
@@ -40,8 +40,8 @@ public class ProjectTemplateInfo {
 		return getString(LANGUAGE_KEY);
 	}
 	
-	public String getExtension() {
-		return getString(EXTENSION_KEY);
+	public String getUrl() {
+		return getString(URL_KEY);
 	}
 	
 	private String getString(String key) {

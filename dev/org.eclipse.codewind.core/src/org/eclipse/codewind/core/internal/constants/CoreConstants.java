@@ -85,6 +85,7 @@ public class CoreConstants {
 			KEY_EXTENSION = "extension",
 			KEY_PROJECT_NAME = "projectName",
 			KEY_PARENT_PATH = "parentPath",
+			KEY_URL = "url",
 			KEY_TEMPLATE_ID = "templateID",
 
 			KEY_START_MODE = "startMode",

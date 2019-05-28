@@ -637,7 +637,7 @@ public class CodewindConnection {
 		JSONObject createProjectPayload = new JSONObject();
 		createProjectPayload.put(CoreConstants.KEY_PROJECT_NAME, name);
 		createProjectPayload.put(CoreConstants.KEY_PARENT_PATH, CoreUtil.getContainerPath(localWorkspacePath.toString()));
-		createProjectPayload.put(CoreConstants.KEY_TEMPLATE_ID, templateInfo.getExtension());
+		createProjectPayload.put(CoreConstants.KEY_URL, templateInfo.getUrl());
 
 		HttpResult result = HttpUtil.post(uri, createProjectPayload);
 		checkResult(result, uri, false);
