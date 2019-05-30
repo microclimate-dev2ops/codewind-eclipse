@@ -34,7 +34,6 @@ dependencies {
     antScp 'org.apache.ant:ant-jsch:1.7.1', 'jsch:jsch:0.1.29'
 
     corelibs "io.socket:engine.io-client:1.0.0"
-    corelibs "org.json:json:20090211"
     corelibs "com.squareup.okhttp3:okhttp:3.8.1"
     corelibs "com.squareup.okio:okio:1.13.0"
     corelibs "io.socket:socket.io-client:1.0.0"
@@ -61,6 +60,7 @@ task importAnt {
     println "Imported ant code"
 }
 
+
 def projDir = projectDir.getAbsolutePath()
 def antBuildFolderPath = projDir + project.properties['ant.build.folder']
 def targetPlatformFolder = file(projDir + project.properties['target.platform.folder'])
@@ -77,6 +77,8 @@ def toolsImagePluginsFolder  = file(projDir + project.properties['tools.image.pl
 def artifactsFolder = file(projDir + '/' + project.properties['ant.artifacts.folder'])
 
 def corelibFolder = file(projDir + project.properties['microclimate.core.prereqlib.folder'])
+def excludeJson = "json-20090211.jar"
+def jsonFile = file(projDir + project.properties['microclimate.core.prereqlib.folder'] + '/org.json_1.0.0.v201011060100.jar')
 
 // Download dependent plugins from maven repository for 'org.eclipse.codewind.core'
 task getCoreDependencies(type: Copy) {
@@ -88,8 +90,29 @@ task getCoreDependencies(type: Copy) {
 
     eachFile { println "Copying ${it.file.name}" }
 
-    from configurations.corelibs
+    from configurations.corelibs {
+	    exclude excludeJson
+    }
     into corelibFolder
+}
+
+task downloadJson(type: Download) {
+    println("Downloading json jar")
+    sourceUrl = 'http://download.eclipse.org/tools/orbit/downloads/drops/R20181102183712/repository/plugins/org.json_1.0.0.v201011060100.jar'
+    target = jsonFile
+}
+
+class Download extends DefaultTask {
+    @Input
+    String sourceUrl
+
+    @OutputFile
+    File target
+
+    @TaskAction
+    void download() {
+        ant.get(src: sourceUrl, dest: target)
+    }
 }
 
 // Download an Eclipse TargetPlatform
@@ -449,3 +472,4 @@ task clean(type: Delete) {
 }
 
 clean.dependsOn cleanBuilds, cleanPrereqs
+getCoreDependencies.finalizedBy downloadJson
