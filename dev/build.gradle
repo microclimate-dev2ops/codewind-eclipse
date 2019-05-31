@@ -41,7 +41,7 @@ dependencies {
     // corelibs "com.nimbusds:oauth2-oidc-sdk:6.5"
 }
 
-defaultTasks 'clean', 'getCoreDependencies', 'compile', 'generateOpenMDTUpdateSite'
+defaultTasks 'clean', 'getCoreDependencies', 'compile', 'generateOpenCWUpdateSite'
 
 task importAnt {
     ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
@@ -50,13 +50,13 @@ task importAnt {
         antClassLoader.addURL(f.toURI().toURL())
     }
 
-    // The below taskdefs are only used in prereqs.xml. build-mdt.xml has its taskdefs loaded in the ant code.
+    // The below taskdefs are only used in prereqs.xml. build-cw.xml has its taskdefs loaded in the ant code.
     ant.taskdef(resource:'net/sf/antcontrib/antlib.xml',classpath:configurations.antcp.asPath)
     ant.taskdef(uri:'antlib:org.apache.ivy.ant', resource:'org/apache/ivy/ant/antlib.xml',classpath: configurations.antcp.asPath)
 
-    // build-mdt provides the generateOpenMDTUpdateSite target, which is the entry point
+    // build-cw provides the generateOpenCWUpdateSite target, which is the entry point
     // for the compilation and assembling of updatesites
-    ant.importBuild('ant_build/build-mdt.xml')
+    ant.importBuild('ant_build/build-cw.xml')
     println "Imported ant code"
 }
 
@@ -150,7 +150,7 @@ task downloadEclipseTargetPlatform {
     }
 
     onlyIf {
-        System.env['skip_compile_mdt'] == null
+        System.env['skip_compile_cw'] == null
     }
 }
 
@@ -192,7 +192,7 @@ task downloadEclipseSDK {
     }
 
     onlyIf {
-        System.env['skip_compile_mdt'] == null
+        System.env['skip_compile_cw'] == null
     }
 }
 
@@ -201,15 +201,15 @@ task build {
     }
 }
 
-task gradleGenerateMDTUpdateSite {
+task gradleGenerateCWUpdateSite {
     doLast {
     }
 }
 
-gradleGenerateMDTUpdateSite.dependsOn generateOpenMDTUpdateSite
+gradleGenerateCWUpdateSite.dependsOn generateOpenCWUpdateSite
 
 build.dependsOn compile
-build.dependsOn generateOpenMDTUpdateSite
+build.dependsOn generateOpenCWUpdateSite
 
 compile.dependsOn downloadEclipseSDK
 compile.dependsOn downloadEclipseTargetPlatform
@@ -267,8 +267,8 @@ task deployArtifactory {
     }
 
     onlyIf {
-        ((System.getenv("mdt_build_type") == "nightly") ||
-             (System.getenv("mdt_build_type") == "release"))
+        ((System.getenv("cw_build_type") == "nightly") ||
+             (System.getenv("cw_build_type") == "release"))
     }
 }
 
@@ -278,7 +278,7 @@ task deployDHE {
     doLast {
 
         def version = getBuildLabelFromArtifact()
-        def buildType = System.getenv("mdt_build_type")
+        def buildType = System.getenv("cw_build_type")
         def buildLog = System.getenv("BUILD_LOG")
 
         println "Publishing ${buildType} build: ${version}"
@@ -410,8 +410,8 @@ task deployDHE {
     }
 
     onlyIf {
-        ((System.getenv("mdt_build_type") == "nightly") ||
-             (System.getenv("mdt_build_type") == "release"))
+        ((System.getenv("cw_build_type") == "nightly") ||
+             (System.getenv("cw_build_type") == "release"))
     }
 }
 
@@ -437,7 +437,7 @@ task cleanPrereqs(type: Delete) {
     }
 
     onlyIf {
-        System.env['skip_compile_mdt'] == null
+        System.env['skip_compile_cw'] == null
     }
 }
 
@@ -457,7 +457,7 @@ task cleanBuilds(type: Delete) {
     }
 
     onlyIf {
-        System.env['skip_compile_mdt'] == null
+        System.env['skip_compile_cw'] == null
     }
 }
 
@@ -467,7 +467,7 @@ task clean(type: Delete) {
     }
 
     onlyIf {
-        System.env['skip_compile_mdt'] == null
+        System.env['skip_compile_cw'] == null
     }
 }
 

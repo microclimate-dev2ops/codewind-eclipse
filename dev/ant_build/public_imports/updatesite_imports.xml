@@ -15,7 +15,7 @@
 
 	<dirname property="updatesite_imports.basedir" file="${ant.file.updatesite_imports}" />
 
-	<taskdef file="${updatesite_imports.basedir}/../resources/mdt_updatesite-properties/GenerateUpdateSite.properties">
+	<taskdef file="${updatesite_imports.basedir}/../resources/cw_updatesite-properties/GenerateUpdateSite.properties">
 		<classpath path="${updatesite_imports.basedir}/../lib/wdt-updatesite_0.0.2_v.20131018_1700.jar" />
 	</taskdef>
 
@@ -25,7 +25,7 @@
 
 
 	  <target name="generateP2Metadata">
-	  	<property name="mdt-updatesite-label" value="Codewind Update Site"/>
+	  	<property name="cw-updatesite-label" value="Codewind Update Site"/>
 	  	<java classname="org.eclipse.equinox.launcher.Main" dir="../../"
 	  		  fork="true" jvm="${target.jvm}" spawn="false" failonerror="true">
 	  		<arg value="-clean"/>
