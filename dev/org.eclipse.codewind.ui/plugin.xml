@@ -215,7 +215,7 @@
 			id="org.eclipse.codewind.ui.explorerViewActions"
 			targetID="org.eclipse.codewind.ui.explorerView">
 			<action
-				id="com.ibm.microcliamte.ui.createConnectionAction"
+				id="org.eclipse.codewind.ui.createConnectionAction"
 				label="%NEW_CONNECTION_MENU_LABEL"
 				menubarPath="group.new"
 				toolbarPath="group.new" 
@@ -223,7 +223,7 @@
 				class="org.eclipse.codewind.ui.internal.actions.CreateConnectionAction">
 			</action>
 			<action
-				id="com.ibm.microcliamte.ui.restartRunModeAction"
+				id="org.eclipse.codewind.ui.restartRunModeAction"
 				label="%ACTION_RESTART_RUN_MODE"
 				menubarPath="group.top"
 				toolbarPath="group.top" 
@@ -231,7 +231,7 @@
 				class="org.eclipse.codewind.ui.internal.actions.RestartRunModeAction">
 			</action>
 			<action
-				id="com.ibm.microcliamte.ui.restartDebugModeAction"
+				id="org.eclipse.codewind.ui.restartDebugModeAction"
 				label="%ACTION_RESTART_DEBUG_MODE"
 				menubarPath="group.top"
 				toolbarPath="group.top" 
@@ -247,7 +247,7 @@
 			name="%CODEWIND_CATEGORY_NAME">
 		</category>
 		<wizard
-			id="com.ibm.microcliamte.ui.wizards.newConnection"
+			id="org.eclipse.codewind.ui.wizards.newConnection"
 			name="%NEW_CONNECTION_MENU_LABEL"
 			class="org.eclipse.codewind.ui.internal.wizards.NewCodewindConnectionWizard"
 			category="org.eclipse.codewind.ui.new"
@@ -256,7 +256,7 @@
 			<selection class="org.eclipse.core.resources.IResource"/>
 		</wizard>
 		<wizard
-			id="com.ibm.microcliamte.ui.wizards.newProject"
+			id="org.eclipse.codewind.ui.wizards.newProject"
 			name="%NEW_PROJECT_MENU_LABEL"
 			class="org.eclipse.codewind.ui.internal.wizards.NewCodewindProjectWizard"
 			category="org.eclipse.codewind.ui.new"

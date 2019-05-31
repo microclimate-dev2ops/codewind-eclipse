@@ -9,14 +9,14 @@
         IBM Corporation - initial API and implementation
 -->
 
-<project name="mdt_test_imports">
+<project name="cw_test_imports">
 
-    <dirname property="mdt_test_imports.basedir" file="${ant.file.mdt_imports}" />
-    <import file="${mdt_test_imports.basedir}/public_imports/updatesite_imports.xml"/>
+    <dirname property="cw_test_imports.basedir" file="${ant.file.cw_imports}" />
+    <import file="${cw_test_imports.basedir}/public_imports/updatesite_imports.xml"/>
 
-	<target name="generateMDTTestUpdateSite">
+	<target name="generateCWTestUpdateSite">
 
-		<echo>Open MDT generate Test updateSite call</echo>
+		<echo>Open CW generate Test updateSite call</echo>
 
 	    <condition property="java.executable" value="java" else="java.exe">
 	      <not>
@@ -24,7 +24,7 @@
 	      </not>
 	    </condition>
 
-		<property name="local.workspace" location="${mdt_test_imports.basedir}/.."/>
+		<property name="local.workspace" location="${cw_test_imports.basedir}/.."/>
 	    <property name="target.jvm" location="${java.home}/bin/${java.executable}" />
 		<property name="delegate.build.dir" location = "${local.workspace}"/>
 
@@ -51,7 +51,7 @@
 	  	<property name="updatesite-test-name" value="${fileName}-${fileNameVersion}.v${qualifier}" />
 	  	<property file="${eclipse.properties.file}" />
 
-	  	<property name="gen.updatesite.file" location="${mdt_test_imports.basedir}/resources/mdt_updatesite-properties/generateP2Metadata.xml" />
+	  	<property name="gen.updatesite.file" location="${cw_test_imports.basedir}/resources/cw_updatesite-properties/generateP2Metadata.xml" />
 	  	<echo message="Script location at ${gen.updatesite.file}" />
 
 	  	<property name="target.updatesite.repository" location="${updateSiteDir}/repository" />
