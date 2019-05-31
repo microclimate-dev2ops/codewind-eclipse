@@ -36,9 +36,9 @@ public class InstallUtil {
 	private static final Map<OperatingSystem, String> installMap = new HashMap<OperatingSystem, String>();
 
 	static {
-		installMap.put(OperatingSystem.LINUX, "resources/lnx-installer");
-		installMap.put(OperatingSystem.MAC, "resources/mac-installer");
-		installMap.put(OperatingSystem.WINDOWS, "resources/win-installer.exe");
+		installMap.put(OperatingSystem.LINUX, "resources/codewind-installer-linux");
+		installMap.put(OperatingSystem.MAC, "resources/codewind-installer-macos");
+		installMap.put(OperatingSystem.WINDOWS, "resources/codewind-installer-win.exe");
 	}
 	
 	private static final String INSTALLER_DIR = "installerWorkDir";
