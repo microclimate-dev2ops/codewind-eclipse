@@ -37,6 +37,7 @@ public class CodewindUIPlugin extends AbstractUIPlugin {
 
 	private static URL ICON_BASE_URL;
 	protected Map<String, ImageDescriptor> imageDescriptors = new HashMap<String, ImageDescriptor>();
+	private UpdateHandler updateHandler;
 	
 	public static final String
 			ICON_BASE_PATH = "icons/",
@@ -72,7 +73,8 @@ public class CodewindUIPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		CodewindCorePlugin.setUpdateHandler(new UpdateHandler());
+		updateHandler = new UpdateHandler();
+		CodewindCorePlugin.setUpdateHandler(updateHandler);
 		CodewindCorePlugin.addDebugLauncher(ProjectType.LANGUAGE_NODEJS, new NodeJSDebugLauncher());
 	}
 
@@ -82,6 +84,7 @@ public class CodewindUIPlugin extends AbstractUIPlugin {
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
+		updateHandler = null;
 		CodewindCorePlugin.setUpdateHandler(null);
 		plugin = null;
 		super.stop(context);
@@ -147,6 +150,10 @@ public class CodewindUIPlugin extends AbstractUIPlugin {
 	 */
 	public IPreferenceStore getPreferenceStore() {
 		return CodewindCorePlugin.getDefault().getPreferenceStore();
+	}
+	
+	public static UpdateHandler getUpdateHandler() {
+		return getDefault().updateHandler;
 	}
 
 }

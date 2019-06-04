@@ -102,11 +102,13 @@ public class Messages extends NLS {
 	
 	public static String EnableProjectLabel;
 	public static String DisableProjectLabel;
-	public static String ErrorOnEnableDisableProjectDialogTitle;
+	public static String EnableDisableProjectJob;
+	public static String ErrorOnEnableDisableProject;
 	
 	public static String EnableAutoBuildLabel;
 	public static String DisableAutoBuildLabel;
-	public static String ErrorOnEnableDisableAutoBuildDialogTitle;
+	public static String EnableDisableAutoBuildJob;
+	public static String ErrorOnEnableDisableAutoBuild;
 	
 	public static String ShowLogFilesMenu;
 	public static String ShowAllLogFilesAction;

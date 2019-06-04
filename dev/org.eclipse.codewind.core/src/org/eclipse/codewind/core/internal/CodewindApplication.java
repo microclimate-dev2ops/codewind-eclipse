@@ -128,6 +128,7 @@ public class CodewindApplication {
 	
 	public synchronized void setAutoBuild(boolean enabled) {
 		this.autoBuild = enabled;
+		CoreUtil.updateApplication(this);
 	}
 	
 	public synchronized void setEnabled(boolean enabled) {

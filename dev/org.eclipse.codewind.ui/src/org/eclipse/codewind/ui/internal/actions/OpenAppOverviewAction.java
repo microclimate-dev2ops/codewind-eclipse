@@ -11,13 +11,15 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
-import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.core.internal.CodewindApplication;
+import org.eclipse.codewind.core.internal.Logger;
 import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.editors.ApplicationOverviewEditorInput;
+import org.eclipse.codewind.ui.internal.editors.ApplicationOverviewEditorPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -62,7 +64,13 @@ public class OpenAppOverviewAction implements IObjectActionDelegate {
 		
 		try {
 			ApplicationOverviewEditorInput input = new ApplicationOverviewEditorInput(app);
-			page.openEditor(input, ApplicationOverviewEditorInput.EDITOR_ID);
+			IEditorPart part = page.openEditor(input, ApplicationOverviewEditorInput.EDITOR_ID);
+			if (part instanceof ApplicationOverviewEditorPart) {
+				((ApplicationOverviewEditorPart)part).update(app);
+			} else {
+				// This should not happen
+				Logger.logError("Application overview editor part for the " + app.name + " application is the wrong type: " + part.getClass()); //$NON-NLS-1$  //$NON-NLS-2$
+			}
 		} catch (Exception e) {
 			Logger.logError("An error occurred opening the editor for application: " + app.name, e); //$NON-NLS-1$
 		}

@@ -11,13 +11,19 @@
 
 package org.eclipse.codewind.ui.internal.actions;
 
+import org.eclipse.codewind.core.internal.CodewindApplication;
 import org.eclipse.codewind.core.internal.CodewindEclipseApplication;
 import org.eclipse.codewind.core.internal.Logger;
-import org.eclipse.codewind.core.internal.CoreUtil;
+import org.eclipse.codewind.ui.CodewindUIPlugin;
 import org.eclipse.codewind.ui.internal.messages.Messages;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -60,15 +66,25 @@ public class EnableDisableProjectAction implements IObjectActionDelegate {
         	Logger.logError("EnableDisableProjectAction ran but no application was selected"); //$NON-NLS-1$
 			return;
 		}
-
-        try {
-			app.connection.requestProjectOpenClose(app, !app.isEnabled());
-		} catch (Exception e) {
-			Logger.logError("Error initiating enable/disable for project: " + app.name, e); //$NON-NLS-1$
-			CoreUtil.openDialog(true, Messages.ErrorOnEnableDisableProjectDialogTitle, e.getMessage());
-			return;
-		}
+        
+        enableDisableProject(app, !app.isEnabled());
     }
+    
+	public static void enableDisableProject(CodewindApplication app, boolean enable) {
+		Job job = new Job(NLS.bind(Messages.EnableDisableProjectJob, app.name)) {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					app.connection.requestProjectOpenClose(app, enable);
+					return Status.OK_STATUS;
+				} catch (Exception e) {
+					Logger.logError("An error occurred updating enablement for: " + app.name + ", with id: " + app.projectID, e); //$NON-NLS-1$ //$NON-NLS-2$
+					return new Status(IStatus.ERROR, CodewindUIPlugin.PLUGIN_ID, NLS.bind(Messages.ErrorOnEnableDisableProject, app.name), e);
+				}
+			}
+		};
+		job.schedule();
+	}
 
 	@Override
 	public void setActivePart(IAction arg0, IWorkbenchPart arg1) {
