@@ -53,7 +53,9 @@ task importAnt {
     // The below taskdefs are only used in prereqs.xml. build-cw.xml has its taskdefs loaded in the ant code.
     ant.taskdef(resource:'net/sf/antcontrib/antlib.xml',classpath:configurations.antcp.asPath)
     ant.taskdef(uri:'antlib:org.apache.ivy.ant', resource:'org/apache/ivy/ant/antlib.xml',classpath: configurations.antcp.asPath)
-
+    // prereqs uses ivy to resolve and download our runtime dependencies and some open source libs
+    // and move them into /lib/ folders of dependant plugins
+    ant.importBuild('ant_build/prereqs/prereqs.xml')
     // build-cw provides the generateOpenCWUpdateSite target, which is the entry point
     // for the compilation and assembling of updatesites
     ant.importBuild('ant_build/build-cw.xml')
@@ -211,6 +213,8 @@ gradleGenerateCWUpdateSite.dependsOn generateOpenCWUpdateSite
 build.dependsOn compile
 build.dependsOn generateOpenCWUpdateSite
 
+preparePrereqsIvy.dependsOn importAnt
+compile.dependsOn preparePrereqsIvy
 compile.dependsOn downloadEclipseSDK
 compile.dependsOn downloadEclipseTargetPlatform
 
@@ -447,10 +451,6 @@ task cleanBuilds(type: Delete) {
         def artifactsDir = project.properties['ant.artifacts.folder']
         println 'Delete ' + artifactsDir
         file(artifactsDir).deleteDir()
-
-        def buildLabelFile = project.properties['build.label.file']
-        println 'Delete ' + buildLabelFile
-        file(buildLabelFile).delete()
 
         println 'Delete ' + toolsImageFolder
         file(toolsImageFolder).deleteDir()
