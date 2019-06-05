@@ -326,6 +326,8 @@ public class CodewindSocket {
 			boolean autoBuild = event.getBoolean(CoreConstants.KEY_AUTO_BUILD);
 			app.setAutoBuild(autoBuild);
 		}
+		
+		CoreUtil.updateApplication(app);
 	}
 	
 	private void onProjectSettingsChanged(JSONObject event) throws JSONException {
@@ -344,6 +346,8 @@ public class CodewindSocket {
 		}
 		
 		// TODO: need to update ports?
+		
+		CoreUtil.updateApplication(app);
 	}
 
 	private void onProjectStatusChanged(JSONObject event) throws JSONException {

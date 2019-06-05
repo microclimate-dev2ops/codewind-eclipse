@@ -11,15 +11,21 @@
 
 package org.eclipse.codewind.ui.internal.views;
 
-import org.eclipse.codewind.core.internal.IUpdateHandler;
+import java.util.HashMap;
+
 import org.eclipse.codewind.core.internal.CodewindApplication;
+import org.eclipse.codewind.core.internal.IUpdateHandler;
 import org.eclipse.codewind.core.internal.connection.CodewindConnection;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Update handler registered on the Codewind core plug-in in order to keep
- * the Codewind view up to date.
+ * the Codewind view up to date.  Listeners can also register to be kept up
+ * to date.
  */
 public class UpdateHandler implements IUpdateHandler {
+	
+	private HashMap<String, AppUpdateListener> appListeners = new HashMap<String, AppUpdateListener>();
 	
 	@Override
 	public void updateAll() {
@@ -33,9 +39,36 @@ public class UpdateHandler implements IUpdateHandler {
 	}
 
 	@Override
-	public void updateApplication(CodewindApplication application) {
-		ViewHelper.refreshCodewindExplorerView(application);
-		ViewHelper.expandConnection(application.connection);
+	public void updateApplication(CodewindApplication app) {
+		ViewHelper.refreshCodewindExplorerView(app);
+		ViewHelper.expandConnection(app.connection);
+		synchronized(appListeners) {
+			AppUpdateListener listener = appListeners.get(app.projectID);
+			if (listener != null) {
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						listener.update(app);
+					}
+				});
+			}
+		}
+	}
+	
+	public void addAppUpdateListener(String projectID, AppUpdateListener listener) {
+		synchronized(appListeners) {
+			appListeners.put(projectID, listener);
+		}
+	}
+	
+	public void removeAppUpdateListener(String projectID) {
+		synchronized(appListeners) {
+			appListeners.remove(projectID);
+		}
+	}
+	
+	public interface AppUpdateListener {
+		public void update(CodewindApplication app);
 	}
 
 }
