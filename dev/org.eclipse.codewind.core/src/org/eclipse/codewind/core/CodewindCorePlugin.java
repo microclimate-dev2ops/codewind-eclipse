@@ -32,7 +32,7 @@ public class CodewindCorePlugin extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.codewind.core"; //$NON-NLS-1$
 
-	public static final String DEFAULT_ICON_PATH = "icons/microclimate.ico"; //$NON-NLS-1$
+	public static final String DEFAULT_ICON_PATH = "icons/codewind.ico"; //$NON-NLS-1$
 
 	public static final String
 			// Int option for debug timeout in seconds

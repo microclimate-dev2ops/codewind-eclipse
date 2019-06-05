@@ -51,7 +51,7 @@ public class CreateConnectionAction extends Action implements IViewActionDelegat
 	
 	public CreateConnectionAction(Shell shell) {
         super(Messages.ActionNewConnection);
-        setImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.MICROCLIMATE_ICON));
+        setImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.CODEWIND_ICON));
     }
 
     public CreateConnectionAction() {

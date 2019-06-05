@@ -106,7 +106,7 @@ public class ApplicationOverviewEditorPart extends EditorPart {
 		FormToolkit toolkit = managedForm.getToolkit();
 		toolkit.decorateFormHeading(form.getForm());
 		form.setText(appName);
-		form.setImage(CodewindUIPlugin.getImage(CodewindUIPlugin.MICROCLIMATE_ICON));
+		form.setImage(CodewindUIPlugin.getImage(CodewindUIPlugin.CODEWIND_ICON));
 		form.getBody().setLayout(new GridLayout());
 		
 		Composite columnComp = toolkit.createComposite(form.getBody());

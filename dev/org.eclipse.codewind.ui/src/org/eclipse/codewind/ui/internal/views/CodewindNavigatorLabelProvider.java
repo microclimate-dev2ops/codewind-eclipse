@@ -126,7 +126,7 @@ public class CodewindNavigatorLabelProvider extends LabelProvider implements ISt
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof CodewindConnection) {
-			return CodewindUIPlugin.getImage(CodewindUIPlugin.MICROCLIMATE_ICON);
+			return CodewindUIPlugin.getImage(CodewindUIPlugin.CODEWIND_ICON);
 		} else if (element instanceof CodewindApplication) {
 			ProjectType type = ((CodewindApplication)element).projectType;
 			if (type.isLanguage(ProjectType.LANGUAGE_JAVA)) {
