@@ -40,7 +40,7 @@ public class NewCodewindProjectWizard extends Wizard implements INewWizard {
 	private NewCodewindProjectPage newProjectPage = null;
 	
 	public NewCodewindProjectWizard() {
-		setDefaultPageImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.MICROCLIMATE_BANNER));
+		setDefaultPageImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.CODEWIND_BANNER));
 		setHelpAvailable(false);
 		setNeedsProgressMonitor(true);
 	}

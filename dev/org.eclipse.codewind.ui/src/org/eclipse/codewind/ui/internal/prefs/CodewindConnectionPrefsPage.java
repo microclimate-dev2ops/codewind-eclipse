@@ -53,7 +53,7 @@ public class CodewindConnectionPrefsPage extends PreferencePage implements IWork
 	private Table connectionsTable;
 
 	public CodewindConnectionPrefsPage() {
-		super(Messages.ConnectionPrefsPage_ShellTitle, CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.MICROCLIMATE_ICON));
+		super(Messages.ConnectionPrefsPage_ShellTitle, CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.CODEWIND_ICON));
 		setMessage(Messages.ConnectionPrefsPage_PageTitle);
 	}
 

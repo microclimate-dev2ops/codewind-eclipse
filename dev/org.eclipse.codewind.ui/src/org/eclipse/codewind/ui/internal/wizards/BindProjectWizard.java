@@ -51,7 +51,7 @@ public class BindProjectWizard extends Wizard implements INewWizard {
 	
 	private void init() {
 		setNeedsProgressMonitor(true);
-		setDefaultPageImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.MICROCLIMATE_BANNER));
+		setDefaultPageImageDescriptor(CodewindUIPlugin.getImageDescriptor(CodewindUIPlugin.CODEWIND_BANNER));
 		setHelpAvailable(false);
 	}
 

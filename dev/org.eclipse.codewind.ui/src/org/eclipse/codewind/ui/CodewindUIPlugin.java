@@ -41,8 +41,8 @@ public class CodewindUIPlugin extends AbstractUIPlugin {
 	
 	public static final String
 			ICON_BASE_PATH = "icons/",
-			MICROCLIMATE_ICON = "microclimate.ico",
-			MICROCLIMATE_BANNER = "microclimateBanner.png",
+			CODEWIND_ICON = "codewind.ico",
+			CODEWIND_BANNER = "codewindBanner.png",
 			ERROR_ICON_PATH = "error.gif",
 			OPEN_BROWSER_ICON = "elcl16/internal_browser.gif",
 			BUILD_ICON = "elcl16/build_exec.png",
@@ -105,7 +105,7 @@ public class CodewindUIPlugin extends AbstractUIPlugin {
 	}
 
 	public static ImageDescriptor getDefaultIcon() {
-		return getImageDescriptor(MICROCLIMATE_ICON);
+		return getImageDescriptor(CODEWIND_ICON);
 	}
 	
     public static Image getImage(String key) {
@@ -118,7 +118,7 @@ public class CodewindUIPlugin extends AbstractUIPlugin {
         if (ICON_BASE_URL == null)
             ICON_BASE_URL = plugin.getBundle().getEntry(ICON_BASE_PATH);
 
-        registerImage(registry, MICROCLIMATE_ICON, ICON_BASE_URL + MICROCLIMATE_ICON);
+        registerImage(registry, CODEWIND_ICON, ICON_BASE_URL + CODEWIND_ICON);
         registerImage(registry, OPEN_BROWSER_ICON, ICON_BASE_URL + OPEN_BROWSER_ICON);
         registerImage(registry, BUILD_ICON, ICON_BASE_URL + BUILD_ICON);
         registerImage(registry, IMPORT_ICON, ICON_BASE_URL + IMPORT_ICON);

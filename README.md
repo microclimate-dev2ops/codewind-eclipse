@@ -2,9 +2,16 @@
 
 [![License](https://img.shields.io/badge/License-EPL%202.0-red.svg)](https://www.eclipse.org/legal/epl-2.0/)
 
+## How to install
+
+Complete the following steps to install Codewind for Eclipse:
+
+1. Download and install the latest [Eclipse IDE for Java EE Developers](https://www.eclipse.org/downloads/packages/release/) or use an existing installation. The earliest supported version of the Eclipse IDE for Codewind for Eclipse is 4.11.0 (2019-03).
+2. Install [Codewind from the Eclipse Marketplace](https://marketplace.eclipse.org/content/codewind).
+
 ## Contributing
 
-We welcome [issues](https://github.com/microclimate-dev2ops/codewind-eclipse/issues) and contributions. For more information, see [CONTRIBUTING.md](https://github.com/microclimate-dev2ops/codewind-eclipse/tree/master/CONTRIBUTING.md).
+We welcome [issues](https://github.com/eclipse/codewind-eclipse/issues) and contributions. For more information, see [CONTRIBUTING.md](https://github.com/eclipse/codewind-eclipse/tree/master/CONTRIBUTING.md).
 
 ### Enabling Debug Logs
 
@@ -19,7 +26,7 @@ We welcome [issues](https://github.com/microclimate-dev2ops/codewind-eclipse/iss
 
 1. Clone the repository to your system.
 
-    ```git clone https://github.com/microclimate-dev2ops/codewind-eclipse```
+    ```git clone https://github.com/eclipse/codewind-eclipse```
 
 2. [Optional] Copy 'codewind-eclipse' folder to 'build' to get a test build. This will keep your source folder intact.
 3. Run a gradle build.
@@ -34,7 +41,7 @@ We welcome [issues](https://github.com/microclimate-dev2ops/codewind-eclipse/iss
 
 ## License
 
-[EPL 2.0](https://github.com/microclimate-dev2ops/codewind-eclipse/tree/master/LICENSE)
+[EPL 2.0](https://github.com/eclipse/codewind-eclipse/tree/master/LICENSE)
 
 ## Dependencies
 

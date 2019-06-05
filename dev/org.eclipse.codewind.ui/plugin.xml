@@ -310,7 +310,7 @@
 	<extension point="org.eclipse.ui.editors">
 	    <editor id="org.eclipse.codewind.ui.editors.appOverview"
 	        name="Application Overview"
-	        icon="icons/microclimate.ico"
+	        icon="icons/codewind.ico"
 	        class="org.eclipse.codewind.ui.internal.editors.ApplicationOverviewEditorPart"/>
 	</extension>
 

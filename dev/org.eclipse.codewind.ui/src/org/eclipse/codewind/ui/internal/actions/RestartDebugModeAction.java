@@ -155,7 +155,7 @@ public class RestartDebugModeAction implements IObjectActionDelegate, IViewActio
 			public void run() {
 				Shell shell = Display.getDefault().getActiveShell();
 				String[] buttonLabels = new String[] {Messages.DialogYesButton, Messages.DialogNoButton, Messages.DialogCancelButton};
-				MessageDialog dialog = new MessageDialog(shell, title, CodewindUIPlugin.getImage(CodewindUIPlugin.MICROCLIMATE_ICON),
+				MessageDialog dialog = new MessageDialog(shell, title, CodewindUIPlugin.getImage(CodewindUIPlugin.CODEWIND_ICON),
 						msg, MessageDialog.QUESTION, buttonLabels, 0);
 				result[0] = dialog.open();
 			}
