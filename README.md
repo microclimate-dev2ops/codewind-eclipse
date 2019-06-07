@@ -11,7 +11,7 @@ Complete the following steps to install Codewind for Eclipse:
 
 ## Contributing
 
-We welcome [issues](https://github.com/eclipse/codewind-eclipse/issues) and contributions. For more information, see [CONTRIBUTING.md](https://github.com/eclipse/codewind-eclipse/tree/master/CONTRIBUTING.md).
+We welcome submitting [issues](https://github.com/eclipse/codewind-eclipse/issues) and contributions. For more information, see [CONTRIBUTING.md](https://github.com/eclipse/codewind-eclipse/tree/master/CONTRIBUTING.md).
 
 ### Enabling Debug Logs
 
