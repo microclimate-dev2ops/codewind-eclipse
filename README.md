@@ -2,12 +2,12 @@
 
 [![License](https://img.shields.io/badge/License-EPL%202.0-red.svg)](https://www.eclipse.org/legal/epl-2.0/)
 
-## How to install
+## Installation
 
 Complete the following steps to install Codewind for Eclipse:
 
 1. Download and install the latest [Eclipse IDE for Java EE Developers](https://www.eclipse.org/downloads/packages/release/) or use an existing installation. The earliest supported version of the Eclipse IDE for Codewind for Eclipse is 4.11.0 (2019-03).
-2. Install [Codewind from the Eclipse Marketplace](https://marketplace.eclipse.org/content/codewind).
+2. Install [Codewind](https://marketplace.eclipse.org/content/codewind) from the [Eclipse Marketplace](https://marketplace.eclipse.org/content/codewind).
 
 ## Contributing
 
@@ -19,8 +19,8 @@ We welcome [issues](https://github.com/eclipse/codewind-eclipse/issues) and cont
 
 `org.eclipse.codewind.core/debug/info=true`
 
-2. Launch eclipse with the `-debug` flag.
-3. The logs are written to the Eclipse workspace directory, to `.metadata/.log`.
+2. Launch Eclipse with the `-debug` flag.
+3. The logs are written to the Eclipse workspace directory `.metadata/.log`.
 
 ## Building
 
@@ -28,14 +28,15 @@ We welcome [issues](https://github.com/eclipse/codewind-eclipse/issues) and cont
 
     ```git clone https://github.com/eclipse/codewind-eclipse```
 
-2. [Optional] Copy 'codewind-eclipse' folder to 'build' to get a test build. This will keep your source folder intact.
-3. Run a gradle build.
+[Optional] Copy 'codewind-eclipse' folder to 'build' to get a test build. This will keep your source folder intact.
+
+2. Run a gradle build.
 
     ```cd build/dev```
 
     ```./gradlew```
 
-4. Test the driver built from Step. 3
+3. Test the driver built from Step 2.
 
     ```build/dev/ant_build/artifacts/codewind-[Version].vYYYYMMDD_hhmm.zip```
 
